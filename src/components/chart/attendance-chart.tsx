@@ -1,7 +1,7 @@
 "use client";
 
 import { BarChart, Bar, CartesianGrid, XAxis } from "recharts";
-import { Card, CardContent, CardHeader } from "./ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const chartData = [

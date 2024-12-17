@@ -43,7 +43,7 @@ const SubjectCard = () => {
                 <h1 className="text-xl font-bold">{data.title}</h1>
                 <p className="text-sm">{data.teacher}</p>
               </div>
-              <Button>
+              <Button className="ml-3">
                 <Icon icon="tabler:dots" style={{ width: "24px", height: "24px" }} />
               </Button>
             </div>
