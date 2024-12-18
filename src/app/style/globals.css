@@ -60,6 +60,10 @@
   }
 }
 
+.remove-sb::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
 
 @layer base {
   * {
@@ -70,3 +74,4 @@
     @apply bg-background text-foreground;
   }
 }
+
