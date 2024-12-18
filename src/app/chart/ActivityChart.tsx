@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 import * as React from "react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
@@ -142,7 +142,7 @@ export function ActivityChart() {
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Bar Chart - Interactive</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Menunjukan aktifitas anda selama 3 bulan terakhir
           </CardDescription>
         </div>
         <div className="flex">
