@@ -234,7 +234,28 @@ export const eventStaticData = [
     title: "Deploying with Vercel",
     date: "2024/12/10 09:30:00",
     description: "Panduan untuk mendeploy aplikasi web menggunakan Vercel."
-  }
+  },
+  {
+    subjectId: 6,
+    eventId: 17,
+    title: "Belajar Next.js",
+    date: "2024/11/20 9:00:00",
+    description: "Membangun aplikasi dengan Next.js."
+  },
+  {
+    subjectId: 6,
+    eventId: 18,
+    title: "Belajar Next.js",
+    date: "2025/11/20 9:00:00",
+    description: "Membangun aplikasi dengan Next.js."
+  },
+  {
+    subjectId: 6,
+    eventId: 19,
+    title: "Belajar Next.js",
+    date: "2021/11/20 9:00:00",
+    description: "Membangun aplikasi dengan Next.js."
+  },
 ];
 
 

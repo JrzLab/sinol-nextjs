@@ -1,14 +1,15 @@
 'use client'
 
-import EventCard from '@/components/subject/event-card'
 import { Card, CardFooter, CardHeader } from '@/components/ui/card'
-import { subjectStaticData } from '@/lib/staticData'
+import { eventStaticData, subjectStaticData } from '@/lib/staticData'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import EventCard from '@/components/subject/event-card'
 
 const page = () => {
   const query = usePathname().split('/')[2]
   const data = subjectStaticData.filter((data) => data.id == parseInt(query))[0]
+  const events = eventStaticData.filter((data) => data.subjectId == parseInt(query)).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   return (
     <div>
@@ -31,9 +32,10 @@ const page = () => {
       </Card>
       <div className="flex flex-col gap-4 mt-4">
         <div className="flex flex-col">
-          <h1 className="font-bold">Senin</h1>
-          <div className="grid grid-cols-1 md:grid-cols2 lg:grid-cols-3">
-            <EventCard/>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {events.map((event) => (
+              <EventCard key={event.eventId} data={event} />
+            ))}
           </div>
         </div>
       </div>
@@ -42,3 +44,4 @@ const page = () => {
 }
 
 export default page
+

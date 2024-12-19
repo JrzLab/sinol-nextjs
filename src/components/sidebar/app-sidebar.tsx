@@ -1,13 +1,24 @@
 "use client";
 
 import * as React from "react";
-import { AudioWaveform, BookOpen, Bot, Command, Frame, GalleryVerticalEnd, Map, PieChart, Settings2, SquareTerminal } from "lucide-react";
+import { AppWindow, AudioWaveform, BookOpen, Command, GalleryVerticalEnd, Settings2, SquareLibrary } from "lucide-react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavProjects } from "@/components/sidebar/nav-projects";
 import { NavUser } from "@/components/sidebar/nav-user";
 import { TeamSwitcher } from "@/components/sidebar/team-switcher";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
+import { subjectStaticData } from "@/lib/staticData";
+
+const getSubject = () => {
+  const list: {title: string, url: string}[] = []
+  for (let i = 1; i <= 5 ; i++) {
+    const title = subjectStaticData[i].title
+    const id = subjectStaticData[i].id
+    list.push({title, url: `/classroom/${id}`})
+  }
+  return list
+}
 
 // This is sample data.
 const data = {
@@ -35,47 +46,15 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Classroom",
+      url: "/classroom",
+      icon: SquareLibrary,
       isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+      items: getSubject()
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
+      title: "Teacher",
+      url: "/teacher",
       icon: BookOpen,
       items: [
         {
@@ -120,21 +99,16 @@ const data = {
       ],
     },
   ],
-  projects: [
+  page: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
+      name: "Dashboard",
+      url: "/",
+      icon: AppWindow,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: "Classroom",
+      url: "/classroom",
+      icon: SquareLibrary,
     },
   ],
 };
@@ -147,7 +121,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={data.page} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

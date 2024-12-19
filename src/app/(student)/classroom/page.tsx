@@ -1,15 +1,13 @@
 'use client'
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import SubjectCard from "@/components/subject/subject-card";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { subjectStaticData } from "@/lib/staticData";
 import FindSubject from "@/components/popup/find-subject";
 
 const StudentClassroom = () => {
-  const [ findSubjectOpen, setFindSubjectOpen ] = useState<Boolean>(false)
   const [isOpen, setIsOpen] = useState(false)
 
   const togglePopUp = () => {
