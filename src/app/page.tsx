@@ -3,7 +3,9 @@ import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 
 import SubjectCard from "@/components/subject/subject-card";
 import AttendanceChart from "@/components/chart/attendance-chart";
-import { subjectStaticData } from "@/lib/staticData";
+import { chartStaticData1, subjectStaticData } from "@/lib/staticData";
+import { getToday } from "@/lib/functions";
+import Link from "next/link";
 
 const cardData = [
   {
@@ -29,6 +31,8 @@ const cardData = [
 ];
 
 export default function Page() {
+
+  
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <Card className="flex w-full flex-col rounded-xl">
@@ -37,7 +41,7 @@ export default function Page() {
           <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
         </CardHeader>
         <CardFooter className="mt-4">
-          <Button>Check Schedule</Button>
+          <Button><Link href="/classroom">Check Schedule</Link></Button>
         </CardFooter>
       </Card>
       <div className="grid auto-rows-min gap-4 lg:grid-cols-4 grid-cols-2">
@@ -54,14 +58,14 @@ export default function Page() {
         ))}
       </div>
       <div>
-        <AttendanceChart />
+        <AttendanceChart data={chartStaticData1}/>
       </div>
       <div className="ml-1">
         <h1 className="text-xl font-bold">Today Subject</h1>
-        <span className="text-sm">Senin 23 Januari 2024</span>
+        <span className="text-sm">{getToday()}</span>
       </div>
-      <div className="grid auto-rows-min gap-4 lg:grid-cols-3 md:grid-cols-2">
-        {/* <SubjectCard id={data.} title={data.} teacher={data.} description={data.} notifications={data.} event={data.} person={data.} day={data.} limit={3}/> */}
+      <div className="">
+        <SubjectCard today data={subjectStaticData} ></SubjectCard>
       </div>
     </div>
   );

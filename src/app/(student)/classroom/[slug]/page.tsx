@@ -1,5 +1,6 @@
 'use client'
 
+import EventCard from '@/components/subject/event-card'
 import { Card, CardFooter, CardHeader } from '@/components/ui/card'
 import { subjectStaticData } from '@/lib/staticData'
 import { usePathname } from 'next/navigation'
@@ -28,6 +29,14 @@ const page = () => {
           </div>
         </CardFooter>
       </Card>
+      <div className="flex flex-col gap-4 mt-4">
+        <div className="flex flex-col">
+          <h1 className="font-bold">Senin</h1>
+          <div className="grid grid-cols-1 md:grid-cols2 lg:grid-cols-3">
+            <EventCard/>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
