@@ -1,13 +1,11 @@
-'use client'
+"use client";
 
-import { usePathname } from 'next/navigation'
-import React from 'react'
+import { usePathname } from "next/navigation";
+import React from "react";
 
-const page = () => {
-  const query = usePathname().split('/')[2]
-  return (
-    <div>{query}</div>
-  )
-}
+const Page = () => {
+  const query = usePathname().split("/")[3];
+  return <div>{query}</div>;
+};
 
-export default page
+export default Page;
