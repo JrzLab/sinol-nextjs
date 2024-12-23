@@ -1,3 +1,5 @@
+import { IStudent } from "./types/Types";
+
 export const subjectStaticData = [
   {
     id: 1,
@@ -8,7 +10,7 @@ export const subjectStaticData = [
     notifications: 1,
     event: 5,
     person: 20,
-    day: 7
+    day: 7,
   },
   {
     id: 2,
@@ -19,7 +21,7 @@ export const subjectStaticData = [
     notifications: 1,
     event: 3,
     person: 15,
-    day: 2
+    day: 2,
   },
   {
     id: 3,
@@ -30,7 +32,7 @@ export const subjectStaticData = [
     notifications: 1,
     event: 4,
     person: 18,
-    day: 2
+    day: 2,
   },
   {
     id: 4,
@@ -41,7 +43,7 @@ export const subjectStaticData = [
     notifications: 2,
     event: 6,
     person: 25,
-    day: 2
+    day: 2,
   },
   {
     id: 5,
@@ -52,29 +54,27 @@ export const subjectStaticData = [
     notifications: 3,
     event: 7,
     person: 30,
-    day: 1
+    day: 1,
   },
   {
     id: 6,
     title: "Statistika dan Probabilitas",
     teacher: "Pak Surya",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum obcaecati eaque magni, voluptas facere consectetur officiis error?",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum obcaecati eaque magni, voluptas facere consectetur officiis error?",
     notifications: 0,
     event: 2,
     person: 12,
-    day: 1
+    day: 1,
   },
   {
     id: 7,
     title: "Pemrograman Berbasis Web",
     teacher: "Pak Arif",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, eligendi! Voluptates molestias tempora aspernatur impedit aliquid.",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, eligendi! Voluptates molestias tempora aspernatur impedit aliquid.",
     notifications: 1,
     event: 8,
     person: 28,
-    day: 7
+    day: 7,
   },
   {
     id: 8,
@@ -85,179 +85,175 @@ export const subjectStaticData = [
     notifications: 2,
     event: 6,
     person: 22,
-    day: 3
+    day: 3,
   },
   {
     id: 9,
     title: "Jaringan Komputer Dasar",
     teacher: "Pak Rizal",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit optio molestias hic mollitia, quibusdam repellendus.",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit optio molestias hic mollitia, quibusdam repellendus.",
     notifications: 1,
     event: 4,
     person: 17,
-    day: 2
+    day: 2,
   },
   {
     id: 10,
     title: "Sistem Operasi",
     teacher: "Bu Indah",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate consequuntur quas repudiandae repellat dicta animi.",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate consequuntur quas repudiandae repellat dicta animi.",
     notifications: 2,
     event: 5,
     person: 19,
-    day: 4
+    day: 4,
   },
   {
     id: 11,
     title: "Sistem Operasi 2",
     teacher: "Bu Indah",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate consequuntur quas repudiandae repellat dicta animi.",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate consequuntur quas repudiandae repellat dicta animi.",
     notifications: 2,
     event: 5,
     person: 19,
-    day: 4
-  }
-]
+    day: 4,
+  },
+];
 
 export const eventStaticData = [
   {
     subjectId: 2, // foreign key
-    eventId: 1,   // primary key
+    eventId: 1, // primary key
     title: "Membuat Array",
     date: "2024/09/20 09:00:12",
-    description: "lorem ipsum...."
+    description: "lorem ipsum....",
   },
   {
     subjectId: 3,
     eventId: 2,
     title: "Belajar JavaScript",
     date: "2024/10/01 10:30:00",
-    description: "Dasar-dasar JavaScript untuk pemula."
+    description: "Dasar-dasar JavaScript untuk pemula.",
   },
   {
     subjectId: 4,
     eventId: 3,
     title: "Workshop React",
     date: "2024/10/05 14:00:00",
-    description: "Pengenalan React dan komponennya."
+    description: "Pengenalan React dan komponennya.",
   },
   {
     subjectId: 2,
     eventId: 4,
     title: "Kuis CSS",
     date: "2024/10/10 08:45:00",
-    description: "Tes pengetahuan CSS tingkat dasar."
+    description: "Tes pengetahuan CSS tingkat dasar.",
   },
   {
     subjectId: 5,
     eventId: 5,
     title: "Latihan Flexbox",
     date: "2024/10/15 09:15:00",
-    description: "Menyusun layout dengan CSS Flexbox."
+    description: "Menyusun layout dengan CSS Flexbox.",
   },
   {
     subjectId: 6,
     eventId: 6,
     title: "Belajar Next.js",
     date: "2024/10/20 13:00:00",
-    description: "Membangun aplikasi dengan Next.js."
+    description: "Membangun aplikasi dengan Next.js.",
   },
   {
     subjectId: 7,
     eventId: 7,
     title: "Pemrograman TypeScript",
     date: "2024/10/25 15:00:00",
-    description: "Dasar-dasar TypeScript untuk pengembangan aplikasi."
+    description: "Dasar-dasar TypeScript untuk pengembangan aplikasi.",
   },
   {
     subjectId: 8,
     eventId: 8,
     title: "Event Delegation di JavaScript",
     date: "2024/11/01 11:30:00",
-    description: "Meningkatkan performa event handling dengan delegation."
+    description: "Meningkatkan performa event handling dengan delegation.",
   },
   {
     subjectId: 9,
     eventId: 9,
     title: "Refactoring Kode",
     date: "2024/11/05 10:00:00",
-    description: "Praktik terbaik untuk menyempurnakan kode Anda."
+    description: "Praktik terbaik untuk menyempurnakan kode Anda.",
   },
   {
     subjectId: 10,
     eventId: 10,
     title: "Latihan Tailwind CSS",
     date: "2024/11/10 16:00:00",
-    description: "Membangun antarmuka responsif dengan Tailwind CSS."
+    description: "Membangun antarmuka responsif dengan Tailwind CSS.",
   },
   {
     subjectId: 11,
     eventId: 11,
     title: "Belajar Debugging",
     date: "2024/11/15 14:45:00",
-    description: "Memahami teknik debugging yang efektif."
+    description: "Memahami teknik debugging yang efektif.",
   },
   {
     subjectId: 12,
     eventId: 12,
     title: "Pengenalan Node.js",
     date: "2024/11/20 10:00:00",
-    description: "Dasar-dasar pengembangan backend menggunakan Node.js."
+    description: "Dasar-dasar pengembangan backend menggunakan Node.js.",
   },
   {
     subjectId: 13,
     eventId: 13,
     title: "Workshop MongoDB",
     date: "2024/11/25 13:30:00",
-    description: "Mengelola basis data dengan MongoDB."
+    description: "Mengelola basis data dengan MongoDB.",
   },
   {
     subjectId: 14,
     eventId: 14,
     title: "Membuat API REST",
     date: "2024/12/01 15:00:00",
-    description: "Belajar membuat API REST menggunakan Express.js."
+    description: "Belajar membuat API REST menggunakan Express.js.",
   },
   {
     subjectId: 15,
     eventId: 15,
     title: "UI/UX Design Basics",
     date: "2024/12/05 11:00:00",
-    description: "Memahami dasar-dasar desain antarmuka pengguna dan pengalaman pengguna."
+    description: "Memahami dasar-dasar desain antarmuka pengguna dan pengalaman pengguna.",
   },
   {
     subjectId: 16,
     eventId: 16,
     title: "Deploying with Vercel",
     date: "2024/12/10 09:30:00",
-    description: "Panduan untuk mendeploy aplikasi web menggunakan Vercel."
+    description: "Panduan untuk mendeploy aplikasi web menggunakan Vercel.",
   },
   {
     subjectId: 6,
     eventId: 17,
     title: "Belajar Next.js",
     date: "2024/11/20 9:00:00",
-    description: "Membangun aplikasi dengan Next.js."
+    description: "Membangun aplikasi dengan Next.js.",
   },
   {
     subjectId: 6,
     eventId: 18,
     title: "Belajar Next.js",
     date: "2025/11/20 9:00:00",
-    description: "Membangun aplikasi dengan Next.js."
+    description: "Membangun aplikasi dengan Next.js.",
   },
   {
     subjectId: 6,
     eventId: 19,
     title: "Belajar Next.js",
     date: "2021/11/20 9:00:00",
-    description: "Membangun aplikasi dengan Next.js."
+    description: "Membangun aplikasi dengan Next.js.",
   },
 ];
-
 
 export const chartStaticData1 = [
   { date: "2024-04-01", data: 222 },
@@ -351,4 +347,130 @@ export const chartStaticData1 = [
   { date: "2024-06-28", data: 149 },
   { date: "2024-06-29", data: 103 },
   { date: "2024-06-30", data: 446 },
-]
+];
+
+export const studentStaticData: IStudent[] = [
+  {
+    id: 1,
+    name: "Ahmad Fauzan",
+    email: "ahmad.fauzan@example.com",
+    kelas: "X-IPA-1",
+    messages: [
+      { content: "Terima kasih, Pak!", userType: "student", time: "2024-12-22 08:15:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+      { content: "Apakah ada tugas tambahan?", userType: "teacher", time: "2024-12-22 08:14:30" },
+    ],
+  },
+  {
+    id: 2,
+    name: "Budi Santoso",
+    email: "budi.santoso@example.com",
+    kelas: "X-IPA-2",
+    messages: [
+      { content: "Sudah saya kirim tugasnya.", userType: "student", time: "2024-12-22 08:20:00" },
+      { content: "Bagus sekali, Budi.", userType: "teacher", time: "2024-12-22 08:19:00" },
+    ],
+  },
+  {
+    id: 3,
+    name: "Citra Dewi",
+    email: "citra.dewi@example.com",
+    kelas: "X-IPS-1",
+    messages: [
+      { content: "Bagaimana soal nomor 3?", userType: "student", time: "2024-12-22 08:25:45" },
+      { content: "Soal nomor 3 sudah dijelaskan kemarin.", userType: "teacher", time: "2024-12-22 08:30:00" },
+    ],
+  },
+  {
+    id: 4,
+    name: "Dian Pratama",
+    email: "dian.pratama@example.com",
+    kelas: "X-IPS-2",
+    messages: [
+      { content: "Saya belum paham materi ini.", userType: "student", time: "2024-12-22 08:30:10" },
+      { content: "Coba pelajari lagi slide yang sudah saya bagikan.", userType: "teacher", time: "2024-12-22 08:35:00" },
+    ],
+  },
+  {
+    id: 5,
+    name: "Eka Wulandari",
+    email: "eka.wulandari@example.com",
+    kelas: "X-IPA-1",
+    messages: [
+      { content: "Bisa dijelaskan lagi, Pak?", userType: "student", time: "2024-12-22 08:35:20" },
+      { content: "Tentu, saya akan ulang di pertemuan berikutnya.", userType: "teacher", time: "2024-12-22 08:40:00" },
+    ],
+  },
+  {
+    id: 6,
+    name: "Fahmi Alamsyah",
+    email: "fahmi.alamsyah@example.com",
+    kelas: "X-IPA-2",
+    messages: [
+      { content: "Terima kasih atas jawabannya.", userType: "student", time: "2024-12-22 08:40:00" },
+      { content: "Sama-sama, Fahmi.", userType: "teacher", time: "2024-12-22 08:45:00" },
+    ],
+  },
+  {
+    id: 7,
+    name: "Gilang Ramadhan",
+    email: "gilang.ramadhan@example.com",
+    kelas: "X-IPS-1",
+    messages: [
+      { content: "Apakah tugas ini wajib dikumpulkan?", userType: "student", time: "2024-12-22 08:45:25" },
+      { content: "Ya, tugas ini wajib dikumpulkan paling lambat minggu depan.", userType: "teacher", time: "2024-12-22 08:50:00" },
+    ],
+  },
+  {
+    id: 8,
+    name: "Hani Kusuma",
+    email: "hani.kusuma@example.com",
+    kelas: "X-IPS-2",
+    messages: [
+      { content: "Baik, saya akan coba.", userType: "student", time: "2024-12-22 08:50:30" },
+      { content: "Bagus, Hani. Tetap semangat!", userType: "teacher", time: "2024-12-22 08:55:00" },
+    ],
+  },
+  {
+    id: 9,
+    name: "Irfan Maulana",
+    email: "irfan.maulana@example.com",
+    kelas: "X-IPA-1",
+    messages: [
+      { content: "Jadwal ujiannya kapan, ya?", userType: "student", time: "2024-12-22 08:55:40" },
+      { content: "Ujiannya dijadwalkan pada 2 Januari 2025.", userType: "teacher", time: "2024-12-22 09:00:00" },
+    ],
+  },
+  {
+    id: 10,
+    name: "Jaka Prasetyo",
+    email: "jaka.prasetyo@example.com",
+    kelas: "X-IPA-2",
+    messages: [
+      { content: "Saya sudah selesai tugasnya.", userType: "student", time: "2024-12-22 09:00:00" },
+      { content: "Baik, nanti saya cek hasilnya.", userType: "teacher", time: "2024-12-22 09:05:00" },
+    ],
+  },
+  {
+    id: 11,
+    name: "Jaka Fatih",
+    email: "jaka.prasetyo@example.com",
+    kelas: "X-IPA-2",
+    messages: [
+      { content: "Saya sudah selesai tugasnya.", userType: "student", time: "2024-12-22 09:00:00" },
+      { content: "Baik, nanti saya cek hasilnya.", userType: "teacher", time: "2024-12-22 09:05:00" },
+    ],
+  },
+];

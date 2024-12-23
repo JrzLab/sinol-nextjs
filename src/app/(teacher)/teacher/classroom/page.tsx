@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
-const page = () => {
+const ClassroomDashboard = () => {
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <h1>Classroom Dashboard</h1>
+    </>
+  );
+};
 
-export default page
+export default ClassroomDashboard;

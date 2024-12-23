@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
@@ -6,13 +6,12 @@ import SubjectCard from "@/components/subject/subject-card";
 import { useState } from "react";
 import { subjectStaticData } from "@/lib/staticData";
 import FindSubject from "@/components/popup/find-subject";
-
 const StudentClassroom = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   const togglePopUp = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
@@ -23,18 +22,12 @@ const StudentClassroom = () => {
             <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
           </CardHeader>
           <CardFooter className="mt-4">
-            <Button onClick={() => togglePopUp()}>
-              cari mata pelajaran
-            </Button>
-            {isOpen ? (
-              <FindSubject status={() => togglePopUp()}></FindSubject>
-            ) : (
-              null
-            )}
+            <Button onClick={() => togglePopUp()}>cari mata pelajaran</Button>
+            {isOpen ? <FindSubject status={() => togglePopUp()}></FindSubject> : null}
           </CardFooter>
         </Card>
         <div className="ml-1 space-y-2">
-          <SubjectCard format data={subjectStaticData}/>
+          <SubjectCard format data={subjectStaticData} />
         </div>
       </div>
     </>
@@ -42,4 +35,3 @@ const StudentClassroom = () => {
 };
 
 export default StudentClassroom;
-
