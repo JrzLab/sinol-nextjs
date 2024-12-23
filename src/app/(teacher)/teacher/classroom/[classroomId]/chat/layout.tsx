@@ -10,7 +10,8 @@ const ConversationLayout = async ({ children, params }: { children: React.ReactN
 
   return (
     <>
-      <Card className="min-h-screen w-full">
+    <div className="">
+      <Card className=" w-full">
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={40} minSize={30}>
             <CardHeader>
@@ -26,6 +27,7 @@ const ConversationLayout = async ({ children, params }: { children: React.ReactN
           </ResizablePanel>
         </ResizablePanelGroup>
       </Card>
+    </div>
     </>
   );
 };

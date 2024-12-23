@@ -41,7 +41,7 @@ const BubbleChat = ({
   chatRoomType: "teacher" | "student";
   userType: "student" | "teacher";
   message: string;
-  time: string;
+  time?: string;
 }) => {
   return (
     <>
