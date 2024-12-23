@@ -21,10 +21,10 @@ const page = () => {
     <>
       <div className="relative">
         <StudentChat status="online" data={data}>
-          <BubbleChat chatRoomType={"student"} userType="student" message="Hello, teacher!" />
-          <BubbleChat chatRoomType={"student"} userType="teacher" message="Hello, student!" />
-          <BubbleChat chatRoomType={"student"} userType="student" message="How are you?" />
-          <BubbleChat chatRoomType={"student"} userType="teacher" message="I'm fine, thank you!" />
+          <BubbleChat time="" chatRoomType={"student"} userType="student" message="Hello, teacher!" />
+          <BubbleChat time="" chatRoomType={"student"} userType="teacher" message="Hello, student!" />
+          <BubbleChat time="" chatRoomType={"student"} userType="student" message="How are you?" />
+          <BubbleChat time="" chatRoomType={"student"} userType="teacher" message="I'm fine, thank you!" />
         </StudentChat>
       </div>
       <Card>
