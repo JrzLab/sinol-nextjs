@@ -11,7 +11,7 @@ import Breadcrumbs from "@/components/sidebar/breadcrumbs";
 
 export default function FillterPage({ children }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
-  const notShowPage = ["/auth/signin", "/auth/signup"];
+  const notShowPage = ["/auth", "/auth/signin", "/auth/signup", "/auth/forgot-password"];
 
   return notShowPage.includes(pathname) ? (
     <>{children}</>
