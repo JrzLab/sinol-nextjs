@@ -31,8 +31,6 @@ const cardData = [
 ];
 
 export default function Page() {
-
-  
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <Card className="flex w-full flex-col rounded-xl">
@@ -41,14 +39,16 @@ export default function Page() {
           <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
         </CardHeader>
         <CardFooter className="mt-4">
-          <Button><Link href="/classroom">Check Schedule</Link></Button>
+          <Button>
+            <Link href="/classroom">Check Schedule</Link>
+          </Button>
         </CardFooter>
       </Card>
-      <div className="grid auto-rows-min gap-4 lg:grid-cols-4 grid-cols-2">
+      <div className="grid auto-rows-min grid-cols-2 gap-4 lg:grid-cols-4">
         {cardData.map((data) => (
           <Card className="flex flex-col justify-between" key={data.title}>
             <CardHeader>
-              <h1 className=" font-bold">{data.title}</h1>
+              <h1 className="font-bold">{data.title}</h1>
               <p className="">{data.description}</p>
             </CardHeader>
             <CardFooter>
@@ -58,14 +58,14 @@ export default function Page() {
         ))}
       </div>
       <div>
-        <AttendanceChart data={chartStaticData1}/>
+        <AttendanceChart data={chartStaticData1} />
       </div>
       <div className="ml-1">
         <h1 className="text-xl font-bold">Today Subject</h1>
         <span className="text-sm">{getToday()}</span>
       </div>
-      <div className="">
-        <SubjectCard today data={subjectStaticData} ></SubjectCard>
+      <div>
+        <SubjectCard today data={subjectStaticData}></SubjectCard>
       </div>
     </div>
   );

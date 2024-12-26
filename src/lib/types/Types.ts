@@ -7,6 +7,8 @@ export interface ISubject {
   event: number;
   person: number;
   day: number;
+  status: "active" | "idle";
+  date: string;
 }
 
 export interface IEvent {
