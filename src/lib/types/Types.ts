@@ -8,7 +8,7 @@ export interface ISubject {
   person: number;
   day: number;
   status: "active" | "idle";
-  date: string;
+  date: Date;
 }
 
 export interface IEvent {

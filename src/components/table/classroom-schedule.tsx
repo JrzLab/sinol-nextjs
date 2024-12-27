@@ -118,6 +118,7 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
         const [openEdit, setOpenEdit] = useState(false);
         const [openDelete, setOpenDelete] = useState(false);
         const titleLink: string = (row.getValue("title") as string).replace(/\s/g, "-").toLowerCase();
+        const data = row.original;
         return (
           <>
             <DropdownMenu defaultOpen={false} modal={false}>
@@ -131,12 +132,18 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
                 <DropdownMenuLabel>Pilihan</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => router.push(`/teacher/classroom/${titleLink}`)}>Lihat Jadwal</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setOpenEdit(true)}>Ubah Jadwal</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setOpenEdit(true);
+                  }}
+                >
+                  Ubah Jadwal
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setOpenDelete(true)}>Hapus Jadwal</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DeleteClassroomAlert open={openDelete} dialogHandler={() => setOpenDelete(false)} />
-            <EditClassroomDetail open={openEdit} dialogHandler={() => setOpenEdit(false)} />
+            <EditClassroomDetail data={data} open={openEdit} dialogHandler={() => setOpenEdit(false)} />
           </>
         );
       },
