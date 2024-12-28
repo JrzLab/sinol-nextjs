@@ -34,7 +34,7 @@ export function TeamSwitcher({
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
@@ -82,7 +82,15 @@ export function TeamSwitcher({
               <div className="font-medium text-muted-foreground">Add team</div>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
+
+          <div className="flex items-stretch pl-2 pt-4 justify-start">
+            <div className="bg-black rounded-full aspect-square"></div>
+            <div className="flex flex-col justify-start items-start"  >
+              <h1><b>Sinol</b></h1>
+              <p>sinau online</p>
+            </div>
+          </div>
       </SidebarMenuItem>
     </SidebarMenu>
   )
