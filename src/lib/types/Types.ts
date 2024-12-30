@@ -41,3 +41,44 @@ export interface IConversation {
   messages: string;
   lastMessageTime: string;
 }
+
+export interface ISignInResponse {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    firstName: string;
+    lastName: string | null;
+    email: string;
+    imageUrl: string | null;
+    joinedAt: string;
+    loginAt: number;
+  };
+}
+
+export interface IRequestResetPass {
+  success: boolean;
+  code: number;
+  message: string;
+  data: {
+      access_token?: string;
+  };
+}
+
+export interface IResetPassword {
+  success: boolean;
+  code: number;
+  message: string;
+  data: {};
+}
+
+export interface ISignUpResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  data: {
+      firstName: string;
+      email: string;
+      joinedAt: string
+  }
+}
