@@ -6,7 +6,10 @@ import SubjectCard from "@/components/subject/subject-card";
 import { useState } from "react";
 import { subjectStaticData } from "@/lib/staticData";
 import FindSubject from "@/components/popup/find-subject";
+import { useAuth } from "@/hooks/context/AuthProvider";
+
 const StudentClassroom = () => {
+  const { user, loading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const togglePopUp = () => {
@@ -18,7 +21,7 @@ const StudentClassroom = () => {
       <div className="flex flex-1 flex-col gap-4 space-y-2 p-4 pt-0">
         <Card className="flex w-full flex-col rounded-xl">
           <CardHeader className="mb-4">
-            <h1 className="text-2xl font-bold">Halo Alif Mahendra</h1>
+            <h1 className="text-2xl font-bold">Halo {loading ? 'loading data...' : user?.username}</h1>
             <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
           </CardHeader>
           <CardFooter className="mt-4">

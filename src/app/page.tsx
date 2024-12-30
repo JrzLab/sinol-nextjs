@@ -1,11 +1,13 @@
+"use client"
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-
 import SubjectCard from "@/components/subject/subject-card";
 import AttendanceChart from "@/components/chart/attendance-chart";
 import { chartStaticData1, subjectStaticData } from "@/lib/staticData";
 import { getToday } from "@/lib/functions";
 import Link from "next/link";
+import { useAuth } from "@/hooks/context/AuthProvider";
 
 const cardData = [
   {
@@ -31,13 +33,12 @@ const cardData = [
 ];
 
 export default function Page() {
-
-  
+  const { user, loading } = useAuth();
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <Card className="flex w-full flex-col rounded-xl">
         <CardHeader>
-          <h1 className="text-xl font-bold">Halo Alif Mahendra</h1>
+          <h1 className="text-xl font-bold">Halo {loading ? 'loading data...' : user?.username}</h1>
           <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
         </CardHeader>
         <CardFooter className="mt-4">

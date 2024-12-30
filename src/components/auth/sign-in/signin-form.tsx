@@ -1,12 +1,15 @@
 "use client";
+import SignInWithGoogleButton from '@/components/auth/button/sign-in'
+
 //IMPORT REACT/NEXTJS DEPENDENCIES
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import z from "zod";
+import z, { set } from "zod";
 
 //IMPORT SHADCN COMPONENT
 import { Button } from "@/components/ui/button";
@@ -17,10 +20,15 @@ import { Input } from "@/components/ui/input";
 import { signInFormSchema } from "@/lib/definitions";
 
 //IMPORT ICONS
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+
+//IMPORT ACTION
+import { handleCredentialsSignin } from '@/app/actions';
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   const togglePassword = () => setShowPassword((prev: boolean) => !prev);
   const signInForm = useForm<z.infer<typeof signInFormSchema>>({
@@ -32,14 +40,27 @@ const SignInForm = () => {
   });
 
   //SUBMIT HANDLER FOR VALIDATION FORM
-  const submitHandler = (values: z.infer<typeof signInFormSchema>) => {
+  const submitHandler = async (values: z.infer<typeof signInFormSchema>) => {
+    setLoading(true);
+    setError("");
     try {
       signInFormSchema.parse(values);
-      console.log({ message: "Form is valid", value: values });
+      const result = await handleCredentialsSignin(values);
+      if (result?.message) {
+        setError(result.message);
+        return;
+      }
     } catch (err) {
+      const errorMessage = err instanceof z.ZodError
+        ? err.errors[0].message 
+        : "An error occurred during sign in";
+      setError(errorMessage);
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <>
       <Form {...signInForm}>
@@ -91,28 +112,22 @@ const SignInForm = () => {
               />
               <div className="grid gap-3">
                 <Button type="submit" className="w-full" onClick={signInForm.handleSubmit(submitHandler)}>
-                  Masuk
+                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Masuk</> : 'Masuk'}
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                   <span className="relative z-10 bg-background px-2 text-xs text-muted-foreground">Atau masuk dengan</span>
                 </div>
                 <div className="grid grid-cols-1">
-                  <Button variant="outline" className="w-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                      <path
-                        d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                    <span className="text-xs">Masuk dengan Google</span>
-                  </Button>
+                  <SignInWithGoogleButton
+                    type="sign-in"
+                  />
                 </div>
               </div>
               <div className="text-center text-xs">
                 Belum memiliki akun Sinau Online? <br />
-                <a href="/auth/signup" className="underline underline-offset-4">
+                <Link href="/auth/sign-up" className="underline underline-offset-4">
                   Daftar Sekarang
-                </a>
+                </Link>
               </div>
             </div>
           </div>

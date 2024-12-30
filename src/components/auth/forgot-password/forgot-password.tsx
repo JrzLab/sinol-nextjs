@@ -3,6 +3,12 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+//IMPORT TYPES
+import { IRequestResetPass } from "@/lib/types/Types";
+
+//IMPORT ACTION
+import { handleRequestResetPassword, handleVerifTokenResetPass } from "@/app/actions";
+
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,20 +23,40 @@ import { Input } from "@/components/ui/input";
 import { forgotPasswordFormSchema } from "@/lib/definitions";
 
 //IMPORT ICONS
-import { GalleryVerticalEnd } from "lucide-react";
+import { GalleryVerticalEnd, Loader2 } from "lucide-react";
 import ResetPassword from "./reset-password";
 
 const ForgotPasswordForm = () => {
   const query = useSearchParams();
   const [showResetPassword, setShowResetPassword] = useState<boolean>(false);
+  const [serverMessage, setServerMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isValidating, setIsValidating] = useState<boolean>(true);
 
   //VALIDATION URL QUERY
   useEffect(() => {
-    const resetPassword = query.get("key");
-    if (resetPassword === "iniadalahcontohlinkresetpassword") {
-      setShowResetPassword(true);
+    const tokenResetPassword = query.get("profile");
+    const userEmail = query.get("userId");
+
+    if (tokenResetPassword && userEmail) {
+      handleVerifTokenResetPass(tokenResetPassword, userEmail)
+        .then((response) => {
+          if (response.success) {
+            setShowResetPassword(true);
+          } else {
+            setShowResetPassword(false);
+            setServerMessage(response.error!);
+          }
+        })
+        .catch((err) => {
+          console.error("Terjadi kesalahan:", err.message);
+          setServerMessage("Terjadi kesalahan saat verifikasi token.");
+        })
+        .finally(() => {
+          setIsValidating(false);
+        });
     } else {
-      setShowResetPassword(false);
+      setIsValidating(false);
     }
   }, [query]);
 
@@ -41,15 +67,35 @@ const ForgotPasswordForm = () => {
     },
   });
 
-  //SUBMIT HANDLER FOR VALIDATION FORM
-  const submitHandler = (values: z.infer<typeof forgotPasswordFormSchema>) => {
+  const submitHandler = async (values: z.infer<typeof forgotPasswordFormSchema>) => {
     try {
+      setLoading(true);
       forgotPasswordFormSchema.parse(values);
-      console.log({ message: "Form is valid", value: values });
+
+      const formData = new FormData();
+      formData.append("email", values.email);
+
+      const response = await handleRequestResetPassword(formData);
+
+      if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
+        const typedResponse = response as IRequestResetPass;
+        if (typedResponse.success) {
+          setServerMessage(typedResponse.message);
+        } else {
+          setServerMessage(typedResponse.message || "An unknown error occurred");
+        }
+      } else {
+        throw new Error("Invalid response format");
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Error during form submission:", err);
+      setServerMessage("An error occurred during form submission");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (isValidating) return null;
 
   return (
     <>
@@ -87,7 +133,7 @@ const ForgotPasswordForm = () => {
                   />
                 </div>
                 <Button type="submit" className="w-full" onClick={forgotPasswordForm.handleSubmit(submitHandler)}>
-                  Kirim
+                  {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Submit</> : "Submit"}
                 </Button>
               </div>
             </div>

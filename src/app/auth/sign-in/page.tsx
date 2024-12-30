@@ -1,4 +1,4 @@
-import SignInForm from "@/components/auth/signin/signin-form";
+import SignInForm from "@/components/auth/sign-in/signin-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
