@@ -1,6 +1,6 @@
-import { IStudent } from "./types/Types";
+import { IStudent, ISubject } from "./types/Types";
 
-export const subjectStaticData = [
+export const subjectStaticData: ISubject[] = [
   {
     id: 1,
     title: "Dasar Dasar Pemprograman",
@@ -11,6 +11,8 @@ export const subjectStaticData = [
     event: 5,
     person: 20,
     day: 7,
+    status: "active",
+    date: "2024-11-22 08:14:30",
   },
   {
     id: 2,
@@ -22,6 +24,8 @@ export const subjectStaticData = [
     event: 3,
     person: 15,
     day: 2,
+    status: "active",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 3,
@@ -33,6 +37,8 @@ export const subjectStaticData = [
     event: 4,
     person: 18,
     day: 2,
+    status: "active",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 4,
@@ -44,6 +50,8 @@ export const subjectStaticData = [
     event: 6,
     person: 25,
     day: 2,
+    status: "active",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 5,
@@ -55,6 +63,8 @@ export const subjectStaticData = [
     event: 7,
     person: 30,
     day: 1,
+    status: "active",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 6,
@@ -65,6 +75,8 @@ export const subjectStaticData = [
     event: 2,
     person: 12,
     day: 1,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 7,
@@ -75,6 +87,8 @@ export const subjectStaticData = [
     event: 8,
     person: 28,
     day: 7,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 8,
@@ -86,6 +100,8 @@ export const subjectStaticData = [
     event: 6,
     person: 22,
     day: 3,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 9,
@@ -96,6 +112,8 @@ export const subjectStaticData = [
     event: 4,
     person: 17,
     day: 2,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 10,
@@ -106,16 +124,8 @@ export const subjectStaticData = [
     event: 5,
     person: 19,
     day: 4,
-  },
-  {
-    id: 11,
-    title: "Sistem Operasi 2",
-    teacher: "Bu Indah",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate consequuntur quas repudiandae repellat dicta animi.",
-    notifications: 2,
-    event: 5,
-    person: 19,
-    day: 4,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 12,

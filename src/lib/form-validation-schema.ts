@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { date } from "zod";
 
 export const signUpFormSchema = z
   .object({
@@ -18,4 +18,10 @@ export const signInFormSchema = z.object({
 
 export const forgotPasswordFormSchema = z.object({
   email: z.string().nonempty({ message: "Email wajib diisi." }).email({ message: "Format email tidak valid." }),
+});
+
+export const classroomFormSchema = z.object({
+  classroomName: z.string().nonempty({ message: "Nama jadwal wajib diisi." }),
+  date: z.date({ required_error: "Waktu wajib diisi." }),
+  time: z.date({ required_error: "Waktu wajib diisi." }),
 });
