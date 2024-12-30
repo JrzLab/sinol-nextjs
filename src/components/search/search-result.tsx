@@ -2,7 +2,7 @@
 import { IConversation, IMessage, IStudent } from "@/lib/types/Types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { FixDate, sortStudentsByLastMessage } from "@/lib/functions";
+import { getDate, sortStudentsByLastMessage } from "@/lib/functions";
 import { useRouter } from "next/navigation";
 
 const SearchResult = ({ classroomId, students, query }: { classroomId: string; students: IStudent[]; query: string }) => {
@@ -46,7 +46,7 @@ const SearchResult = ({ classroomId, students, query }: { classroomId: string; s
                 <CardDescription className="text-sm">{student.messages}</CardDescription>
               </CardContent>
               <CardFooter className="flex justify-end">
-                <CardDescription className="text-xs">{FixDate({ children: student.lastMessageTime })}</CardDescription>
+                <CardDescription className="text-xs">{getDate({ children: student.lastMessageTime })}</CardDescription>
               </CardFooter>
             </Card>
           ))}
