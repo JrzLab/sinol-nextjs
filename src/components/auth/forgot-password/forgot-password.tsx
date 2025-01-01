@@ -20,7 +20,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 
 //IMPORT VALIDATION SCHEMA
-import { forgotPasswordFormSchema } from "@/lib/definitions";
+import { forgotPasswordFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
 import { GalleryVerticalEnd, Loader2 } from "lucide-react";

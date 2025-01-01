@@ -1,10 +1,11 @@
+import { ActivityChart } from '@/app/chart/ActivityChart';
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { chartStaticData1 } from '@/lib/staticData';
 import Link from 'next/link';
 import React from 'react'
 
-const page = () => {
+const TeacherPage = () => {
   const cardData = [
     {
       title: "Total Subject",
@@ -27,11 +28,11 @@ const page = () => {
       total: 20,
     },
   ];
-
+  const greeting = getGreeting();
   return (
     <>
       <div className='grid gap-2 lg:grid-cols-4 md:grid-cols-2 grid-cols-1'>
-        {cardData.map((doc) => (
+        { cardData.map((doc) => (
           <Card key={doc.title}>
             <CardHeader className='flex flex-row items-start gap-4'>
               <div className='grid'>
@@ -48,8 +49,19 @@ const page = () => {
       <div>
         {/* <ActivityChart/> */}
       </div>
+      <Card className="mx-auto w-full">
+        <CardHeader className="pb-0">
+          <CardTitle className="text-2xl font-bold tracking-tight">Jadwal</CardTitle>
+          <CardDescription className="text-gray-500 dark:text-gray-400">
+            Temukan informasi jadwal terbaru Anda di sini dengan mudah dan cepat!
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ClassroomSchedule tableData={subjectStaticData} />
+        </CardContent>
+      </Card>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default TeacherPage;

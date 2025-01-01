@@ -1,6 +1,6 @@
-import { IStudent } from "./types/Types";
+import { IStudent, ISubject } from "./types/Types";
 
-export const subjectStaticData = [
+export const subjectStaticData: ISubject[] = [
   {
     id: 1,
     title: "Dasar Dasar Pemprograman",
@@ -11,6 +11,8 @@ export const subjectStaticData = [
     event: 5,
     person: 20,
     day: 7,
+    status: "active",
+    date: "2024-11-22 08:14:30",
   },
   {
     id: 2,
@@ -22,6 +24,8 @@ export const subjectStaticData = [
     event: 3,
     person: 15,
     day: 2,
+    status: "active",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 3,
@@ -33,6 +37,8 @@ export const subjectStaticData = [
     event: 4,
     person: 18,
     day: 2,
+    status: "active",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 4,
@@ -44,6 +50,8 @@ export const subjectStaticData = [
     event: 6,
     person: 25,
     day: 2,
+    status: "active",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 5,
@@ -55,6 +63,8 @@ export const subjectStaticData = [
     event: 7,
     person: 30,
     day: 1,
+    status: "active",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 6,
@@ -65,6 +75,8 @@ export const subjectStaticData = [
     event: 2,
     person: 12,
     day: 1,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 7,
@@ -75,6 +87,8 @@ export const subjectStaticData = [
     event: 8,
     person: 28,
     day: 7,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 8,
@@ -86,6 +100,8 @@ export const subjectStaticData = [
     event: 6,
     person: 22,
     day: 3,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 9,
@@ -96,6 +112,8 @@ export const subjectStaticData = [
     event: 4,
     person: 17,
     day: 2,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
     id: 10,
@@ -106,16 +124,28 @@ export const subjectStaticData = [
     event: 5,
     person: 19,
     day: 4,
+    status: "idle",
+    date: "2024-12-22 08:14:30",
   },
   {
-    id: 11,
-    title: "Sistem Operasi 2",
+    id: 12,
+    title: "Sistem Operasi 3",
     teacher: "Bu Indah",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate consequuntur quas repudiandae repellat dicta animi.",
     notifications: 2,
     event: 5,
     person: 19,
-    day: 4,
+    day: 6,
+  },
+  {
+    id: 13,
+    title: "Sistem Operasi 4",
+    teacher: "Bu Indah",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate consequuntur quas repudiandae repellat dicta animi.",
+    notifications: 2,
+    event: 5,
+    person: 19,
+    day: 6,
   },
 ];
 
@@ -126,6 +156,17 @@ export const eventStaticData = [
     title: "Membuat Array",
     date: "2024/09/20 09:00:12",
     description: "lorem ipsum....",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 3,
@@ -133,6 +174,17 @@ export const eventStaticData = [
     title: "Belajar JavaScript",
     date: "2024/10/01 10:30:00",
     description: "Dasar-dasar JavaScript untuk pemula.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 4,
@@ -140,6 +192,17 @@ export const eventStaticData = [
     title: "Workshop React",
     date: "2024/10/05 14:00:00",
     description: "Pengenalan React dan komponennya.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 2,
@@ -147,6 +210,17 @@ export const eventStaticData = [
     title: "Kuis CSS",
     date: "2024/10/10 08:45:00",
     description: "Tes pengetahuan CSS tingkat dasar.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 5,
@@ -154,6 +228,17 @@ export const eventStaticData = [
     title: "Latihan Flexbox",
     date: "2024/10/15 09:15:00",
     description: "Menyusun layout dengan CSS Flexbox.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 6,
@@ -161,6 +246,17 @@ export const eventStaticData = [
     title: "Belajar Next.js",
     date: "2024/10/20 13:00:00",
     description: "Membangun aplikasi dengan Next.js.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 7,
@@ -168,6 +264,17 @@ export const eventStaticData = [
     title: "Pemrograman TypeScript",
     date: "2024/10/25 15:00:00",
     description: "Dasar-dasar TypeScript untuk pengembangan aplikasi.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 8,
@@ -175,6 +282,17 @@ export const eventStaticData = [
     title: "Event Delegation di JavaScript",
     date: "2024/11/01 11:30:00",
     description: "Meningkatkan performa event handling dengan delegation.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 9,
@@ -182,6 +300,17 @@ export const eventStaticData = [
     title: "Refactoring Kode",
     date: "2024/11/05 10:00:00",
     description: "Praktik terbaik untuk menyempurnakan kode Anda.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 10,
@@ -189,6 +318,17 @@ export const eventStaticData = [
     title: "Latihan Tailwind CSS",
     date: "2024/11/10 16:00:00",
     description: "Membangun antarmuka responsif dengan Tailwind CSS.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 11,
@@ -196,6 +336,17 @@ export const eventStaticData = [
     title: "Belajar Debugging",
     date: "2024/11/15 14:45:00",
     description: "Memahami teknik debugging yang efektif.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 12,
@@ -203,6 +354,17 @@ export const eventStaticData = [
     title: "Pengenalan Node.js",
     date: "2024/11/20 10:00:00",
     description: "Dasar-dasar pengembangan backend menggunakan Node.js.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 13,
@@ -210,6 +372,17 @@ export const eventStaticData = [
     title: "Workshop MongoDB",
     date: "2024/11/25 13:30:00",
     description: "Mengelola basis data dengan MongoDB.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 14,
@@ -217,6 +390,17 @@ export const eventStaticData = [
     title: "Membuat API REST",
     date: "2024/12/01 15:00:00",
     description: "Belajar membuat API REST menggunakan Express.js.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 15,
@@ -224,6 +408,17 @@ export const eventStaticData = [
     title: "UI/UX Design Basics",
     date: "2024/12/05 11:00:00",
     description: "Memahami dasar-dasar desain antarmuka pengguna dan pengalaman pengguna.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 16,
@@ -231,6 +426,17 @@ export const eventStaticData = [
     title: "Deploying with Vercel",
     date: "2024/12/10 09:30:00",
     description: "Panduan untuk mendeploy aplikasi web menggunakan Vercel.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 6,
@@ -238,6 +444,17 @@ export const eventStaticData = [
     title: "Belajar Next.js",
     date: "2024/11/20 9:00:00",
     description: "Membangun aplikasi dengan Next.js.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 6,
@@ -245,6 +462,17 @@ export const eventStaticData = [
     title: "Belajar Next.js",
     date: "2025/11/20 9:00:00",
     description: "Membangun aplikasi dengan Next.js.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
   {
     subjectId: 6,
@@ -252,6 +480,17 @@ export const eventStaticData = [
     title: "Belajar Next.js",
     date: "2021/11/20 9:00:00",
     description: "Membangun aplikasi dengan Next.js.",
+    content: [{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    },{
+      subtitle: "event subtitle1",
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias modi nobis quisquam repudiandae fuga, enim a explicabo. Reprehenderit illum minima quae laboriosam nisi quas velit iste facere beatae eveniet vel accusamus a ut quis libero, rem debitis perferendis doloribus sunt aut iure id eos dolorum. Iure quaerat porro nam facilis. Sunt similique ab at nemo suscipit! Aliquam natus, tempora nostrum odit laboriosam fugiat quod officia provident placeat perspiciatis ipsum dolor dicta, maxime accusamus deleniti ad corrupti ea voluptas sed, necessitatibus commodi culpa delectus. Ullam maiores velit consequuntur laboriosam minima quaerat expedita reiciendis ducimus quo ipsum dicta at, molestias dolorem vel placeat nostrum qui libero fuga facere hic, iure molestiae adipisci nulla corrupti. Nobis, voluptates. Fugit hic ad voluptatum ea saepe?",
+      file: "image.png",
+      path: "https://dummyimage.com/600x400/000/fff",
+    }]
   },
 ];
 

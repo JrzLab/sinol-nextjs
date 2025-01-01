@@ -17,7 +17,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 
 //IMPORT VALIDATION SCHEMA
-import { signInFormSchema } from "@/lib/definitions";
+import { signInFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
 import { Eye, EyeOff, Loader2 } from "lucide-react";
