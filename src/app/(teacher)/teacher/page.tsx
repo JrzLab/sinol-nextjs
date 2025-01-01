@@ -1,4 +1,3 @@
-import { ActivityChart } from '@/app/chart/ActivityChart';
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { chartStaticData1 } from '@/lib/staticData';
@@ -32,7 +31,7 @@ const page = () => {
   return (
     <>
       <div className='grid gap-2 lg:grid-cols-4 md:grid-cols-2 grid-cols-1'>
-        { cardData.map((doc) => (
+        {cardData.map((doc) => (
           <Card key={doc.title}>
             <CardHeader className='flex flex-row items-start gap-4'>
               <div className='grid'>
