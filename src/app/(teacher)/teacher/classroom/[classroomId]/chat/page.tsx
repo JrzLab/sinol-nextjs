@@ -4,11 +4,11 @@ import { MessageCircle } from "lucide-react";
 const ConversationPage = () => {
   return (
     <>
-      <div className="flex h-full w-full flex-col items-center justify-center">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-start">
-            <MessageCircle size={48} className="mr-2 font-bold" />
-            <h1 className="m-0 text-2xl font-semibold">Select student to start conversation</h1>
+      <div className="hidden h-screen flex-col items-center justify-center md:flex">
+        <Card className="p-1">
+          <CardHeader className="my-auto flex flex-row items-center justify-start align-middle">
+            <MessageCircle className="mr-2 mt-1 font-bold" />
+            <h1 className="text-lg font-semibold">Select student to start conversation</h1>
           </CardHeader>
         </Card>
       </div>

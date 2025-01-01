@@ -67,3 +67,7 @@ export const getTime = (date: Date) => {
   const minutes = date.getMinutes();
   return `${hours}:${minutes}`;
 };
+
+export const truncateText = (text: string, length: number) => {
+  return text.length > length ? text.slice(0, length) + "..." : text;
+};

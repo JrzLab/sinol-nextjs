@@ -11,14 +11,14 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } fr
 import { subjectStaticData } from "@/lib/staticData";
 
 const getSubject = () => {
-  const list: {title: string, url: string}[] = []
-  for (let i = 1; i <= 5 ; i++) {
-    const title = subjectStaticData[i].title
-    const id = subjectStaticData[i].id
-    list.push({title, url: `/classroom/${id}`})
+  const list: { title: string; url: string }[] = [];
+  for (let i = 1; i <= 5; i++) {
+    const title = subjectStaticData[i].title;
+    const id = subjectStaticData[i].id;
+    list.push({ title, url: `/classroom/${id}` });
   }
-  return list
-}
+  return list;
+};
 
 // This is sample data.
 const data = {
@@ -50,7 +50,7 @@ const data = {
       url: "/classroom",
       icon: SquareLibrary,
       isActive: true,
-      items: getSubject()
+      items: getSubject(),
     },
     {
       title: "Teacher",

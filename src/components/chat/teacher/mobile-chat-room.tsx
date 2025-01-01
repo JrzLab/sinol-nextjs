@@ -1,23 +1,27 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
-import { ChevronUp, ChevronDown, Send } from "lucide-react";
-import React, { useState } from "react";
+import { CardHeader, CardTitle, CardDescription, CardFooter, Card, CardContent } from "@/components/ui/card";
+import { ScrollBar } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
 import { toPascalCase } from "@/lib/functions";
-import { Separator } from "../../ui/separator";
-import { Input } from "../../ui/input";
-import { ISubject } from "@/lib/types/Types";
-import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
-import { Button } from "../../ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { ChevronDown, ChevronUp, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
-const StudentChat = ({ status, data, children }: { status: string; data: ISubject; children: React.ReactNode }) => {
+interface MobileChatRoomProps {
+  children: React.ReactNode;
+}
+
+const MobileChatRoom = ({ children }: MobileChatRoomProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openChatHandler = () => {
     setIsOpen(!isOpen);
   };
-
   return (
     <>
       <div className="relative">
@@ -33,10 +37,10 @@ const StudentChat = ({ status, data, children }: { status: string; data: ISubjec
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start">
-                <h1 className="text-black">{data.teacher}</h1>
+                <h1 className="text-black">e</h1>
                 <div className="inline-flex items-center">
-                  <div className={`mr-1 h-2 w-2 rounded-full ${status == "online" ? "bg-green-700" : "bg-gray-500"}`} />
-                  <span className="text-xs">{toPascalCase(status)}</span>
+                  <div className={`mr-1 h-2 w-2 rounded-full`} />
+                  <span className="text-xs">{toPascalCase("online")}</span>
                 </div>
               </div>
               <div className="ml-auto">{isOpen ? <ChevronDown /> : <ChevronUp />}</div>
@@ -60,4 +64,4 @@ const StudentChat = ({ status, data, children }: { status: string; data: ISubjec
   );
 };
 
-export default StudentChat;
+export default MobileChatRoom;
