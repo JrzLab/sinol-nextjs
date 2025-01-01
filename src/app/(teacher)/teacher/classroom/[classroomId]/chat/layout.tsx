@@ -10,24 +10,31 @@ const ConversationLayout = async ({ children, params }: { children: React.ReactN
 
   return (
     <>
-    <div className="">
-      <Card className=" w-full">
-        <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel defaultSize={40} minSize={30}>
-            <CardHeader>
-              <CardTitle className="text-lg font-bold">Dasar Dasar Pemprograman Chat Room</CardTitle>
-            </CardHeader>
-            <Separator orientation="horizontal" />
-            <ListStudent classroomId={classroomId} students={studentStaticData} />
-            <CardFooter />
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={60} minSize={40}>
-            {children}
-          </ResizablePanel>
-        </ResizablePanelGroup>
+      <Card className="min-h-screen w-full">
+        <div className="block md:hidden">
+          <CardHeader className="p-3 px-4">
+            <CardTitle className="text-lg font-bold">Dasar Dasar Pemprograman Chat Room</CardTitle>
+          </CardHeader>
+          <Separator orientation="horizontal" />
+          <ListStudent classroomId={classroomId} students={studentStaticData} />
+          {children}
+        </div>
+        <div className="hidden md:block">
+          <ResizablePanelGroup direction="horizontal">
+            <ResizablePanel defaultSize={40} minSize={30}>
+              <CardHeader className="p-3 px-4">
+                <CardTitle className="text-lg font-bold">Dasar Dasar Pemprograman Chat Room</CardTitle>
+              </CardHeader>
+              <Separator orientation="horizontal" />
+              <ListStudent classroomId={classroomId} students={studentStaticData} />
+            </ResizablePanel>
+            <ResizableHandle withHandle className="hidden md:flex" />
+            <ResizablePanel defaultSize={60} minSize={40} className="hidden md:block">
+              {children}
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </div>
       </Card>
-    </div>
     </>
   );
 };
