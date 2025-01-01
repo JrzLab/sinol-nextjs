@@ -105,14 +105,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             });
 
             if (!response.ok) {
-              const errorDetails = await response.text();
-              console.error("Error syncing with Google Sign-In API:", errorDetails);
               throw new Error("Failed to sync user with Google Sign-In API.");
             }
 
-            const data = await response.json();
+            const data: ISignInResponse = await response.json();
+            console.log("Google Sign-In API response:", data);
 
-            if (data.code === 200 && data.status) {
+            if (data.code === 200 && data.success) {
               token.email = data.data.email;
               token.name = `${data.data.firstName} ${data.data.lastName || ""}`.trim();
               token.image = data.data.imageUrl || null;

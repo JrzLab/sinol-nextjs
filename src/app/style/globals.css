@@ -4,9 +4,9 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
-    --card: 0 0% 100%;
+    --background: 42 35% 94.5%; /* #FAF6E9 */
+    --foreground: 0 0% 28.6%; /* #494949 */
+    --card: 48 50% 97%; /* #FFFDF6 */
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
@@ -32,10 +32,10 @@
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
+    --background: 0 0% 28.6%; /* #494949 */
+    --foreground: 42 35% 94.5%; /* #FAF6E9 */
+    --card: 20 14.3% 4.1%; /* Tetap gelap untuk mode gelap */
+    --card-foreground: 48 50% 97%; /* Terang untuk kontras */
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
     --primary: 20.5 90.2% 48.2%;
