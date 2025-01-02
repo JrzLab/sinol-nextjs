@@ -1,21 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import * as React from "react";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 interface Data {
   date: string;
@@ -30,36 +19,28 @@ const chartConfig = {
     label: "data",
     color: "hsl(var(--chart-1))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-const AttendanceChart = ({data}: {data: Data[]}) => {
-  const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("data")
+const AttendanceChart = ({ data }: { data: Data[] }) => {
+  const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("data");
 
   const total = React.useMemo(
     () => ({
       data: data.reduce((acc, curr) => acc + curr.data, 0),
     }),
-    []
-  )
+    [],
+  );
 
   return (
-    <Card>
+    <Card className="text-foreground">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Bar Chart - Interactive</CardTitle>
-          <CardDescription>
-            menunjukan aktifitas absensi selama 3 bula terakhir
-          </CardDescription>
+          <CardDescription>menunjukan aktifitas absensi selama 3 bula terakhir</CardDescription>
         </div>
-        
-        
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
-        >
+        <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
           <BarChart
             accessibilityLayer
             data={data}
@@ -76,11 +57,11 @@ const AttendanceChart = ({data}: {data: Data[]}) => {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(value);
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
-                })
+                });
               }}
             />
             <ChartTooltip
@@ -93,7 +74,7 @@ const AttendanceChart = ({data}: {data: Data[]}) => {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
-                    })
+                    });
                   }}
                 />
               }
@@ -103,7 +84,7 @@ const AttendanceChart = ({data}: {data: Data[]}) => {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default AttendanceChart
+export default AttendanceChart;

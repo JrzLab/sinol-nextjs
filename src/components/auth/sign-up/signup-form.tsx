@@ -26,6 +26,7 @@ import { signUpFormSchema } from "@/lib/form-validation-schema";
 //IMPORT ICONS
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -56,6 +57,7 @@ const SignUpForm = () => {
         if (typedResponse.success) {
           setLoading(false);
           setServerMessage(typedResponse.message);
+          redirect("/auth/sign-in"); //REDIRECT TO SIGN IN PAGE AFTER SUCCESSFUL SIGN UP
         } else {
           setLoading(false);
           setServerMessage(typedResponse.message || "An unknown error occurred");
@@ -131,7 +133,14 @@ const SignUpForm = () => {
             />
             <div className="mt-2 grid gap-2">
               <Button type="submit" className="w-full" onClick={signUpForm.handleSubmit(submitHandler)}>
-                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Daftar</> : <>Daftar</>}
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Daftar
+                  </>
+                ) : (
+                  <>Daftar</>
+                )}
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-xs text-muted-foreground">Atau daftar akun dengan</span>
