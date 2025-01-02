@@ -102,22 +102,32 @@ export async function handleResetPassword(email: string, password: string, token
 export async function handleVerifTokenResetPass(token: string, email: string) {
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/auth/verify-token-reset-pass`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 token,
                 email,
             }),
         });
+
         const data = await response.json();
-        if (!response.ok || !data.status) {
-            throw new Error(data.message || "Token verification failed");
+
+        if (response.ok && data.code === 200 && data.success) {
+            return {
+                success: true,
+                message: data.message,
+                data: data.data,
+            };
+        } else {
+            throw new Error(data.error || data.message || "Token verification failed");
         }
-        return { success: true, data: data.data, message: data.message };
     } catch (error) {
-        return { success: false, error: (error as Error).message };
+        return {
+            success: false,
+            error: (error as Error).message,
+        };
     }
 }
 
