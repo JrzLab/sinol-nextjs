@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react'
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardHeader } from '@/components/ui/card';
 import Image from 'next/image';
 import profile from '@/app/image/profile.jpg'
