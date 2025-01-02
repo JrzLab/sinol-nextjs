@@ -61,14 +61,14 @@ const SubjectCard = ({ data, format, today }: { data: ISubject[]; format?: boole
             <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
               {data.data.map((subject) => (
                 <Popover key={subject.id}>
-                  <Card className="flex flex-col justify-between">
+                  <Card className="flex flex-col justify-between text-foreground">
                     <CardHeader>
                       <div className="flex flex-row items-start justify-between">
                         <div className="flex flex-col">
                           <Link href={`/classroom/${subject.id}`} className="text-xl font-bold hover:underline">
                             {subject.title}
                           </Link>
-                          <p className="text-sm">{subject.teacher}</p>
+                          <p className="text-sm text-foreground">{subject.teacher}</p>
                         </div>
                         <PopoverTrigger className="mt-2 rounded-md bg-primary px-3 py-2 text-white">
                           <Icon icon="tabler:dots" style={{ width: "24px", height: "24px" }} />

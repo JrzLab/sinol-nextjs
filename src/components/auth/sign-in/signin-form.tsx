@@ -1,10 +1,10 @@
 "use client";
-import SignInWithGoogleButton from '@/components/auth/button/sign-in'
+import SignInWithGoogleButton from "@/components/auth/button/sign-in";
 
 //IMPORT REACT/NEXTJS DEPENDENCIES
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +23,7 @@ import { signInFormSchema } from "@/lib/form-validation-schema";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 //IMPORT ACTION
-import { handleCredentialsSignin } from '@/app/actions';
+import { handleCredentialsSignin } from "@/app/actions";
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -51,9 +51,7 @@ const SignInForm = () => {
         return;
       }
     } catch (err) {
-      const errorMessage = err instanceof z.ZodError
-        ? err.errors[0].message 
-        : "An error occurred during sign in";
+      const errorMessage = err instanceof z.ZodError ? err.errors[0].message : "An error occurred during sign in";
       setError(errorMessage);
       console.error(err);
     } finally {
@@ -112,15 +110,20 @@ const SignInForm = () => {
               />
               <div className="grid gap-3">
                 <Button type="submit" className="w-full" onClick={signInForm.handleSubmit(submitHandler)}>
-                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Masuk</> : 'Masuk'}
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Masuk
+                    </>
+                  ) : (
+                    "Masuk"
+                  )}
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                  <span className="relative z-10 bg-background px-2 text-xs text-muted-foreground">Atau masuk dengan</span>
+                  <span className="bg- relative z-10 bg-card px-2">Atau masuk dengan</span>
                 </div>
                 <div className="grid grid-cols-1">
-                  <SignInWithGoogleButton
-                    type="sign-in"
-                  />
+                  <SignInWithGoogleButton type="sign-in" />
                 </div>
               </div>
               <div className="text-center text-xs">
