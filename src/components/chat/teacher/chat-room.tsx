@@ -7,7 +7,7 @@ interface ChatRoomProps {
 const ChatRoom = ({ children }: ChatRoomProps) => {
   return (
     <>
-      <ScrollArea scrollHideDelay={800} className="h-screen space-y-2 p-4 pb-16">
+      <ScrollArea scrollHideDelay={800} className="h-screen space-y-3 p-3">
         {children}
         <ScrollBar orientation="vertical" />
       </ScrollArea>

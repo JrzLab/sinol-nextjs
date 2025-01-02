@@ -3,7 +3,9 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 const SenderBubbleChat = ({ chatRoomType, message }: { chatRoomType: string; message: string }): React.ReactNode => {
   return (
     <>
-      <Card className={`${chatRoomType === "teacher" ? "mr-7" : "mr-20"} flex flex-col gap-1 rounded-2xl rounded-tl-none bg-blue-500 p-3 text-white`}>
+      <Card
+        className={`${chatRoomType === "teacher" ? "mr-7" : "mr-20"} flex flex-col gap-1 rounded-2xl rounded-tl-none bg-[#90CAF9] p-3 text-white`}
+      >
         <CardContent className="p-0">
           <p className="text-sm">{message}</p>
         </CardContent>
@@ -19,7 +21,7 @@ const ReceiveBubbleChat = ({ chatRoomType, message }: { chatRoomType: string; me
   return (
     <>
       <Card
-        className={`${chatRoomType === "teacher" ? "ml-7" : "ml-20"} flex h-auto w-auto flex-col gap-1 rounded-2xl rounded-tr-none bg-gray-500 p-3 text-white`}
+        className={`${chatRoomType === "teacher" ? "ml-7" : "ml-20"} flex h-auto w-auto flex-col gap-1 rounded-2xl rounded-tr-none bg-[#bfbfbf] p-3 text-white`}
       >
         <CardContent className="p-0">
           <p className="text-sm">{message}</p>

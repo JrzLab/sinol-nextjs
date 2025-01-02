@@ -6,38 +6,71 @@
 1.BACKGROUND : hsl(42, 35%, 94.5%); #FAF6E9 MAIN BACKGROUND COLOR
 2.FOREGROUND : hsl(0, 0%, 28.6%); #494949 MAIN TEXT COLOR
 3.CARD : hsl(48, 50%, 97%); #FFFDF6 CARD COLOR
-4.BUTTON : hsl(47, 33%, 89%); #ECE8D9 FOR INTERACTION COLOR (Button, Dll)*/
+4.BUTTON : hsl(47, 33%, 75%); #d4cbaa FOR INTERACTION COLOR (Button, Dll)*/
 
 @layer base {
   :root {
+    /*DEFAULT BACKGROUND COLOR OF BODY & ETC*/
     --background: 42 35% 94.5%;
     /* #FAF6E9 */
     --foreground: 0 0% 28.6%;
     /* #494949 */
+
+    /*CARD COLOR Untuk <Card />*/
     --card: 48 50% 97%;
     /* #FFFDF6 */
     --card-foreground: 20 14.3% 4.1%;
+
+    /*POPOVER Untuk <DropdownMenu />, <HoverCard />, <Popover />*/
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
-    --primary: 47, 33%, 89%;
+
+    /*COLOR (PRIMARY) Untuk <Button />*/
+    --primary: 47, 33%, 75%;
     --primary-foreground: 0, 0%, 28.6%;
-    --secondary: 47, 33%, 89%;
+    /*COLOR (SECONDARY) Untuk <Button />*/
+    --secondary: 50, 31%, 60%;
     --secondary-foreground: 0, 0%, 28.6%;
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
+    /*COLOR (DESTRUCTIVE) Untuk <Button />*/
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
+
+    /*MUTED BACKGROUND COLOR Untuk <TabsList />, <Skeleton /> and <Switch />*/
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+
+    /*COLOR Untuk Accent Hover effect pada <DropdownMenuItem>, <SelectItem>, etc*/
+    --accent: 48, 32%, 85%;
+    --accent-foreground: 24 9.8% 10%;
+
+    /*COLOR Untuk Border*/
     --border: 20 5.9% 90%;
+
+    /*COLOR Untuk Input*/
     --input: 20 5.9% 90%;
-    --ring: 24.6 95% 53.1%;
+
+    /*COLOR Untuk Focus Ring*/
+    --ring: 47, 33%, 75%;
+
+    /*Radius untuk card, input, dan button*/
     --radius: 0.75rem;
+
+    /*CHART COLOR*/
     --chart-1: 47, 33%, 45%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    /*SIDEBAR COLOR*/
+    --sidebar-background: 48, 50%, 97%;
+    --sidebar-foreground: 0 0% 28.6%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 48, 50%, 97%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {

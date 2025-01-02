@@ -6,23 +6,22 @@ import { AppWindow, AudioWaveform, BookOpen, Command, GalleryVerticalEnd, Settin
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavProjects } from "@/components/sidebar/nav-projects";
 import { NavUser } from "@/components/sidebar/nav-user";
-import { TeamSwitcher } from "@/components/sidebar/team-switcher";
+import SidebarLogo from "@/components/sidebar/sidebar-logo";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { subjectStaticData } from "@/lib/staticData";
 import { useAuth } from "@/hooks/context/AuthProvider";
 
 const getSubject = () => {
-  const list: {title: string, url: string}[] = []
-  const today = new Date().getDay()
-  console.log(today)
-  subjectStaticData.forEach(item => {
+  const list: { title: string; url: string }[] = [];
+  const today = new Date().getDay();
+  console.log(today);
+  subjectStaticData.forEach((item) => {
     if (item.day == today) {
-      list.push({title: item.title, url: `/classroom/${item.id}`})
+      list.push({ title: item.title, url: `/classroom/${item.id}` });
     }
-  })
-  return list
-} 
-
+  });
+  return list;
+};
 
 // This is sample data.
 const data = {
@@ -118,16 +117,16 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user } = useAuth()
+  const { user } = useAuth();
   const userData = {
-    name: user?.username ?? '',
-    email: user?.email ?? '',
-    avatar: user?.imageUrl ?? '',
-  }
+    name: user?.username ?? "",
+    email: user?.email ?? "",
+    avatar: user?.imageUrl ?? "",
+  };
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarLogo />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

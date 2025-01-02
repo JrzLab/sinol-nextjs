@@ -9,23 +9,23 @@ import React from "react";
 const TeacherPage = () => {
   const cardData = [
     {
-      title: "Total Subject",
-      description: "Total Subject You Get",
+      title: "Jadwal Pelajaran",
+      description: "Total Jadwal Pelajaran yang Anda Dapatkan",
       total: 20,
     },
     {
-      title: "Attendance",
-      description: "Submitted Attendance",
+      title: "Absensi",
+      description: "Absensi yang Sudah Dikirim",
       total: 20,
     },
     {
-      title: "Assignment",
-      description: "Submitted Assignment",
+      title: "Tugas",
+      description: "Tugas yang Sudah Dikirim",
       total: 20,
     },
     {
-      title: "Rank Table",
-      description: "Rank Of All User",
+      title: "Tabel Peringkat",
+      description: "Peringkat Semua Pengguna",
       total: 20,
     },
   ];
@@ -34,28 +34,26 @@ const TeacherPage = () => {
     <>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
         {cardData.map((doc) => (
-          <Card key={doc.title}>
+          <Card key={doc.title} className="flex flex-col text-foreground">
             <CardHeader className="flex flex-row items-start gap-4">
               <div className="grid">
                 <Link href={doc.title} className="font-bold hover:underline">
                   {doc.title}
                 </Link>
-                <p>{doc.description}</p>
+                <p className="text-sm">{doc.description}</p>
               </div>
             </CardHeader>
-            <CardFooter>
+            <CardFooter className="mt-auto">
               <b className="text-2xl">{doc.total}</b>
             </CardFooter>
           </Card>
         ))}
       </div>
       <div>{/* <ActivityChart/> */}</div>
-      <Card className="mx-auto w-full">
+      <Card className="mx-auto w-full text-foreground">
         <CardHeader className="pb-0">
           <CardTitle className="text-2xl font-bold tracking-tight">Jadwal</CardTitle>
-          <CardDescription className="text-gray-500 dark:text-gray-400">
-            Temukan informasi jadwal terbaru Anda di sini dengan mudah dan cepat!
-          </CardDescription>
+          <CardDescription>Temukan informasi jadwal terbaru Anda di sini dengan mudah dan cepat!</CardDescription>
         </CardHeader>
         <CardContent>
           <ClassroomSchedule tableData={subjectStaticData} />

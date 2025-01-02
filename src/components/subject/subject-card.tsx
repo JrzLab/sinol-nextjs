@@ -14,6 +14,8 @@ import OutConfirmation from "../popup/out-confirmation";
 import { getSubjectDataEachDay } from "@/lib/functions";
 import { ISubject } from "@/lib/types/Types";
 import DataTable from "../table/data-table";
+import GeneralAlert from "../popup/general-alert";
+import { AlertDialogAction, AlertDialogCancel } from "../ui/alert-dialog";
 
 interface Day {
   day: number | string;
@@ -51,7 +53,14 @@ const SubjectCard = ({ data, format, today }: { data: ISubject[]; format?: boole
     setSubjectDataByDay(getSubjectDataEachDay({ subjects: data }));
     format ? getSubjectDataEachDay({ subjects: data }) : today ? getSubjectDataToday() : setSubjectData(data);
   }, []);
-
+  const outConfirmation = (status: boolean) => {
+    if (status) {
+      console.log("delete");
+      setConfirmationPopup(false);
+    } else {
+      setConfirmationPopup(false);
+    }
+  };
   return (
     <>
       {format ? (
@@ -70,7 +79,7 @@ const SubjectCard = ({ data, format, today }: { data: ISubject[]; format?: boole
                           </Link>
                           <p className="text-sm text-foreground">{subject.teacher}</p>
                         </div>
-                        <PopoverTrigger className="mt-2 rounded-md bg-primary px-3 py-2 text-white">
+                        <PopoverTrigger className="mt-2 rounded-md px-3 py-2 text-white hover:bg-accent">
                           <Icon icon="tabler:dots" style={{ width: "24px", height: "24px" }} />
                         </PopoverTrigger>
                       </div>
@@ -80,19 +89,19 @@ const SubjectCard = ({ data, format, today }: { data: ISubject[]; format?: boole
                         <p>{subject.description}</p>
                       </CardContent>
                       <CardFooter>
-                        <p className="text-sm font-light">{subject.notifications} Notifications</p>
+                        <p className="text-sm font-light">{subject.notifications} Notifikasi</p>
                       </CardFooter>
                     </div>
                   </Card>
-                  <PopoverContent className="grid w-auto justify-items-start gap-2">
+                  <PopoverContent className="grid w-auto justify-items-start gap-2 bg-card p-2">
                     <Button className="flex w-full justify-start gap-2" variant={"ghost"} onClick={() => Confirmation(subject.id)}>
-                      <PanelLeftOpen /> keluar kelas{" "}
+                      <PanelLeftOpen /> Keluar Kelas{" "}
                     </Button>
                     <Button className="flex w-full justify-start gap-2" variant={"ghost"}>
-                      <Bell /> Cek event terbaru{" "}
+                      <Bell /> Lihat Tugas{" "}
                     </Button>
                     <Button className="flex w-full justify-start gap-2" variant={"ghost"}>
-                      <SquareUser /> Hubungi Dosen{" "}
+                      <SquareUser /> Hubungi{" "}
                     </Button>
                   </PopoverContent>
                 </Popover>
@@ -113,7 +122,7 @@ const SubjectCard = ({ data, format, today }: { data: ISubject[]; format?: boole
                       </Link>
                       <p className="text-sm">{subject.teacher}</p>
                     </div>
-                    <PopoverTrigger className="mt-2 rounded-md bg-primary px-3 py-2 text-white">
+                    <PopoverTrigger className="mt-2 rounded-md bg-primary px-3 py-2 text-white hover:bg-secondary">
                       <Icon icon="tabler:dots" style={{ width: "24px", height: "24px" }} />
                     </PopoverTrigger>
                   </div>
@@ -123,26 +132,33 @@ const SubjectCard = ({ data, format, today }: { data: ISubject[]; format?: boole
                     <p>{subject.description}</p>
                   </CardContent>
                   <CardFooter>
-                    <p className="text-sm font-light">{subject.notifications} Notifications</p>
+                    <p className="text-sm font-light">{subject.notifications} Notifikasi</p>
                   </CardFooter>
                 </div>
               </Card>
-              <PopoverContent className="grid w-auto justify-items-start gap-2">
+              <PopoverContent className="grid w-auto justify-items-start gap-2 bg-card p-2">
                 <Button className="flex w-full justify-start gap-2" variant={"ghost"} onClick={() => Confirmation(subject.id)}>
-                  <PanelLeftOpen /> keluar kelas{" "}
+                  <PanelLeftOpen /> Keluar Kelas{" "}
                 </Button>
                 <Button className="flex w-full justify-start gap-2" variant={"ghost"}>
-                  <Bell /> Cek event terbaru{" "}
+                  <Bell /> Lihat Tugas{" "}
                 </Button>
                 <Button className="flex w-full justify-start gap-2" variant={"ghost"}>
-                  <SquareUser /> Hubungi Dosen{" "}
+                  <SquareUser /> Hubungi{" "}
                 </Button>
               </PopoverContent>
             </Popover>
           ))}
         </div>
       )}
-      {confirmationPopup ? itemDelete ? <OutConfirmation toggle={togglePopUp} id={itemDelete}></OutConfirmation> : null : null}
+      {confirmationPopup ? (
+        itemDelete ? (
+          <GeneralAlert open title="Apakah Anda Yakin?" description="Tindakan ini tidak dapat diurungkan">
+            <AlertDialogCancel onClick={() => outConfirmation(false)}>Batal</AlertDialogCancel>
+            <AlertDialogAction onClick={() => outConfirmation(true)}>Keluar</AlertDialogAction>
+          </GeneralAlert>
+        ) : null
+      ) : null}
     </>
   );
 };

@@ -16,14 +16,16 @@ const EventCard = ({ data }: { data: any }) => {
   console.log(data);
   return (
     <div>
-      <Card>
+      <Card className="text-foreground">
         <CardHeader className="items-start">
           <Link href={`/classroom/${data.subjectId}/${data.eventId}`} className="font-bold">
             {data.title}
           </Link>
           <p>{data.description}</p>
           <div className="flex w-full justify-end pt-6">
-            <Button className="">detail</Button>
+            <Button className="hover:bg-secondary" variant={"default"}>
+              Detail
+            </Button>
           </div>
         </CardHeader>
         <hr />

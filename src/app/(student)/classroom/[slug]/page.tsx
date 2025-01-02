@@ -27,7 +27,7 @@ const page = () => {
           <BubbleChat time="" chatRoomType={"student"} userType="teacher" message="I'm fine, thank you!" />
         </StudentChat>
       </div>
-      <Card>
+      <Card className="text-foreground">
         <CardHeader>
           <h1 className="font-bold">{data.title}</h1>
           <p>{data.description}</p>
@@ -35,11 +35,11 @@ const page = () => {
         <hr />
         <CardFooter className="grid grid-cols-3">
           <div className="w-full pt-6">
-            <h1 className="font-bold">Teacher</h1>
+            <h1 className="font-bold">Pembuat</h1>
             <p>{data.teacher}</p>
           </div>
           <div className="w-full pt-6">
-            <h1 className="font-bold">Event</h1>
+            <h1 className="font-bold">Tugas</h1>
             <p>{data.event}</p>
           </div>
         </CardFooter>
