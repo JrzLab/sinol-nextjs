@@ -18,12 +18,13 @@ import z from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 //IMPORT VALIDATION SCHEMA
 import { forgotPasswordFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
-import { GalleryVerticalEnd, Loader2 } from "lucide-react";
+import { GalleryVerticalEnd } from "lucide-react";
 import ResetPassword from "./reset-password";
 
 const ForgotPasswordForm = () => {
@@ -45,12 +46,10 @@ const ForgotPasswordForm = () => {
             setShowResetPassword(true);
           } else {
             setShowResetPassword(false);
-            setServerMessage(response.error!);
           }
         })
         .catch((err) => {
           console.error("Terjadi kesalahan:", err.message);
-          setServerMessage("Terjadi kesalahan saat verifikasi token.");
         })
         .finally(() => {
           setIsValidating(false);
@@ -68,31 +67,33 @@ const ForgotPasswordForm = () => {
   });
 
   const submitHandler = async (values: z.infer<typeof forgotPasswordFormSchema>) => {
-    try {
-      setLoading(true);
-      forgotPasswordFormSchema.parse(values);
+    setLoading(true);
+    forgotPasswordFormSchema.parse(values);
 
-      const formData = new FormData();
-      formData.append("email", values.email);
+    const formData = new FormData();
+    formData.append("email", values.email);
 
-      const response = await handleRequestResetPassword(formData);
-
-      if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
-        const typedResponse = response as IRequestResetPass;
-        if (typedResponse.success) {
-          setServerMessage(typedResponse.message);
-        } else {
-          setServerMessage(typedResponse.message || "An unknown error occurred");
+    toast.promise(handleRequestResetPassword(formData), {
+      loading: "Requesting reset password...",
+      success: (response) => {
+        if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
+          const typedResponse = response as IRequestResetPass;
+          if (typedResponse.success) {
+            return "Successfully sent link reset password to your email.";
+          } else {
+            return typedResponse.message;
+          }
         }
-      } else {
         throw new Error("Invalid response format");
+      },
+      error: (err) => {
+        console.error("Error during form submission:", err);
+        return "Gagal mengirim permintaan";
+      },
+      finally: () => {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Error during form submission:", err);
-      setServerMessage("An error occurred during form submission");
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   if (isValidating) return null;
@@ -132,8 +133,8 @@ const ForgotPasswordForm = () => {
                     )}
                   />
                 </div>
-                <Button type="submit" className="w-full" onClick={forgotPasswordForm.handleSubmit(submitHandler)}>
-                  {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Submit</> : "Submit"}
+                <Button disabled={loading} type="submit" className="w-full disabled:opacity-50" onClick={forgotPasswordForm.handleSubmit(submitHandler)}>
+                  Submit
                 </Button>
               </div>
             </div>

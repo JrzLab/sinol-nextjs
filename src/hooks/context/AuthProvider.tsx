@@ -2,29 +2,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
-interface IUserData {
-    username?: string;
-    email?: string;
-    imageUrl?: string;
-    joinedAt?: Date;
-    loginAt?: number;
-}
-
-interface IAuthContextProps {
-    isAuthenticated: boolean;
-    isUnauthenticated: boolean;
-    user: IUserData | null;
-    status: "authenticated" | "loading" | "unauthenticated";
-    loading: boolean;
-}
+import { IUserData, IAuthContextProps } from "@/lib/types/Types";
 
 const AuthContext = createContext<IAuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [user, setUser] = useState<IUserData | null>(null);
     const { data: session, status } = useSession();
     const router = useRouter();
-    const [user, setUser] = useState<IUserData | null>(null);
     const isAuthenticated = status === "authenticated";
     const isUnauthenticated = status === "unauthenticated";
     const loading = status === "loading";
@@ -32,7 +17,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     useEffect(() => {
         const publicRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password"];
         const currentPath = window.location.pathname;
-    
         if (status === "authenticated" && session?.user) {
             setUser({
                 username: session.user.name || undefined,
@@ -41,15 +25,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 joinedAt: session.user.joinedAt || undefined,
                 loginAt: session.user.loginAt || undefined,
             });
-    
             if (publicRoutes.includes(currentPath)) {
                 router.push("/");
             }
         } else if (status === "unauthenticated" && !publicRoutes.includes(currentPath)) {
             router.push("/auth/sign-in");
         }
-    }, [session, status, router]);
-    
+    }, [session, loading, status, router]);
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, isUnauthenticated, user, status, loading }}>

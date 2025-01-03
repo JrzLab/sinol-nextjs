@@ -1,5 +1,5 @@
 'use server';
-import { signIn, signOut } from "@/app/auth"
+import { signIn } from "@/app/auth"
 import { AuthError } from "next-auth";
 import { IRequestResetPass, IResetPassword, ISignUpResponse } from "@/lib/types/Types"; 
 
@@ -7,23 +7,20 @@ export const signInWithGoogle = async () => {
     await signIn("google", { redirect: true, redirectTo: "/" })
 };
 
-export async function handleCredentialsSignin({ email, password }: { email: string, password: string }) {
+export async function handleCredentialsSignin({ email, password }: { email: string, password: string }): Promise<boolean> {
     try {
-        await signIn("credentials", { email, password, redirectTo: "/" });
+        await signIn("credentials", { email, password });
+        return true;
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
                 case 'CredentialsSignin':
-                    return {
-                        message: 'Invalid credentials',
-                    }
+                    return false;
                 default:
-                    return {
-                        message: 'Something went wrong.',
-                    }
+                    return false;
             }
         }
-        throw error;
+        return false;
     }
 }
 
@@ -52,6 +49,7 @@ export const signUpCredentials = async (formData: FormData) => {
         return error;
     }
 }
+
 export async function handleRequestResetPassword(formData: FormData) {
     const entries = Object.fromEntries(formData);
     const { email } = entries;
@@ -74,7 +72,6 @@ export async function handleRequestResetPassword(formData: FormData) {
         return error;
     }
 }
-
 
 export async function handleResetPassword(email: string, password: string, token: string | null) {
     try {
@@ -129,9 +126,4 @@ export async function handleVerifTokenResetPass(token: string, email: string) {
             error: (error as Error).message,
         };
     }
-}
-
-
-export async function handleSignOut() {
-    await signOut({ redirectTo: "/" });
 }

@@ -15,12 +15,13 @@ import z, { set } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from 'sonner'
 
 //IMPORT VALIDATION SCHEMA
 import { signInFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 //IMPORT ACTION
 import { handleCredentialsSignin } from '@/app/actions';
@@ -29,6 +30,7 @@ const SignInForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const togglePassword = () => setShowPassword((prev: boolean) => !prev);
   const signInForm = useForm<z.infer<typeof signInFormSchema>>({
@@ -43,22 +45,26 @@ const SignInForm = () => {
   const submitHandler = async (values: z.infer<typeof signInFormSchema>) => {
     setLoading(true);
     setError("");
-    try {
-      signInFormSchema.parse(values);
-      const result = await handleCredentialsSignin(values);
-      if (result?.message) {
-        setError(result.message);
-        return;
+    signInFormSchema.parse(values);
+    toast.promise(handleCredentialsSignin(values), {
+      loading: 'Checking credentials...',
+      success: () => {
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
+        return 'Logged in successfully!';
+      },
+      error: (err) => {
+        const errorMessage = err instanceof z.ZodError
+          ? err.errors[0].message 
+          : "Invalid email or password";
+        setError(errorMessage);
+        return errorMessage;
+      },
+      finally: () => {
+        setLoading(false);
       }
-    } catch (err) {
-      const errorMessage = err instanceof z.ZodError
-        ? err.errors[0].message 
-        : "An error occurred during sign in";
-      setError(errorMessage);
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   return (
@@ -93,7 +99,7 @@ const SignInForm = () => {
                     <FormLabel htmlFor="password">Kata Sandi</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input id="password" type={showPassword ? "text" : "password"} {...field} />
+                        <Input id="password" placeholder="Masukan Password Anda" type={showPassword ? "text" : "password"} {...field} />
                         <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                           <button type="button" onClick={togglePassword} className="p-1">
                             {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -111,8 +117,8 @@ const SignInForm = () => {
                 )}
               />
               <div className="grid gap-3">
-                <Button type="submit" className="w-full" onClick={signInForm.handleSubmit(submitHandler)}>
-                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Masuk</> : 'Masuk'}
+                <Button disabled={loading} type="submit" className="w-full" onClick={signInForm.handleSubmit(submitHandler)}>
+                  Masuk
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                   <span className="relative z-10 bg-background px-2 text-xs text-muted-foreground">Atau masuk dengan</span>
