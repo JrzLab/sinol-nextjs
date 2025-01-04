@@ -1,5 +1,6 @@
 export interface ISubject {
   id: number;
+  email?: string;
   title: string;
   teacher: string;
   description: string;

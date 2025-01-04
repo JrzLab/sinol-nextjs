@@ -3,6 +3,7 @@ import { IStudent, ISubject } from "./types/Types";
 export const subjectStaticData: ISubject[] = [
   {
     id: 1,
+    email: "",
     title: "Dasar Dasar Pemprograman",
     teacher: "Pak SiDragon",
     description:
