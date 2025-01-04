@@ -7,13 +7,20 @@ import { useState } from "react";
 import { subjectStaticData } from "@/lib/staticData";
 import FindSubject from "@/components/popup/find-subject";
 import { useAuth } from "@/hooks/context/AuthProvider";
+import CreateClassroom from "@/components/popup/create-classroom";
 
 const StudentClassroom = () => {
   const { user, loading } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
+  const [ isOpen, setIsOpen ] = useState<Boolean>(false);
+  const [ popUpCreate, setPopUpCreate ] = useState<Boolean>(false);
+  
 
   const togglePopUp = () => {
     setIsOpen(!isOpen);
+  };
+
+  const togglePopUpCreate = () => {
+    setPopUpCreate(!popUpCreate);
   };
 
   return (
@@ -24,9 +31,11 @@ const StudentClassroom = () => {
             <h1 className="text-2xl font-bold">Halo {loading ? 'loading data...' : user?.username}</h1>
             <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
           </CardHeader>
-          <CardFooter className="mt-4">
+          <CardFooter className="mt-4 gap-2">
             <Button onClick={() => togglePopUp()}>cari mata pelajaran</Button>
+            <Button variant={'outline'} onClick={() => togglePopUpCreate()}>new class</Button>
             {isOpen ? <FindSubject status={() => togglePopUp()}></FindSubject> : null}
+            {popUpCreate ? <CreateClassroom status={() => togglePopUpCreate()}></CreateClassroom> : null}
           </CardFooter>
         </Card>
         <div className="ml-1 space-y-2">
