@@ -26,7 +26,7 @@ const StudentChat = ({ status, data, children }: { status: string; data: ISubjec
             isOpen ? "z-50 translate-y-0" : "z-10 translate-y-[443px]"
           }`}
         >
-          <Card className="h-full w-full rounded-b-none">
+          <Card className="h-full w-full rounded-b-none text-foreground">
             <CardHeader className="flex flex-row items-center px-2 py-2" onClick={() => openChatHandler()}>
               <div className="flex flex-row items-center">
                 <Avatar className="mr-2 h-8 w-8">

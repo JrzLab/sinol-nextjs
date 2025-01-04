@@ -26,7 +26,9 @@ const ConversationBox = async ({ params }: { params: { conversationId: string } 
           {sortedMessages.map((message: IMessage, index) => {
             return (
               <div key={index}>
-                <BubbleChat time={message.time} chatRoomType={"teacher"} userType={message.userType} message={message.content} />
+                <BubbleChat position={message.userType} chatRoomType={"student"}>
+                  {message.content}
+                </BubbleChat>
               </div>
             );
           })}
@@ -60,7 +62,9 @@ const ConversationBox = async ({ params }: { params: { conversationId: string } 
             {sortedMessages.map((message: IMessage, index) => {
               return (
                 <div key={index}>
-                  <BubbleChat time={message.time} chatRoomType={"teacher"} userType={message.userType} message={message.content} />
+                  <BubbleChat position={message.userType} chatRoomType={"teacher"}>
+                    {message.content}
+                  </BubbleChat>
                 </div>
               );
             })}

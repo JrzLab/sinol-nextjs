@@ -62,7 +62,7 @@ const SignInForm = () => {
   return (
     <>
       <Form {...signInForm}>
-        <form className="p-6 md:p-8">
+        <form className="p-6 text-foreground md:p-8">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-start text-center">
               <h1 className="text-2xl font-bold">Selamat Datang</h1>
@@ -109,7 +109,7 @@ const SignInForm = () => {
                 )}
               />
               <div className="grid gap-3">
-                <Button type="submit" className="w-full" onClick={signInForm.handleSubmit(submitHandler)}>
+                <Button type="submit" className="w-full hover:bg-secondary" onClick={signInForm.handleSubmit(submitHandler)} variant={"default"}>
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
