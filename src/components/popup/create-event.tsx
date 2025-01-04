@@ -98,6 +98,7 @@ const CreateEventPopUp = ({status}: {status: () => void}) => {
                   {file.map((file) => (
                     <div key={file.id}>
                       {file.name}
+                      {file.ext}
                     </div>
                   ))}
                 </CardHeader>
