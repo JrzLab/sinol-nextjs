@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./style/globals.css";
 
 import FillterPage from "@/components/fillterPage";
+import { Toaster } from "@/components/ui/toaster";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <html lang="en" suppressHydrationWarning>
         <body className={`${montserrat.className} antialiased`}>
           <FillterPage>{children}</FillterPage>
+          <Toaster/>
         </body>
       </html>
   );

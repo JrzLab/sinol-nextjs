@@ -35,8 +35,8 @@ const cardData = [
 export default function Page() {
   const { user, loading } = useAuth();
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <Card className="flex w-full flex-col rounded-xl text-foreground">
+    <div className="flex flex-1 flex-col gap-4 pt-0">
+      <Card className="flex w-full flex-col rounded-xl">
         <CardHeader>
           <h1 className="text-xl font-bold">Halo {loading ? "loading data..." : user?.username}</h1>
           <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>

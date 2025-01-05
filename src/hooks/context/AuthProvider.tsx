@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const loading = status === "loading";
 
     useEffect(() => {
-        const publicRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password"];
+        const publicRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password", "/classroom/"];
         const currentPath = window.location.pathname;
     
         if (status === "authenticated" && session?.user) {
