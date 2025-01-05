@@ -13,7 +13,7 @@ interface Data {
 
 const chartConfig = {
   views: {
-    label: "Page Views",
+    label: "Absensi",
   },
   data: {
     label: "data",
@@ -35,8 +35,8 @@ const AttendanceChart = ({ data }: { data: Data[] }) => {
     <Card className="text-foreground">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Bar Chart - Interactive</CardTitle>
-          <CardDescription>menunjukan aktifitas absensi selama 3 bula terakhir</CardDescription>
+          <CardTitle>Aktifitas Absensi</CardTitle>
+          <CardDescription>Menunjukan aktifitas absensi selama 3 bulan terakhir</CardDescription>
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:p-6">

@@ -25,8 +25,17 @@ const page = () => {
 
   return (
     <>
-      
-      <Card>
+      <div className="relative">
+        <StudentChat status="online" data={data}>
+          <BubbleChat position={"sender"} chatRoomType={"student"}>
+            Hi, Selamat pagi, ada yang bisa saya bantu?
+          </BubbleChat>
+          <BubbleChat position={"receiver"} chatRoomType={"student"}>
+            test
+          </BubbleChat>
+        </StudentChat>
+      </div>
+      <Card className="text-foreground">
         <CardHeader>
           <h1 className="font-bold">{data.title}</h1>
           <p>{data.description}</p>
@@ -42,11 +51,11 @@ const page = () => {
         <hr />
         <CardFooter className="grid grid-cols-3">
           <div className="w-full pt-6">
-            <h1 className="font-bold">Teacher</h1>
+            <h1 className="font-bold">Pembuat</h1>
             <p>{data.teacher}</p>
           </div>
           <div className="w-full pt-6">
-            <h1 className="font-bold">Event</h1>
+            <h1 className="font-bold">Tugas</h1>
             <p>{data.event}</p>
           </div>
         </CardFooter>
@@ -63,14 +72,6 @@ const page = () => {
             ))}
           </div>
         </div>
-      </div>
-      <div className="relative hidden">
-        <StudentChat status="online" data={data}>
-          <BubbleChat time="" chatRoomType={"student"} userType="student" message="Hello, teacher!" />
-          <BubbleChat time="" chatRoomType={"student"} userType="teacher" message="Hello, student!" />
-          <BubbleChat time="" chatRoomType={"student"} userType="student" message="How are you?" />
-          <BubbleChat time="" chatRoomType={"student"} userType="teacher" message="I'm fine, thank you!" />
-        </StudentChat>
       </div>
     </>
   );

@@ -22,7 +22,7 @@ export interface IEvent {
 
 export interface IMessage {
   content: string;
-  userType: "student" | "teacher";
+  userType: "sender" | "receiver";
   time: string;
 }
 
@@ -71,7 +71,7 @@ export interface IRequestResetPass {
   code: number;
   message: string;
   data: {
-      access_token?: string;
+    access_token?: string;
   };
 }
 

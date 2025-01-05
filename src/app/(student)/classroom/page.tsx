@@ -26,14 +26,15 @@ const StudentClassroom = () => {
   return (
     <>
       <div className="flex flex-1 flex-col gap-4 space-y-2 p-4 pt-0">
-        <Card className="flex w-full flex-col rounded-xl">
+        <Card className="flex w-full flex-col rounded-xl text-foreground">
           <CardHeader className="mb-4">
-            <h1 className="text-2xl font-bold">Halo {loading ? 'loading data...' : user?.username}</h1>
+            <h1 className="text-2xl font-bold">Halo {loading ? "loading data..." : user?.username}</h1>
             <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
           </CardHeader>
-          <CardFooter className="mt-4 gap-2">
-            <Button onClick={() => togglePopUp()}>cari mata pelajaran</Button>
-            <Button variant={'outline'} onClick={() => togglePopUpCreate()}>new class</Button>
+          <CardFooter className="mt-4">
+            <Button onClick={() => togglePopUp()} variant={"default"} className="hover:bg-secondary">
+              Cari Jadwal
+            </Button>
             {isOpen ? <FindSubject status={() => togglePopUp()}></FindSubject> : null}
             {popUpCreate ? <CreateClassroom status={() => togglePopUpCreate()}></CreateClassroom> : null}
           </CardFooter>

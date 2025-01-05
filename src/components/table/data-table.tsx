@@ -92,7 +92,7 @@ const DataTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValu
           <Table className="w-full">
             <TableHeader className="ml-5">
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id} className="bg-gray-50">
+                <TableRow key={headerGroup.id} className="text-foreground">
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead key={header.id}>
@@ -106,7 +106,7 @@ const DataTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValu
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id}>
+                  <TableRow key={row.id} className="text-foreground">
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                     ))}

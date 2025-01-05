@@ -21,7 +21,7 @@ import { ISubject } from "@/lib/types/Types";
 import { getDate } from "@/lib/functions";
 
 //IMPORT LUCIDE ICON
-import { ArrowUpDown, Delete, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Delete, MoreHorizontal, Trash2, PanelLeftOpen, Pencil } from "lucide-react";
 import DeleteClassroomAlert from "../popup/delete-classroom-alert";
 import DataTable from "./data-table";
 import EditClassroomDetail from "../popup/edit-classroom-detail";
@@ -130,16 +130,23 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Pilihan</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() => router.push(`/teacher/classroom/${titleLink}`)}>Lihat Jadwal</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push(`/teacher/classroom/${titleLink}`)}>
+                  <PanelLeftOpen />
+                  Lihat Jadwal
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => {
                     setOpenEdit(true);
                   }}
                 >
+                  <Pencil />
                   Ubah Jadwal
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setOpenDelete(true)}>Hapus Jadwal</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setOpenDelete(true)}>
+                  <Trash2 />
+                  Hapus Jadwal
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DeleteClassroomAlert open={openDelete} dialogHandler={() => setOpenDelete(false)} />

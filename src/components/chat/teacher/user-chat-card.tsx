@@ -25,7 +25,7 @@ const UserChatCard = ({ student, classroomId }: UserChatCardProps) => {
   return (
     <Card
       key={student.id}
-      className="cursor-pointer hover:bg-gray-100"
+      className="cursor-pointer text-foreground hover:bg-gray-100"
       onClick={() => {
         cardHandler(classroomId, student.id.toString());
       }}

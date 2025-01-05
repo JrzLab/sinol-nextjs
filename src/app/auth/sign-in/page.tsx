@@ -1,4 +1,5 @@
 import SignInForm from "@/components/auth/sign-in/signin-form";
+import SinolLogo from "@/components/sinol-logo";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -11,11 +12,7 @@ const SignInPage = () => {
             <CardContent className="grid p-0 md:grid-cols-2">
               <SignInForm />
               <div className="relative hidden bg-muted md:block">
-                <img
-                  src="/placeholder.svg"
-                  alt="Image"
-                  className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                />
+                <SinolLogo className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
               </div>
             </CardContent>
           </Card>

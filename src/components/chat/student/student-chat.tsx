@@ -26,17 +26,19 @@ const StudentChat = ({ status, data, children }: { status: string; data: ISubjec
             isOpen ? "z-50 translate-y-0" : "z-10 translate-y-[443px]"
           }`}
         >
-          <Card className="h-full w-full rounded-b-none">
+          <Card className="h-full w-full rounded-b-none text-foreground">
             <CardHeader className="flex flex-row items-center px-2 py-2" onClick={() => openChatHandler()}>
-              <Avatar className="mr-2 h-8 w-8">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col items-start">
-                <h1 className="text-black">{data.teacher}</h1>
-                <div className="inline-flex items-center">
-                  <div className={`mr-1 h-2 w-2 rounded-full ${status == "online" ? "bg-green-700" : "bg-gray-500"}`} />
-                  <span className="text-xs">{toPascalCase(status)}</span>
+              <div className="flex flex-row items-center">
+                <Avatar className="mr-2 h-8 w-8">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col items-start">
+                  <h1 className="text-black">{data.teacher}</h1>
+                  <div className="inline-flex items-center">
+                    <div className={`mr-1 h-2 w-2 rounded-full ${status == "online" ? "bg-green-700" : "bg-gray-500"}`} />
+                    <span className="text-xs">{toPascalCase(status)}</span>
+                  </div>
                 </div>
               </div>
               <div className="ml-auto">{isOpen ? <ChevronDown /> : <ChevronUp />}</div>
@@ -49,7 +51,7 @@ const StudentChat = ({ status, data, children }: { status: string; data: ISubjec
             <Separator />
             <CardFooter className="flex flex-row gap-2 px-4 pt-3">
               <Input type="text" className="w-full" placeholder="Ketik Pesan" />
-              <Button size="default" variant="default">
+              <Button size="default" variant="default" className="hover:bg-secondary">
                 <Send />
               </Button>
             </CardFooter>

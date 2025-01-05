@@ -11,23 +11,23 @@ import { useAuth } from "@/hooks/context/AuthProvider";
 
 const cardData = [
   {
-    title: "Total Subject",
-    description: "Total Subject You Get",
+    title: "Jadwal Pelajaran",
+    description: "Total Jadwal Pelajaran yang Anda Dapatkan",
     total: 20,
   },
   {
-    title: "Attendance",
-    description: "Submitted Attendance",
+    title: "Absensi",
+    description: "Absensi yang Sudah Dikirim",
     total: 20,
   },
   {
-    title: "Assignment",
-    description: "Submitted Assignment",
+    title: "Tugas",
+    description: "Tugas yang Sudah Dikirim",
     total: 20,
   },
   {
-    title: "Rank Table",
-    description: "Rank Of All User",
+    title: "Tabel Peringkat",
+    description: "Peringkat Semua Pengguna",
     total: 20,
   },
 ];
@@ -42,8 +42,8 @@ export default function Page() {
           <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
         </CardHeader>
         <CardFooter className="mt-4">
-          <Button className="hover:bg-primary" variant={"default"}>
-            <Link href="/classroom">Check Schedule</Link>
+          <Button className="hover:bg-secondary" variant={"default"}>
+            <Link href="/classroom">Lihat Jadwal</Link>
           </Button>
         </CardFooter>
       </Card>
@@ -52,7 +52,7 @@ export default function Page() {
           <Card className="flex flex-col justify-between text-foreground" key={data.title}>
             <CardHeader>
               <h1 className="font-bold">{data.title}</h1>
-              <p className="">{data.description}</p>
+              <p className="text-sm">{data.description}</p>
             </CardHeader>
             <CardFooter>
               <h1 className="text-2xl font-bold">{data.total}</h1>
@@ -64,7 +64,7 @@ export default function Page() {
         <AttendanceChart data={chartStaticData1} />
       </div>
       <div className="ml-1">
-        <h1 className="text-xl font-bold">Today Subject</h1>
+        <h1 className="text-xl font-bold">Jadwal Hari Ini</h1>
         <span className="text-sm">{getToday()}</span>
       </div>
       <div>

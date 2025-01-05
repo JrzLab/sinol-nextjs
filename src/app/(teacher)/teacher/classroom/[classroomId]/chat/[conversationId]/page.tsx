@@ -26,14 +26,16 @@ const ConversationBox = async ({ params }: { params: { conversationId: string } 
           {sortedMessages.map((message: IMessage, index) => {
             return (
               <div key={index}>
-                <BubbleChat time={message.time} chatRoomType={"teacher"} userType={message.userType} message={message.content} />
+                <BubbleChat position={message.userType} chatRoomType={"student"}>
+                  {message.content}
+                </BubbleChat>
               </div>
             );
           })}
         </MobileChatRoom>
       </div>
       {/* DESKTOP VIEW */}
-      <div className="hidden h-screen flex-col gap-0 md:flex">
+      <div className="hidden flex-col gap-0 md:flex">
         <div>
           <CardHeader className="flex flex-row items-center justify-end p-2">
             <Button variant="ghost" size="default">
@@ -60,17 +62,19 @@ const ConversationBox = async ({ params }: { params: { conversationId: string } 
             {sortedMessages.map((message: IMessage, index) => {
               return (
                 <div key={index}>
-                  <BubbleChat time={message.time} chatRoomType={"teacher"} userType={message.userType} message={message.content} />
+                  <BubbleChat position={message.userType} chatRoomType={"teacher"}>
+                    {message.content}
+                  </BubbleChat>
                 </div>
               );
             })}
           </ChatRoom>
         </div>
-        <div className="sticky bottom-0 bg-white shadow-lg">
+        <div className="">
           <Separator orientation="horizontal" />
           <CardFooter className="flex flex-col space-y-2 py-5">
             <Textarea placeholder="Tulis Pesan Kamu Disini" className="resize-y" />
-            <Button variant="default" className="w-full justify-items-end" size="default">
+            <Button variant="default" className="w-full justify-items-end hover:bg-secondary" size="default">
               Kirim
             </Button>
           </CardFooter>

@@ -12,10 +12,11 @@ export const getSubjectDataEachDay = ({ subjects }: { subjects: ISubject[] }) =>
 
 export const getToday = () => {
   const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
   const date = new Date();
   const day = days[date.getDay()];
   const dateNow = date.getDate();
-  const month = date.toLocaleString("default", { month: "long" });
+  const month = months[date.getMonth()];
   const year = date.getFullYear();
   const today = `${day}, ${dateNow} ${month} ${year}`;
   return today;

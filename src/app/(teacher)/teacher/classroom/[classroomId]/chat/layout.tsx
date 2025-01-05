@@ -10,7 +10,7 @@ const ConversationLayout = async ({ children, params }: { children: React.ReactN
 
   return (
     <>
-      <Card className="min-h-screen w-full">
+      <Card className="min-h-screen w-full text-foreground">
         <div className="block md:hidden">
           <CardHeader className="p-3 px-4">
             <CardTitle className="text-lg font-bold">Dasar Dasar Pemprograman Chat Room</CardTitle>

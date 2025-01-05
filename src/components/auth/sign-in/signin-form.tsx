@@ -21,7 +21,7 @@ import { toast } from 'sonner'
 import { signInFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 //IMPORT ACTION
 import { handleCredentialsSignin } from "@/app/actions";
@@ -70,7 +70,7 @@ const SignInForm = () => {
   return (
     <>
       <Form {...signInForm}>
-        <form className="p-6 md:p-8">
+        <form className="p-6 text-foreground md:p-8">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col items-start text-center">
               <h1 className="text-2xl font-bold">Selamat Datang</h1>
@@ -117,11 +117,18 @@ const SignInForm = () => {
                 )}
               />
               <div className="grid gap-3">
-                <Button disabled={loading} type="submit" className="w-full" onClick={signInForm.handleSubmit(submitHandler)}>
-                  Masuk
+                <Button type="submit" className="w-full hover:bg-secondary" onClick={signInForm.handleSubmit(submitHandler)} variant={"default"}>
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Masuk
+                    </>
+                  ) : (
+                    "Masuk"
+                  )}
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                  <span className="bg- relative z-10 bg-card px-2">Atau masuk dengan</span>
+                  <span className="relative z-10 bg-card px-2">Atau masuk dengan</span>
                 </div>
                 <div className="grid grid-cols-1">
                   <SignInWithGoogleButton type="sign-in" />
