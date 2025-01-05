@@ -4,7 +4,7 @@ let socket: Socket | null = null;
 
 export const connectSocket = (clientId: string): Socket => {
     if (!socket) {
-      socket = io(process.env.NEXT_PUBLIC_WS_URL || "http://localhost:3002", {
+      socket = io(process.env.NEXT_PUBLIC_WS_URL, {
         query: { 
             clientIdentify: clientId 
         },

@@ -30,34 +30,46 @@ import ResetPassword from "./reset-password";
 const ForgotPasswordForm = () => {
   const query = useSearchParams();
   const [showResetPassword, setShowResetPassword] = useState<boolean>(false);
-  const [serverMessage, setServerMessage] = useState<string | null>(null);
+  // const [serverMessage, setServerMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [isValidating, setIsValidating] = useState<boolean>(true);
+  // const [isValidating, setIsValidating] = useState<boolean>(true);
 
   //VALIDATION URL QUERY
   useEffect(() => {
+    setShowResetPassword(false);
     const tokenResetPassword = query.get("profile");
     const userEmail = query.get("userId");
-
     if (tokenResetPassword && userEmail) {
-      handleVerifTokenResetPass(tokenResetPassword, userEmail)
-        .then((response) => {
-          if (response.success) {
-            setShowResetPassword(true);
-          } else {
-            setShowResetPassword(false);
-          }
-        })
-        .catch((err) => {
-          console.error("Terjadi kesalahan:", err.message);
-        })
-        .finally(() => {
-          setIsValidating(false);
-        });
+      setShowResetPassword(true);
     } else {
-      setIsValidating(false);
+      setShowResetPassword(false);
     }
   }, [query]);
+
+  //VALIDATION URL QUERY
+  // useEffect(() => {
+  //   const tokenResetPassword = query.get("profile");
+  //   const userEmail = query.get("userId");
+
+  //   if (tokenResetPassword && userEmail) {
+  //     handleVerifTokenResetPass(tokenResetPassword, userEmail)
+  //       .then((response) => {
+  //         if (response.success) {
+  //           setShowResetPassword(true);
+  //         } else {
+  //           setShowResetPassword(false);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error("Terjadi kesalahan:", err.message);
+  //       })
+  //       .finally(() => {
+  //         setIsValidating(false);
+  //       });
+  //   } else {
+  //     setIsValidating(false);
+  //   }
+  // }, [query]);
 
   const forgotPasswordForm = useForm<z.infer<typeof forgotPasswordFormSchema>>({
     resolver: zodResolver(forgotPasswordFormSchema),
@@ -92,11 +104,11 @@ const ForgotPasswordForm = () => {
       },
       finally: () => {
         setLoading(false);
-      }
+      },
     });
   };
 
-  if (isValidating) return null;
+  // if (isValidating) return null;
 
   return (
     <>
@@ -133,7 +145,12 @@ const ForgotPasswordForm = () => {
                     )}
                   />
                 </div>
-                <Button disabled={loading} type="submit" className="w-full disabled:opacity-50" onClick={forgotPasswordForm.handleSubmit(submitHandler)}>
+                <Button
+                  disabled={loading}
+                  type="submit"
+                  className="w-full disabled:opacity-50"
+                  onClick={forgotPasswordForm.handleSubmit(submitHandler)}
+                >
                   Submit
                 </Button>
               </div>
