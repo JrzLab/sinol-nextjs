@@ -1,5 +1,6 @@
 export interface ISubject {
   id: number;
+  email?: string;
   title: string;
   teacher: string;
   description: string;
@@ -55,6 +56,15 @@ export interface ISignInResponse {
     loginAt: number;
   };
 }
+export interface ISignInGoogleResponse {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    joinedAt: string;
+    loginAt: number;
+  };
+}
 
 export interface IRequestResetPass {
   success: boolean;
@@ -81,4 +91,20 @@ export interface ISignUpResponse {
       email: string;
       joinedAt: string
   }
+}
+
+export interface IUserData {
+    username?: string;
+    email?: string;
+    imageUrl?: string;
+    joinedAt?: Date;
+    loginAt?: number;
+}
+
+export interface IAuthContextProps {
+    isAuthenticated: boolean;
+    isUnauthenticated: boolean;
+    user: IUserData | null;
+    status: "authenticated" | "loading" | "unauthenticated";
+    loading: boolean;
 }

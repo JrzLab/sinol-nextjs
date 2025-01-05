@@ -15,21 +15,20 @@ import z from "zod";
 import { handleResetPassword } from "@/app/actions";
 
 //IMPORT SHADCN COMPONENTS
-import SignUpForm from "../sign-up/signup-form";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from 'sonner'
 
 //IMPORT VALIDATION SCHEMA
 import { signUpFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
-import { Eye, EyeOff, GalleryVerticalEnd, Loader2 } from "lucide-react";
+import { Eye, EyeOff, GalleryVerticalEnd } from "lucide-react";
 
 const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [serverMessage, setServerMessage] = useState<string | null>(null);
   const togglePassword = () => setShowPassword((prev: boolean) => !prev);
   const query = useSearchParams();
 
@@ -43,28 +42,28 @@ const ResetPassword = () => {
   });
 
   const submitHandler = async (values: z.infer<typeof signUpFormSchema>) => {
-    try {
-      signUpFormSchema.parse(values);
-      const tokenResetPassword = query.get("profile");
-    
-      const response = await handleResetPassword(values.email, values.confirmPassword, tokenResetPassword);
-      if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
-        const typedResponse = response as IResetPassword;
-        if (typedResponse.success) {
-          setServerMessage(typedResponse.message);
-        } else {
-          setServerMessage(typedResponse.message || "An unknown error occurred");
+    setLoading(true);
+    signUpFormSchema.parse(values);
+    const tokenResetPassword = query.get("profile");
+    toast.promise(handleResetPassword(values.email, values.confirmPassword, tokenResetPassword), {
+      loading: 'Proccessing change password...',
+      success: (response) => {
+        if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
+          const typedResponse = response as IResetPassword;
+          return typedResponse.message;
         }
-      } else {
         throw new Error("Invalid response format");
+      },
+      error: (err) => {
+        console.error(err);
+        return "Terjadi kesalahan, mohon periksa kembali.";
+      },
+      finally: () => {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
+    });
+  };  
+
   return (
     <>
       <Form {...resetPasswordForm}>
@@ -79,7 +78,6 @@ const ResetPassword = () => {
               </a>
               <h1 className="text-xl font-bold">Ubah Kata Sandi</h1>
               <div className="text-center text-sm">Masukan email dan kata sandi baru</div>
-              {serverMessage && <p className="text-sm text-red-500">{serverMessage}</p>}
             </div>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
@@ -132,8 +130,8 @@ const ResetPassword = () => {
                   )}
                 />
               </div>
-              <Button type="submit" className="w-full" onClick={resetPasswordForm.handleSubmit(submitHandler)}>
-                {loading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Submit</>  : <>Submit</>}
+              <Button disabled={loading} type="submit" className="w-full disabled:opacity-50" onClick={resetPasswordForm.handleSubmit(submitHandler)}>
+                Submit
               </Button>
             </div>
           </div>

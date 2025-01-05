@@ -71,3 +71,13 @@ export const getTime = (date: Date) => {
 export const truncateText = (text: string, length: number) => {
   return text.length > length ? text.slice(0, length) + "..." : text;
 };
+
+export function getInitials(fullName: string): string {
+  if (!fullName.trim()) return '';
+
+  return fullName
+    .split(' ')
+    .filter(name => name.length > 0)
+    .map(name => name[0].toUpperCase())
+    .join('');
+}

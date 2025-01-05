@@ -1,5 +1,6 @@
 "use client";
 import SignInWithGoogleButton from "@/components/auth/button/sign-in";
+import { useRouter } from "next/navigation";
 
 //IMPORT ACTION
 import { signUpCredentials } from "@/app/actions";
@@ -19,20 +20,21 @@ import z, { set } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 //IMPORT VALIDATION SCHEMA
 import { signUpFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const togglePassword = () => setShowPassword((prev: boolean) => !prev);
-  const [serverMessage, setServerMessage] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const signUpForm = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
@@ -43,31 +45,37 @@ const SignUpForm = () => {
     },
   });
 
-  //SUBMIT HANDLER FOR VALIDATION FORM
   const submitHandler = async (values: z.infer<typeof signUpFormSchema>) => {
+    setLoading(true);
     try {
-      setLoading(true);
       signUpFormSchema.parse(values);
+
       const formData = new FormData();
       formData.append("email", values.email);
       formData.append("password", values.confirmPassword);
-      const response = await signUpCredentials(formData);
-      if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
-        const typedResponse = response as ISignUpResponse;
-        if (typedResponse.success) {
-          setLoading(false);
-          setServerMessage(typedResponse.message);
-          redirect("/auth/sign-in"); //REDIRECT TO SIGN IN PAGE AFTER SUCCESSFUL SIGN UP
-        } else {
-          setLoading(false);
-          setServerMessage(typedResponse.message || "An unknown error occurred");
-        }
-      } else {
-        setLoading(false);
-        throw new Error("Invalid response format");
-      }
+
+      toast.promise(signUpCredentials(formData)
+      .then((response) => {
+          if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
+            const typedResponse = response as ISignUpResponse;
+            if (typedResponse.success && typedResponse.code === 201) {
+              setTimeout(() => {
+                router.push("/auth/sign-in");
+              }, 1000); 
+              return "Account created successfully, redirect to sign-in page...";
+            }
+          } else {
+            throw new Error("Email already exists");
+          }
+        }),
+        {
+          loading: "Creating account...",
+          success: "Account created successfully, redirect to sign-in page...",
+          error: (err) => err.message || "Terjadi kesalahan saat mendaftar.",
+        },
+      );
     } catch (err) {
-      console.error(err);
+      console.error("Kesalahan saat submit:", err);
     } finally {
       setLoading(false);
     }
@@ -80,7 +88,6 @@ const SignUpForm = () => {
           <div className="flex flex-col items-center gap-2 text-center">
             <h1 className="text-2xl font-bold">Buat akun Sinau Online</h1>
             <p className="text-balance text-sm text-muted-foreground">Masukkan email Anda di bawah untuk membuat akun baru</p>
-            {serverMessage && <p className="text-sm text-red-500">{serverMessage}</p>}
           </div>
           <div className="grid gap-2">
             <FormField
@@ -105,7 +112,7 @@ const SignUpForm = () => {
                   <FormLabel htmlFor="password">Kata Sandi</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <Input id="password" type={showPassword ? "text" : "password"} {...field} />
+                      <Input placeholder="Masukan Password Anda" id="password" type={showPassword ? "text" : "password"} {...field} />
                       <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                         <button type="button" onClick={togglePassword} className="p-1">
                           {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -125,22 +132,15 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel htmlFor="confirmPassword">Konfirmasi Kata Sandi</FormLabel>
                   <FormControl>
-                    <Input id="confirmPassword" type="password" {...field} />
+                    <Input placeholder="Masukan Konfirmasi Password Anda" id="confirmPassword" type="password" {...field} />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
             <div className="mt-2 grid gap-2">
-              <Button type="submit" className="w-full" onClick={signUpForm.handleSubmit(submitHandler)}>
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Daftar
-                  </>
-                ) : (
-                  <>Daftar</>
-                )}
+              <Button disabled={loading} type="submit" className="w-full" onClick={signUpForm.handleSubmit(submitHandler)}>
+                Daftar
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-xs text-muted-foreground">Atau daftar akun dengan</span>

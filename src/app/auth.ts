@@ -2,10 +2,10 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { signInFormSchema } from "@/lib/form-validation-schema";
-import { ISignInResponse } from "@/lib/types/Types";
-import { handleSignOut } from "@/app/actions";
+import { ISignInResponse, ISignInGoogleResponse } from "@/lib/types/Types";
+import { signOut } from "next-auth/react";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers, signIn, auth } = NextAuth({
   debug: true,
   providers: [
     Google({
@@ -66,8 +66,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user, account }) {
-      const expirationDate = new Date();
-      expirationDate.setMinutes(expirationDate.getMinutes() + 20);
+      if (!token.expires) {
+        const expirationDate = new Date();
+        expirationDate.setMinutes(expirationDate.getMinutes() + 20);
+        token.expires = expirationDate.toISOString();
+      }
 
       if (user && account?.provider === "credentials") {
         token.email = user.email;
@@ -75,7 +78,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.image = user.image;
         token.joinedAt = user.joinedAt;
         token.loginAt = user.loginAt;
-        token.expires = expirationDate.toISOString();
       }
 
       if (user && account?.provider === "google") {
@@ -104,12 +106,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             throw new Error("Failed to sync user with Google Sign-In API.");
           }
 
-          const data: ISignInResponse = await response.json();
+          const data: ISignInGoogleResponse = await response.json();
 
           if (data.code === 200 && data.success) {
-            token.email = data.data.email;
-            token.name = `${data.data.firstName} ${data.data.lastName || ""}`.trim();
-            token.image = data.data.imageUrl || null;
+            token.email = user.email || null;
+            token.name = `${firstName} ${lastName || ""}`.trim();
+            token.image = user.image || null;
             token.joinedAt = new Date(data.data.joinedAt);
             token.loginAt = data.data.loginAt;
           } else {
@@ -120,7 +122,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      token.expires = expirationDate.toISOString();
       return token;
     },
     async session({ session, token }) {
@@ -136,8 +137,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (expiresDate < new Date()) {
             session.expires = new Date(0);
             console.log("Session has expired");
-            handleSignOut();
-          } 
+            signOut();
+          } else {
+            session.expires = new Date(token.expires);
+          }
         }
       }
       return session;
