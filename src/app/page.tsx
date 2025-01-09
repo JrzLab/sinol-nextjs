@@ -35,7 +35,7 @@ const cardData = [
 export default function Page() {
   const { user, loading } = useAuth();
   return (
-    <div className="flex flex-1 flex-col gap-4 pt-0">
+    <div className="flex flex-1 flex-col gap-5 pt-0">
       <Card className="flex w-full flex-col rounded-xl">
         <CardHeader>
           <h1 className="text-xl font-bold">Halo {loading ? "loading data..." : user?.username}</h1>
@@ -59,9 +59,6 @@ export default function Page() {
             </CardFooter>
           </Card>
         ))}
-      </div>
-      <div>
-        <AttendanceChart data={chartStaticData1} />
       </div>
       <div className="ml-1">
         <h1 className="text-xl font-bold">Jadwal Hari Ini</h1>

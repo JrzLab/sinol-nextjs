@@ -47,7 +47,7 @@ const ListStudent = ({ students, classroomId }: ListStudentProps) => {
         <InputSearch onSearch={(e) => handleSearch(e)} />
       </CardContent>
       <Separator orientation="horizontal" />
-      <ScrollArea scrollHideDelay={500} className="h-screen">
+      <ScrollArea scrollHideDelay={500} className="h-[460px]">
         <CardContent className="flex flex-col space-y-2 p-4">
           {searchResult.length > 0 ? (
             <>

@@ -74,11 +74,11 @@ export const truncateText = (text: string, length: number) => {
 };
 
 export function getInitials(fullName: string): string {
-  if (!fullName.trim()) return '';
+  if (!fullName.trim()) return "";
 
   return fullName
-    .split(' ')
-    .filter(name => name.length > 0)
-    .map(name => name[0].toUpperCase())
-    .join('');
+    .split(" ", 2)
+    .filter((name) => name.length > 0)
+    .map((name) => name[0].toUpperCase())
+    .join("");
 }
