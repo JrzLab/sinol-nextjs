@@ -24,7 +24,7 @@ import { signInFormSchema } from "@/lib/form-validation-schema";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 //IMPORT ACTION
-import { handleCredentialsSignin } from "@/app/actions";
+import { handleCredentialsSignin } from "@/app/actions/auth-actions";
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -48,18 +48,15 @@ const SignInForm = () => {
     signInFormSchema.parse(values);
     toast.promise(handleCredentialsSignin(values), {
       loading: 'Checking credentials...',
-      success: () => {
-        setTimeout(() => {
-          router.push("/");
-        }, 1000);
-        return 'Logged in successfully!';
+      success: (response) => {
+        if(response.success) {
+          window.location.reload();
+          return response.message;
+        }
+        throw new Error(response.message);
       },
       error: (err) => {
-        const errorMessage = err instanceof z.ZodError
-          ? err.errors[0].message 
-          : "Invalid email or password";
-        setError(errorMessage);
-        return errorMessage;
+        return err.message;
       },
       finally: () => {
         setLoading(false);
@@ -117,15 +114,8 @@ const SignInForm = () => {
                 )}
               />
               <div className="grid gap-3">
-                <Button type="submit" className="w-full hover:bg-secondary" onClick={signInForm.handleSubmit(submitHandler)} variant={"default"}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Masuk
-                    </>
-                  ) : (
-                    "Masuk"
-                  )}
+                <Button disabled={loading} type="submit" className="w-full hover:bg-secondary" onClick={signInForm.handleSubmit(submitHandler)} variant={"default"}>
+                  Masuk
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                   <span className="relative z-10 bg-card px-2">Atau masuk dengan</span>

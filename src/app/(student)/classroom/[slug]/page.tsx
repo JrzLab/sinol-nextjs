@@ -12,9 +12,8 @@ import Link from "next/link";
 import CreateEventPopUp from "@/components/popup/create-event";
 
 const page = () => {
-
-  const [ isOwner, setIsOwner ] = useState<Boolean>(true);
-  const [ openEvent, setOpenEvent ] = useState<Boolean>(true);
+  const [isOwner, setIsOwner] = useState<boolean>(true);
+  const [openEvent, setOpenEvent] = useState<boolean>(true);
 
   const query = usePathname().split("/")[2];
   const data = subjectStaticData.filter((data) => data.id == parseInt(query))[0] as ISubject;
@@ -40,18 +39,18 @@ const page = () => {
           <h1 className="font-bold">{data.title}</h1>
           <p>{data.description}</p>
           {isOwner ? (
-            <div className="pt-8 flex gap-2">
+            <div className="flex gap-2 pt-8">
               <Link href={`/classroom/${data.id}/join`}>
-                <Button>edit kelas</Button>
+                <Button>Edit Class</Button>
               </Link>
-              <Button variant={"outline"}>lihat member</Button>
+              <Button variant={"outline"}>Show Member</Button>
             </div>
           ) : null}
         </CardHeader>
         <hr />
         <CardFooter className="grid grid-cols-3">
           <div className="w-full pt-6">
-            <h1 className="font-bold">Pembuat</h1>
+            <h1 className="font-bold">Teacher</h1>
             <p>{data.teacher}</p>
           </div>
           <div className="w-full pt-6">
@@ -62,9 +61,9 @@ const page = () => {
       </Card>
       <div className="mt-4 flex flex-col gap-4">
         <div className="flex flex-col gap-4">
-          <div className="justify-end flex">
-            <Button onClick={() => setOpenEvent(!openEvent)}>buat event</Button>
-            { openEvent ? <CreateEventPopUp status={() => setOpenEvent(!openEvent)} /> : null }
+          <div className="flex justify-end">
+            <Button onClick={() => setOpenEvent(!openEvent)}>Create Event</Button>
+            {openEvent ? <CreateEventPopUp status={() => setOpenEvent(!openEvent)} /> : null}
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {events.map((event) => (

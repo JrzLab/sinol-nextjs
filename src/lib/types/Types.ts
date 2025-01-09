@@ -56,6 +56,7 @@ export interface ISignInResponse {
     loginAt: number;
   };
 }
+
 export interface ISignInGoogleResponse {
   code: number;
   success: boolean;
@@ -97,8 +98,9 @@ export interface IUserData {
     username?: string;
     email?: string;
     imageUrl?: string;
-    joinedAt?: Date;
+    joinedAt?: string;
     loginAt?: number;
+    existClassroom?: boolean;
 }
 
 export interface IAuthContextProps {
@@ -107,4 +109,27 @@ export interface IAuthContextProps {
     user: IUserData | null;
     status: "authenticated" | "loading" | "unauthenticated";
     loading: boolean;
+}
+
+export interface IGroupClassOwner {
+  email: string;
+}
+
+export interface IGroupClass {
+  id: number;
+  className: string;
+  description: string;
+  owner: IGroupClassOwner;
+}
+
+export interface IClassResponse {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    uid: string;
+    userId: number;
+    createdAt: string;
+    groupClass: IGroupClass[];
+  };
 }

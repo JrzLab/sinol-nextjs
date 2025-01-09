@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { IRequestResetPass } from "@/lib/types/Types";
 
 //IMPORT ACTION
-import { handleRequestResetPassword, handleVerifTokenResetPass } from "@/app/actions";
+import { handleRequestResetPassword, handleVerifTokenResetPass } from "@/app/actions/auth-actions";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -88,19 +88,18 @@ const ForgotPasswordForm = () => {
     toast.promise(handleRequestResetPassword(formData), {
       loading: "Requesting reset password...",
       success: (response) => {
+        const typedResponse = response as IRequestResetPass;
         if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
-          const typedResponse = response as IRequestResetPass;
           if (typedResponse.success) {
             return "Successfully sent link reset password to your email.";
-          } else {
-            return typedResponse.message;
-          }
+          } 
         }
-        throw new Error("Invalid response format");
+        throw new Error(typedResponse.message);
       },
       error: (err) => {
-        console.error("Error during form submission:", err);
-        return "Gagal mengirim permintaan";
+        if(err.message === 'User not found'){
+          return 'User Email Ini Tidak Ditemukan'
+        }
       },
       finally: () => {
         setLoading(false);

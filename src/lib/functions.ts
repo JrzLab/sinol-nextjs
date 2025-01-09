@@ -35,6 +35,39 @@ export const getDate = ({ children, time = "active" }: { children: string; time?
   return `${day}, ${dateNow} ${month} ${year} | ${times}`;
 };
 
+export const formatUnixTimestamp = (timestamp: number) => {
+  const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+  const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+  const date = new Date(timestamp * 1000);
+  const day = days[date.getDay()];
+  const dateNow = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${day}, ${dateNow} ${month} ${year} | ${hours}:${minutes}`;
+};
+
+export function formatDate(isoDate: string): string {
+  const date = new Date(isoDate);
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "Asia/Jakarta",
+    timeZoneName: "short",
+  };
+
+  return date.toLocaleString("id-ID", options);
+}
+
 export const toPascalCase = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
@@ -74,11 +107,18 @@ export const truncateText = (text: string, length: number) => {
 };
 
 export function getInitials(fullName: string): string {
-  if (!fullName.trim()) return '';
+  if (typeof fullName !== 'string' || !fullName.trim()) return "";
 
-  return fullName
-    .split(' ')
-    .filter(name => name.length > 0)
-    .map(name => name[0].toUpperCase())
-    .join('');
+  const nameParts = fullName.split(" ").filter((name) => name.length > 0);
+  
+  if (nameParts.length === 1) {
+    return nameParts[0][0].toUpperCase();
+  }
+
+  const firstInitial = nameParts[0][0].toUpperCase();
+  const lastInitial = nameParts[nameParts.length - 1][0].toUpperCase();
+
+  return firstInitial + lastInitial;
 }
+
+

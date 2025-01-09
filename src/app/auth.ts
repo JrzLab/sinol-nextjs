@@ -6,7 +6,6 @@ import { ISignInResponse, ISignInGoogleResponse } from "@/lib/types/Types";
 import { signOut } from "next-auth/react";
 
 export const { handlers, signIn, auth } = NextAuth({
-  debug: true,
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_CLIENT_ID!,

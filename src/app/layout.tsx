@@ -20,7 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <body className={`${montserrat.className} antialiased`}>
           <FillterPage>
             {children}
-            <Toaster/>
+            <Toaster position="top-right" />
           </FillterPage>
         </body>
       </html>
