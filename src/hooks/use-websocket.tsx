@@ -1,6 +1,17 @@
-import { connectSocket, disconnectSocket } from "@/lib/socket";
+"use client";
+import { useEffect } from "react";
+import { initializeSocket, disconnectSocket } from "@/lib/socket";
 
 export const useWebSocket = async (email: string) => {
-  const socket = connectSocket(email);
-  return socket;
+
+  useEffect(() => {
+    if (email) {
+      initializeSocket(email);
+      return () => {
+        disconnectSocket();
+      };
+    }
+  }, [email]);
+
+  return null;
 };

@@ -3,7 +3,7 @@ import SignInWithGoogleButton from "@/components/auth/button/sign-in";
 import { useRouter } from "next/navigation";
 
 //IMPORT ACTION
-import { signUpCredentials } from "@/app/actions";
+import { signUpCredentials } from "@/app/actions/auth-actions";
 
 //IMPORT TYPES
 import { ISignUpResponse } from "@/lib/types/Types";
@@ -27,8 +27,7 @@ import { signUpFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
 import { Eye, EyeOff } from "lucide-react";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import Link from "next/link";;
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -56,17 +55,16 @@ const SignUpForm = () => {
 
       toast.promise(signUpCredentials(formData)
       .then((response) => {
+        const typedResponse = response as ISignUpResponse;
           if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
-            const typedResponse = response as ISignUpResponse;
             if (typedResponse.success && typedResponse.code === 201) {
               setTimeout(() => {
                 router.push("/auth/sign-in");
               }, 1000); 
-              return "Account created successfully, redirect to sign-in page...";
+              return "Account created successfully!";
             }
-          } else {
-            throw new Error("Email already exists");
-          }
+          } 
+          throw new Error(typedResponse.message);
         }),
         {
           loading: "Creating account...",
@@ -76,6 +74,7 @@ const SignUpForm = () => {
       );
     } catch (err) {
       console.error("Kesalahan saat submit:", err);
+      toast.error("Terjadi kesalahan saat mendaftar.");
     } finally {
       setLoading(false);
     }

@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 //IMPORT ACTION
-import { handleResetPassword } from "@/app/actions";
+import { handleResetPassword } from "@/app/actions/auth-actions";
 
 //IMPORT SHADCN COMPONENTS
 import { Button } from "@/components/ui/button";
@@ -48,15 +48,16 @@ const ResetPassword = () => {
     toast.promise(handleResetPassword(values.email, values.confirmPassword, tokenResetPassword), {
       loading: 'Proccessing change password...',
       success: (response) => {
+        const typedResponse = response as IResetPassword;
         if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
-          const typedResponse = response as IResetPassword;
           return typedResponse.message;
         }
-        throw new Error("Invalid response format");
+        throw new Error(typedResponse.message);
       },
       error: (err) => {
-        console.error(err);
-        return "Terjadi kesalahan, mohon periksa kembali.";
+        if(err.message === 'Token not found or expired'){
+          return 'Link sudah kadaluarsa'
+        }
       },
       finally: () => {
         setLoading(false);

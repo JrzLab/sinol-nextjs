@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { signInWithGoogle } from "@/app/actions";
+import { signInWithGoogle } from "@/app/actions/auth-actions";
 
 export default function SignInWithGoogleButton({ type }: { type: "sign-in" | "sign-up" }) {
   const handleSignIn = async () => {

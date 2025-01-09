@@ -2,35 +2,55 @@ import { io, Socket } from "socket.io-client";
 
 let socket: Socket | null = null;
 
-export const connectSocket = (clientId: string): Socket => {
-    if (!socket) {
-      socket = io(process.env.NEXT_PUBLIC_WS_URL, {
-        query: { 
-          clientIdentify: clientId // Client identifier for connection
-        },
-        transports: ["websocket"], // Hanya menggunakan transport WebSocket
-        reconnection: true, // Mengaktifkan fitur koneksi ulang
-        reconnectionDelay: 500, // Jeda awal antara percobaan koneksi ulang (ms)
-        reconnectionDelayMax: 5000, // Jeda maksimum antara percobaan koneksi ulang (ms)
-        reconnectionAttempts: 5, // Jumlah maksimum percobaan koneksi ulang
-        autoConnect: true, // Otomatis terhubung saat inisialisasi
-        rejectUnauthorized: true, // Menolak sertifikat SSL yang tidak sah      
-      });
-      socket.on("connect", () => {
-        console.log("Connected to WebSocket server");
-      });
-      socket.on("disconnect", () => {
-        console.log("Disconnected from WebSocket server");
-      });
-      socket.on("error", (error) => {
-        console.error("WebSocket error:", error);
-      });
-    }
-    return socket;
+export const initializeSocket = (clientId: string): Socket => {
+  if (!clientId) {
+    throw new Error("clientId is required to establish a WebSocket connection.");
+  }
+
+  if (!socket) {
+    socket = io(process.env.NEXT_PUBLIC_WS_URL as string, {
+      query: { 
+        clientIdentify: clientId 
+      },
+      transports: ["websocket"],
+      reconnection: true,
+      reconnectionDelay: 500,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: 5,
+      autoConnect: true,
+      rejectUnauthorized: true,
+    });
+
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket server");
+    });
+    socket.on("disconnect", () => {
+      console.log("Disconnected from WebSocket server");
+    });
+    socket.on("error", (error) => {
+      console.error("WebSocket error:", error);
+    });
+    socket.on("connect_error", (err) => {
+      console.error("Connection error:", err.message);
+    });
+    socket.on("reconnect_attempt", () => {
+      console.log("Attempting to reconnect...");
+    });
+    socket.on("reconnect_failed", () => {
+      console.warn("Reconnection failed");
+    });
+    socket.on("reconnect", (attemptNumber) => {
+      console.log(`Reconnected after ${attemptNumber} attempts`);
+    });
+  }
+  return socket;
 };
+
+export const getSocket = (): Socket | null => socket;
+
 export const disconnectSocket = (): void => {
-    if (socket) {
-        socket.disconnect();
-        socket = null;
-    }
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
 };

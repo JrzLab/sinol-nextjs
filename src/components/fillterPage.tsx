@@ -11,9 +11,10 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Breadcrumbs from "@/components/sidebar/breadcrumbs";
 
+
 export default function FillterPage({ children }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
-  const notShowPage = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password"];
+  const notShowPage = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password", "/error"];
   return notShowPage.includes(pathname) ? (
     <SessionProvider>
       <AuthProvider>
