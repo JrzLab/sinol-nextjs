@@ -9,6 +9,15 @@ import { Textarea } from "../ui/textarea";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
+//IMPORT VALIDATION DEPEDENCIES
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import z from "zod";
+
+//IMPORT VALIDATION SCHEMA
+import { createClassroomFormSchema } from "@/lib/form-validation-schema";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+
 const CreateClassroom = ({ status }: { status: () => void }) => {
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
@@ -19,14 +28,22 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const classroomData = {
-      name: formData.get("classroom") as string,
-      description: formData.get("description") as string,
-    };
+  const createClassroomForm = useForm<z.infer<typeof createClassroomFormSchema>>({
+    resolver: zodResolver(createClassroomFormSchema),
+    defaultValues: {
+      classroomName: "",
+      description: "",
+    },
+  });
 
+  const submitHandler = async (values: z.infer<typeof createClassroomFormSchema>) => {
+    createClassroomFormSchema.parse(values);
+    // e.preventDefault();
+    // const formData = new FormData(e.currentTarget);
+    // const classroomData = {
+    //   name: formData.get("classroom") as string,
+    //   description: formData.get("description") as string,
+    // };
     // fetch('', {
     //   method: 'POST',
     //   headers: {
@@ -48,10 +65,10 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
         <div className="fixed left-0 top-0 z-40 flex h-screen w-full items-center justify-center bg-foreground/50 px-6">
           <Card className="w-full max-w-xl">
             <CardHeader>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-1">
                 <div>
-                  <h1 className="font-bold">Create Classroom</h1>
-                  <p className="">Buat Kelas Anda</p>
+                  <h1 className="text-lg font-bold">Buat Kelas</h1>
+                  <p className="text-sm">Mulai petualangan belajarmu dengan membuat kelas baru. Mudah dan cepat!</p>
                 </div>
                 <Button onClick={togglePopUp}>
                   <X />
@@ -60,21 +77,48 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
             </CardHeader>
             <hr />
             <CardContent>
-              <form onSubmit={handleSubmit} className="flex w-full flex-col gap-6 pt-4">
-                <div className="flex w-full flex-col gap-2">
-                  <label className="text-sm" htmlFor="classroom">
-                    Nama Kelas{" "}
-                  </label>
-                  <Input placeholder="Masukkan Nama Kelas" name="classroom" id="classroom" />
-                </div>
-                <div className="flex w-full flex-col gap-2">
-                  <label className="text-sm" htmlFor="description">
-                    Dekskripsi Kelas{" "}
-                  </label>
-                  <Textarea placeholder="Masukkan Deskripsi Kelas" name="description" id="description"></Textarea>
-                </div>
-                <Button type="submit">Buat Kelas</Button>
-              </form>
+              <Form {...createClassroomForm}>
+                <form className="flex w-full flex-col gap-6 pt-4">
+                  <div className="flex w-full flex-col gap-2">
+                    <FormField
+                      control={createClassroomForm.control}
+                      name="classroomName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor="classroomName">Nama Kelas</FormLabel>
+                          <FormControl>
+                            <Input id="classroomName" type="text" placeholder="Masukan Nama Kelas" {...field} />
+                          </FormControl>
+                          <FormDescription className="text-xs">Masukan Nama Kelas.</FormDescription>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={createClassroomForm.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor="classroomDescription">Deskripsi Kelas</FormLabel>
+                          <FormControl>
+                            <Textarea id="classroomDescription" placeholder="Masukan Deskripsi Kelas" {...field} />
+                          </FormControl>
+                          <FormDescription className="text-xs">Masukan Deskripsi Kelas</FormDescription>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full hover:bg-secondary"
+                    onClick={createClassroomForm.handleSubmit(submitHandler)}
+                    variant={"default"}
+                  >
+                    Buat Kelas
+                  </Button>
+                </form>
+              </Form>
             </CardContent>
           </Card>
         </div>

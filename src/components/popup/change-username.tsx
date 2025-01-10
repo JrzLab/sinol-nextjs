@@ -4,8 +4,16 @@ import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
+
+//IMPORT VALIDATION DEPEDENCIES
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import z from "zod";
+
+//IMPORT VALIDATION SCHEMA
+import { joinClassroomFormSchema } from "@/lib/form-validation-schema";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 
 interface UsernameDialogProps {
   isOpen: boolean;
@@ -34,7 +42,7 @@ const UsernameDialog: React.FC<UsernameDialogProps> = ({ isOpen, onClose, onUpda
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Change Username</DialogTitle>
+          <DialogTitle>Ubah Nama Pengguna</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input {...register("username", { required: true, minLength: 3 })} placeholder="Enter new username" />

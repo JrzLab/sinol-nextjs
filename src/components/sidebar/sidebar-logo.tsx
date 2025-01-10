@@ -6,7 +6,6 @@ import SinolLogo from "../sinol-logo";
 
 const SidebarLogo = () => {
   const { open } = useSidebar();
-  console.log(open);
 
   return (
     <SidebarMenu>

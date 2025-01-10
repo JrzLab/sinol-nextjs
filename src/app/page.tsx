@@ -55,8 +55,8 @@ export default function Page() {
     <>
       {modeNoData ? (
         <div className="flex flex-1 items-center justify-center">
-          <div className="flex flex-col gap-2">
-              <p className="text-center text-lg">{loading ? "loading data..." : `${getGreeting()}, ${user?.username}!`}</p>
+          <div className="flex flex-col">
+            <p className="text-center text-lg">{loading ? "loading data..." : `${getGreeting()}, ${user?.username}!`}</p>
             <Image src={EducationSVG} alt="education" />
             <div className="flex justify-between gap-2">
               <Button className="w-full text-sm hover:bg-secondary" variant={"default"} onClick={handleTogglePopUp}>

@@ -25,3 +25,23 @@ export const classroomFormSchema = z.object({
   date: z.date({ required_error: "Waktu wajib diisi." }),
   time: z.date({ required_error: "Waktu wajib diisi." }),
 });
+
+export const createClassroomFormSchema = z.object({
+  classroomName: z
+    .string()
+    .nonempty({ message: "Nama kelas wajib diisi." })
+    .refine((value) => value.split(/\s/).filter((word) => word.length > 0).length <= 20, { message: "Nama kelas maksimal 20 kata." }),
+  description: z.string().nonempty({ message: "Deskripsi kelas wajib diisi." }).max(255, { message: "Deskripsi kelas maksimal 255 karakter." }),
+});
+
+export const joinClassroomFormSchema = z.object({
+  classroomCode: z
+    .string()
+    .nonempty({ message: "Kode kelas wajib diisi." })
+    .max(5, { message: "Kode kelas maksimal 5 karakter." })
+    .min(5, { message: "Kode kelas minimal 5 karakter." }),
+});
+
+export const changeUsernameFormSchema = z.object({
+  username: z.string().nonempty({ message: "Nama pengguna wajib diisi." }).min(3, { message: "Nama pengguna minimal 3 karakter." }),
+});

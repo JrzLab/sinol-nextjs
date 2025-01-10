@@ -38,7 +38,6 @@ const FindSubject = ({ status }: { status: () => void }) => {
 
   return (
     <>
-      {/* <Button onClick={togglePopUp}>Find Subject</Button> */}
       {isOpen && (
         <div className="fixed left-0 top-0 z-40 flex h-screen w-full items-center justify-center bg-foreground/50">
           <Card className="w-full max-w-xl text-foreground">
