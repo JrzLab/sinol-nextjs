@@ -1,14 +1,20 @@
 "use server";
+
 import { signIn } from "@/app/auth";
 import { AuthError } from "next-auth";
-import { IRequestResetPass, IResetPassword, ISignUpResponse } from "@/lib/types/Types";
-import { IClassResponse } from '@/lib/types/Types'
+import { IRequestResetPass, IResetPassword, ISignUpResponse, IResponseChangeData } from "@/lib/types/Types";
 
 export const signInWithGoogle = async () => {
   await signIn("google", { redirect: true, redirectTo: "/" });
 };
 
-export async function handleCredentialsSignin({ email, password}: { email: string; password: string; }): Promise<{ success: boolean; message: string }> {
+export async function handleCredentialsSignin({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): Promise<{ success: boolean; message: string }> {
   try {
     const result = await signIn("credentials", { email, password, redirect: false });
     if (result && result.error) {
@@ -48,6 +54,9 @@ export const signUpCredentials = async (formData: FormData) => {
   const entries = Object.fromEntries(formData);
   const { email, password } = entries;
   try {
+    if (typeof email === "string" ? !email.endsWith("@gmail.com") : false) {
+      throw new Error("Email Invalid");
+    }
     const firstName = typeof email === "string" ? email.split("@")[0] : "";
     const response = await fetch(`${process.env.BACKEND_URL}/auth/sign-up`, {
       method: "POST",
@@ -148,18 +157,30 @@ export async function handleVerifTokenResetPass(token: string, email: string) {
   }
 }
 
-// export async function getClassroomByEmail(email: string): Promise<IClassResponse | Error | undefined> {
-//   try {
-//     const response = await fetch(`${process.env.BACKEND_URL}/class/${email}`);
-//     const data: IClassResponse = await response.json();
-//     if(!response.ok || !data.success) {
-//       throw new Error(data.message || "Failed to get classroom data");
-//     }
-//     return data as IClassResponse;
-//   } catch (error) {
-//     if(error instanceof Error) {
-//       return error;
-//     }
-//     return undefined;
-//   }
-// }
+export async function changeEmailOrUsername(email: string, newEmail?: string, firstName?: string, lastName?: string) {
+  try {
+    if (!email) {
+      throw new Error("Email is required");
+    }
+    const payload = {
+      email,
+      firstName,
+      lastName,
+      emailChange: newEmail,
+    };
+    const response = await fetch(`${process.env.BACKEND_URL}/user/change-data`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const data: IResponseChangeData = await response.json();
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Change email or username failed");
+    }
+    return data as IResponseChangeData;
+  } catch (error) {
+    return error;
+  }
+}

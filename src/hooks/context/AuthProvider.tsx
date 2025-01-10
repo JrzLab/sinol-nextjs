@@ -24,10 +24,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const currentPath = window.location.pathname;
         if (status === "authenticated" && session?.user) {
             setUser({
+                uidClassUser: session.user.uidClass!,
                 username: session.user.name!,
                 email: session.user.email!,
                 imageUrl: session.user.image!,
-                joinedAt: new Date(session.user.joinedAt).toISOString(),
+                joinedAt: session.user.joinedAt!,
                 loginAt: session.user.loginAt!,
             });
             if (publicRoutes.includes(currentPath)) {
