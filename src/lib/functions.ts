@@ -50,8 +50,8 @@ export const formatUnixTimestamp = (timestamp: number) => {
   return `${day}, ${dateNow} ${month} ${year} | ${hours}:${minutes}`;
 };
 
-export function formatDate(isoDate: string): string {
-  const date = new Date(isoDate);
+export function formatDate(date: Date | string): string {
+  const dateObj = date instanceof Date ? date : new Date(date);
 
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -65,9 +65,8 @@ export function formatDate(isoDate: string): string {
     timeZoneName: "short",
   };
 
-  return date.toLocaleString("id-ID", options);
+  return dateObj.toLocaleString("id-ID", options);
 }
-
 export const toPascalCase = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };

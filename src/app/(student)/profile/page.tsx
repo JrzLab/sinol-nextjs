@@ -8,28 +8,64 @@ import { useAuth } from "@/hooks/context/AuthProvider";
 import { Clock, Mail, Calendar, User, Edit, Upload } from "lucide-react";
 import { formatUnixTimestamp, formatDate, getInitials } from "@/lib/functions";
 import ImageUploadDialog from "@/components/popup/upload-avatar";
-import UsernameDialog from "@/components/popup/change-username";
+import AccountInfoDialog from "@/components/popup/change-data";
+import { changeEmailOrUsername } from "@/app/actions/auth-actions";
+import { IResponseChangeData } from "@/lib/types/Types";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 const ProfilePage: React.FC = () => {
   const { user, loading } = useAuth();
-  const [isUploadOpen, setIsUploadOpen] = useState(false);
-  const [isUsernameOpen, setIsUsernameOpen] = useState(false);
-  const { update } = useSession();
+  const [isUploadOpen, setIsUploadOpen] = useState<boolean>(false);
+  const [isAccountInfoOpen, setIsAccountInfoOpen] = useState<boolean>(false);
+  const [loadingChange, setLoadingChange] = useState<boolean>(false)
+  const router = useRouter();
+  const { data: session, update } = useSession();
 
   const handleUpload = (file: File) => {
     console.log("Uploading file:", file);
   };
 
-  const handleUsernameUpdate = (newUsername: string) => {
-    update({
-      user: {
-        ...user,
-        name: newUsername,
+  const handleAccountInfoUpdate = async (firstName: string, lastName: string, email: string) => {
+    setLoadingChange(true);
+    toast.promise(changeEmailOrUsername(user?.email!, email, firstName, lastName), {
+      loading: "Updating your information...",
+      success: async (response) => {
+        const typedResponse = response as IResponseChangeData;
+        if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
+          if (typedResponse.success && typedResponse.code === 200) {
+            
+            const updatedUser = {
+              ...session?.user,
+              name: `${typedResponse.data.firstName} ${typedResponse.data.lastName}`,
+              email: typedResponse.data.email,
+              image: session?.user?.image,
+              uidClass: session?.user?.uidClass,
+              joinedAt: session?.user?.joinedAt,
+              loginAt: session?.user?.loginAt,
+            };
+  
+            await update({
+              ...updatedUser,
+            });
+  
+            router.refresh();
+            return typedResponse.message;
+          }
+        }
+        throw new Error(typedResponse.message);
       },
-    }); 
-    console.log("Updating username:", newUsername);
+      error: (err) => {
+        console.error("Error:", err);
+        return err.message;
+      },
+      finally: () => {
+        setLoadingChange(false);
+      },
+    });
   };
+  
 
   return (
     <div className="min-h-screen">
@@ -57,7 +93,7 @@ const ProfilePage: React.FC = () => {
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center space-x-2">
             <h1 className="text-2xl font-bold text-gray-900">{loading ? "Loading data..." : user?.username || "Unknown User"}</h1>
-            <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setIsUsernameOpen(true)}>
+            <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setIsAccountInfoOpen(true)}>
               <Edit className="h-4 w-4" />
             </Button>
           </div>
@@ -115,11 +151,14 @@ const ProfilePage: React.FC = () => {
           </Card>
         </div>
         <ImageUploadDialog isOpen={isUploadOpen} onClose={() => setIsUploadOpen(false)} onUpload={handleUpload} />
-        <UsernameDialog
-          isOpen={isUsernameOpen}
-          onClose={() => setIsUsernameOpen(false)}
-          onUpdate={handleUsernameUpdate}
-          currentUsername={user?.username}
+        <AccountInfoDialog
+          loading={loadingChange}
+          isOpen={isAccountInfoOpen}
+          onClose={() => setIsAccountInfoOpen(false)}
+          onUpdate={handleAccountInfoUpdate}
+          currentFirstName={user?.username?.split(" ")[0]} 
+          currentLastName={user?.username?.split(" ")[1]} 
+          currentEmail={user?.email}
         />
       </div>
     </div>

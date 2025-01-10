@@ -13,19 +13,13 @@ import EducationNotFound from "../../../../public/education-404.svg";
 
 const StudentClassroom = () => {
   const { user, loading } = useAuth();
-
-  const [isOpen, setIsOpen] = useState<Boolean>(false);
-  const [popUpCreate, setPopUpCreate] = useState<Boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const togglePopUp = () => {
     setIsOpen(!isOpen);
   };
 
-  const togglePopUpCreate = () => {
-    setPopUpCreate(!popUpCreate);
-  };
-
-  const modeNoData = true;
+  const modeNoData = false;
 
   return (
     <>
@@ -54,7 +48,6 @@ const StudentClassroom = () => {
             <SubjectCard format data={subjectStaticData} />
           </div>
           {isOpen ? <FindSubject status={() => togglePopUp()}></FindSubject> : null}
-          {popUpCreate ? <CreateClassroom status={() => togglePopUpCreate()}></CreateClassroom> : null}
         </div>
       )}
     </>

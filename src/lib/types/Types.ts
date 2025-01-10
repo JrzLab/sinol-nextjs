@@ -48,6 +48,7 @@ export interface ISignInResponse {
   success: boolean;
   message: string;
   data: {
+    uid: string;
     firstName: string;
     lastName: string | null;
     email: string;
@@ -62,6 +63,11 @@ export interface ISignInGoogleResponse {
   success: boolean;
   message: string;
   data: {
+    uid: string;
+    firstName: string;
+    lastName: string | null;
+    email: string;
+    imageUrl: string | null;
     joinedAt: string;
     loginAt: number;
   };
@@ -95,10 +101,11 @@ export interface ISignUpResponse {
 }
 
 export interface IUserData {
+    uidClassUser?: string;
     username?: string;
     email?: string;
     imageUrl?: string;
-    joinedAt?: string;
+    joinedAt?: Date;
     loginAt?: number;
     existClassroom?: boolean;
 }
@@ -131,5 +138,18 @@ export interface IClassResponse {
     userId: number;
     createdAt: string;
     groupClass: IGroupClass[];
+  };
+}
+
+export interface IResponseChangeData {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    imageUrl: string;
   };
 }

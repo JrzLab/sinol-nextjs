@@ -50,7 +50,7 @@ const SignInForm = () => {
       loading: 'Checking credentials...',
       success: (response) => {
         if(response.success) {
-          window.location.reload();
+          router.refresh();
           return response.message;
         }
         throw new Error(response.message);

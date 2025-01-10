@@ -25,11 +25,14 @@ export const { handlers, signIn, auth } = NextAuth({
       },
       async authorize(credentials) {
         const parsedCredentials = signInFormSchema.safeParse(credentials);
+
         if (!parsedCredentials.success) {
           console.error("Invalid credentials:", parsedCredentials.error.errors);
           return null;
         }
+
         const { email, password } = parsedCredentials.data;
+
         try {
           const response = await fetch(`${process.env.BACKEND_URL}/auth/sign-in`, {
             method: "POST",
@@ -40,16 +43,21 @@ export const { handlers, signIn, auth } = NextAuth({
           });
 
           if (!response.ok) {
+            const responssText = await response.text();
+            console.log(responssText);
             throw new Error("Invalid credentials");
           }
 
           const data: ISignInResponse = await response.json();
+          console.log("Authentication successful:", data);
+
           if (!data.success) {
             console.error("Authentication failed:", data.message);
             return null;
           }
 
           return {
+            uidClass: data.data.uid,
             email: data.data.email,
             name: `${data.data.firstName} ${data.data.lastName || ""}`.trim(),
             image: data.data.imageUrl || null,
@@ -64,6 +72,13 @@ export const { handlers, signIn, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ profile, account }) {
+      if (account?.provider === "google" && profile?.email_verified && profile?.email?.endsWith("@gmail.com")) {
+        return true;
+      }
+      return false;
+    },
+
     async jwt({ token, user, account }) {
       if (!token.expires) {
         const expirationDate = new Date();
@@ -72,6 +87,7 @@ export const { handlers, signIn, auth } = NextAuth({
       }
 
       if (user && account?.provider === "credentials") {
+        token.uid = user.uidClass;
         token.email = user.email;
         token.name = user.name;
         token.image = user.image;
@@ -102,15 +118,18 @@ export const { handlers, signIn, auth } = NextAuth({
           });
 
           if (!response.ok) {
+            const responssText = await response.text();
+            console.log(responssText);
             throw new Error("Failed to sync user with Google Sign-In API.");
           }
 
           const data: ISignInGoogleResponse = await response.json();
 
           if (data.code === 200 && data.success) {
-            token.email = user.email || null;
-            token.name = `${firstName} ${lastName || ""}`.trim();
-            token.image = user.image || null;
+            token.uid = data.data.uid;
+            token.email = data.data.email;
+            token.name = `${data.data.firstName} ${data.data.lastName || ""}`.trim();
+            token.image = `${process.env.BACKEND_URL}${data.data.imageUrl}`.trim();
             token.joinedAt = new Date(data.data.joinedAt);
             token.loginAt = data.data.loginAt;
           } else {
@@ -125,6 +144,7 @@ export const { handlers, signIn, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (token) {
+        session.user.uidClass = token.uid as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
         session.user.image = token.image as string;

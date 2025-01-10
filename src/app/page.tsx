@@ -1,12 +1,13 @@
 "use client";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import SubjectCard from "@/components/subject/subject-card";
-import AttendanceChart from "@/components/chart/attendance-chart";
 import { chartStaticData1, subjectStaticData } from "@/lib/staticData";
 import { getToday, getGreeting } from "@/lib/functions";
 import { useAuth } from "@/hooks/context/AuthProvider";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import SubjectCard from "@/components/subject/subject-card";
+import AttendanceChart from "@/components/chart/attendance-chart";
 import EducationSVG from "../../public/education.svg";
 import Image from "next/image";
 import CreateClassroom from "@/components/popup/create-classroom";
