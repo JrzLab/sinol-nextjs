@@ -3,14 +3,14 @@ import { IStudent, ISubject } from "./types/Types";
 export const subjectStaticData: ISubject[] = [
   {
     id: 1,
-    email: "testing@gmail.com",
+    email: "testing@gmail.com", //owner email
     title: "Dasar Dasar Pemprograman",
-    teacher: "Pak SiDragon",
+    teacher: "Pak SiDragon", //owner subject
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla soluta tempore neque ipsum deleniti nostrum dignissimos ducimus voluptas corporis. Voluptates voluptate quibusdam facilis ad quo, aperiam necessitatibus vitae accusantium rerum.",
     notifications: 1,
-    event: 5,
-    person: 20,
+    event: 5, //tugas
+    person: 20, //
     day: 7,
     status: "active",
     date: new Date("2024-12-22 08:14:30"),

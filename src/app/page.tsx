@@ -50,7 +50,7 @@ export default function Page() {
     setPopUpJoin(!popUpJoin);
   };
 
-  const modeNoData = true;
+  const modeNoData = false;
 
   return (
     <>
@@ -106,7 +106,7 @@ export default function Page() {
               <span className="text-sm">{getToday()}</span>
             </div>
             <div>
-              <SubjectCard today data={subjectStaticData} />
+              <SubjectCard today />
             </div>
           </div>
         </>

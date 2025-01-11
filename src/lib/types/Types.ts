@@ -94,39 +94,43 @@ export interface ISignUpResponse {
   code: number;
   message: string;
   data: {
-      firstName: string;
-      email: string;
-      joinedAt: string
-  }
+    firstName: string;
+    email: string;
+    joinedAt: string;
+  };
 }
 
 export interface IUserData {
-    uidClassUser?: string;
-    username?: string;
-    email?: string;
-    imageUrl?: string;
-    joinedAt?: Date;
-    loginAt?: number;
-    existClassroom?: boolean;
+  uidClassUser?: string;
+  username?: string;
+  email?: string;
+  imageUrl?: string;
+  joinedAt?: Date;
+  loginAt?: number;
+  existClassroom?: boolean;
 }
 
 export interface IAuthContextProps {
-    isAuthenticated: boolean;
-    isUnauthenticated: boolean;
-    user: IUserData | null;
-    status: "authenticated" | "loading" | "unauthenticated";
-    loading: boolean;
+  isAuthenticated: boolean;
+  isUnauthenticated: boolean;
+  user: IUserData | null;
+  status: "authenticated" | "loading" | "unauthenticated";
+  loading: boolean;
 }
 
 export interface IGroupClassOwner {
   email: string;
 }
-
 export interface IGroupClass {
-  id: number;
+  uid: number;
+  day: number;
   className: string;
   description: string;
-  owner: IGroupClassOwner;
+  ownerData: {
+    email: string;
+    name: string;
+    imageUrl: string;
+  };
 }
 
 export interface IClassResponse {

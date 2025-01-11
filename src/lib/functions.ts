@@ -1,6 +1,6 @@
-import { IMessage, IStudent, ISubject } from "./types/Types";
+import { IGroupClass, IMessage, IStudent, ISubject } from "./types/Types";
 
-export const getSubjectDataEachDay = ({ subjects }: { subjects: ISubject[] }) => {
+export const getSubjectDataEachDay = ({ subjects }: { subjects: IGroupClass[] }) => {
   const list = Array.from(new Set(subjects.map((item) => item.day)))
     .sort((a, b) => a - b)
     .map((day) => ({
@@ -106,10 +106,10 @@ export const truncateText = (text: string, length: number) => {
 };
 
 export function getInitials(fullName: string): string {
-  if (typeof fullName !== 'string' || !fullName.trim()) return "";
+  if (typeof fullName !== "string" || !fullName.trim()) return "";
 
   const nameParts = fullName.split(" ").filter((name) => name.length > 0);
-  
+
   if (nameParts.length === 1) {
     return nameParts[0][0].toUpperCase();
   }
@@ -119,5 +119,3 @@ export function getInitials(fullName: string): string {
 
   return firstInitial + lastInitial;
 }
-
-

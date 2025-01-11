@@ -1,8 +1,7 @@
-"use client";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { eventStaticData, subjectStaticData } from "@/lib/staticData";
-import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+// import { usePathname } from "next/navigation";
+import React from "react";
 import EventCard from "@/components/subject/event-card";
 import StudentChat from "@/components/chat/student/student-chat";
 import { ISubject } from "@/lib/types/Types";
@@ -10,16 +9,17 @@ import BubbleChat from "@/components/chat/bubble-chat";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import CreateEventPopUp from "@/components/popup/create-event";
+import { getSubjects } from "@/app/actions/api-actions";
 
-const page = () => {
-  const [isOwner, setIsOwner] = useState<boolean>(true);
-  const [openEvent, setOpenEvent] = useState<boolean>(true);
+const ClassroomPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const slug = (await params).slug;
 
-  const query = usePathname().split("/")[2];
-  const data = subjectStaticData.filter((data) => data.id == parseInt(query))[0] as ISubject;
+  // const [isOwner, setIsOwner] = useState<boolean>(true);
+  // const [openEvent, setOpenEvent] = useState<boolean>(false);
+  const data = subjectStaticData.filter((data) => data.id == parseInt(slug))[0] as ISubject;
 
   const events = eventStaticData
-    .filter((data) => data.subjectId == parseInt(query))
+    .filter((data) => data.subjectId == parseInt(slug))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
@@ -38,12 +38,12 @@ const page = () => {
         <CardHeader>
           <h1 className="font-bold">{data.title}</h1>
           <p>{data.description}</p>
-          {isOwner ? (
+          {true ? (
             <div className="flex gap-2 pt-8">
               <Link href={`/classroom/${data.id}/join`}>
-                <Button>Edit Class</Button>
+                <Button>Ubah Kelas</Button>
               </Link>
-              <Button variant={"outline"}>Show Member</Button>
+              <Button variant={"outline"}>Lihat </Button>
             </div>
           ) : null}
         </CardHeader>
@@ -62,8 +62,8 @@ const page = () => {
       <div className="mt-4 flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           <div className="flex justify-end">
-            <Button onClick={() => setOpenEvent(!openEvent)}>Create Event</Button>
-            {openEvent ? <CreateEventPopUp status={() => setOpenEvent(!openEvent)} /> : null}
+            {/* <Button onClick={() => setOpenEvent(!openEvent)}>Buat Tugas</Button>
+            {openEvent ? <CreateEventPopUp status={() => setOpenEvent(!openEvent)} /> : null} */}
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {events.map((event) => (
@@ -76,4 +76,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ClassroomPage;

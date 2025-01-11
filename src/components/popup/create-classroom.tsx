@@ -70,7 +70,7 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
                   <h1 className="text-lg font-bold">Buat Kelas</h1>
                   <p className="text-sm">Mulai petualangan belajarmu dengan membuat kelas baru. Mudah dan cepat!</p>
                 </div>
-                <Button onClick={togglePopUp}>
+                <Button onClick={togglePopUp} variant={"default"} className="hover:bg-secondary">
                   <X />
                 </Button>
               </div>

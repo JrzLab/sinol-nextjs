@@ -22,7 +22,7 @@ export const forgotPasswordFormSchema = z.object({
 
 export const classroomFormSchema = z.object({
   classroomName: z.string().nonempty({ message: "Nama jadwal wajib diisi." }),
-  date: z.date({ required_error: "Waktu wajib diisi." }),
+  date: z.date({ required_error: "Tanggal wajib diisi." }),
   time: z.date({ required_error: "Waktu wajib diisi." }),
 });
 
@@ -44,4 +44,11 @@ export const joinClassroomFormSchema = z.object({
 
 export const changeUsernameFormSchema = z.object({
   username: z.string().nonempty({ message: "Nama pengguna wajib diisi." }).min(3, { message: "Nama pengguna minimal 3 karakter." }),
+});
+
+export const createEventFormSchema = z.object({
+  eventName: z.string().nonempty({ message: "Nama tugas wajib diisi." }),
+  eventDescription: z.string().nonempty({ message: "Deskripsi tugas wajib diisi." }),
+  eventScore: z.number().int({ message: "Nilai tugas harus berupa angka." }).min(0, { message: "Nilai tugas minimal 0." }),
+  eventDueDate: z.date({ required_error: "Tanggal wajib diisi." }),
 });

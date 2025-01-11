@@ -62,7 +62,7 @@ const JoinClassroom = ({ status }: { status: () => void }) => {
                   <h1 className="text-lg font-bold">Bergabung Ke Kelas</h1>
                   <p className="text-sm">Siap belajar? Masukkan kode kelas untuk bergabung.</p>
                 </div>
-                <Button onClick={togglePopUp}>
+                <Button onClick={togglePopUp} variant={"default"} className="hover:bg-secondary">
                   <X />
                 </Button>
               </div>
