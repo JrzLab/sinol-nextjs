@@ -2,7 +2,7 @@
 
 import { signIn } from "@/app/auth";
 import { AuthError } from "next-auth";
-import { IRequestResetPass, IResetPassword, ISignUpResponse, IResponseChangeData } from "@/lib/types/Types";
+import { IRequestResetPass, IResetPassword, ISignUpResponse, IResponseChangeData, IResponseChangeProfile } from "@/lib/types/Types";
 
 export const signInWithGoogle = async () => {
   await signIn("google", { redirect: true, redirectTo: "/" });
@@ -29,6 +29,7 @@ export async function handleCredentialsSignin({
     };
   } catch (error) {
     if (error instanceof AuthError) {
+      console.error("Authentication error:", error);
       switch (error.type) {
         case "CredentialsSignin":
           return {
@@ -157,10 +158,15 @@ export async function handleVerifTokenResetPass(token: string, email: string) {
   }
 }
 
-export async function changeEmailOrUsername(email: string, newEmail?: string, firstName?: string, lastName?: string) {
+export async function changeEmailOrUsername(email: string, password: string, newEmail?: string, firstName?: string, lastName?: string) {
+  console.log({ email, password, newEmail, firstName, lastName });
   try {
-    if (!email) {
-      throw new Error("Email is required");
+    if (!email || !password) {
+      throw new Error("Email current & password is required");
+    }
+    const validationUser = await handleCredentialsSignin({ email, password });
+    if(!validationUser.success) {
+      throw new Error(validationUser.message);
     }
     const payload = {
       email,
@@ -180,6 +186,28 @@ export async function changeEmailOrUsername(email: string, newEmail?: string, fi
       throw new Error(data.message || "Change email or username failed");
     }
     return data as IResponseChangeData;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function changeProfilePicture(email: string, image: File) {
+  try {
+    if (!email) {
+      throw new Error("Email is required");
+    }
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("file", image);
+    const response = await fetch(`${process.env.BACKEND_URL}/user/change-profile`, {
+      method: "PUT",
+      body: formData,
+    });
+    const data: IResponseChangeProfile = await response.json();
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Change profile picture failed");
+    }
+    return data as IResponseChangeProfile;
   } catch (error) {
     return error;
   }

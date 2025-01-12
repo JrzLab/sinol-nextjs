@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { chartStaticData1, subjectStaticData } from "@/lib/staticData";
 import { getToday, getGreeting } from "@/lib/functions";
 import { useAuth } from "@/hooks/context/AuthProvider";
@@ -8,11 +8,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import SubjectCard from "@/components/subject/subject-card";
 import AttendanceChart from "@/components/chart/attendance-chart";
-import EducationSVG from "../../public/education.svg";
-import Image from "next/image";
 import CreateClassroom from "@/components/popup/create-classroom";
 import JoinClassroom from "@/components/popup/join-classroom";
 import Link from "next/link";
+import { EmptyStatePages } from "@/components/empety/empety";
+
 
 const cardData = [
   {
@@ -37,46 +37,43 @@ const cardData = [
   },
 ];
 
-export default function Page() {
+const Page: React.FC = () => {
   const { user, loading } = useAuth();
   const [popUpCreate, setPopUpCreate] = useState<boolean>(false);
   const [popUpJoin, setPopUpJoin] = useState<boolean>(false);
 
-  const handleTogglePopUp = () => {
+  const handleTogglePopUp = (): void => {
     setPopUpCreate(!popUpCreate);
   };
 
-  const handleTogglePopUpJoin = () => {
+  const handleTogglePopUpJoin = (): void => {
     setPopUpJoin(!popUpJoin);
   };
 
-  const modeNoData = false;
+  const modeNoData: boolean = true;
 
   return (
     <>
       {modeNoData ? (
-        <div className="flex flex-1 items-center justify-center">
-          <div className="flex flex-col">
-            <p className="text-center text-lg">{loading ? "loading data..." : `${getGreeting()}, ${user?.username}!`}</p>
-            <Image src={EducationSVG} alt="education" />
-            <div className="flex justify-between gap-2">
-              <Button className="w-full text-sm hover:bg-secondary" variant={"default"} onClick={handleTogglePopUp}>
-                Buat Kelas
-              </Button>
-              <Button className="w-full text-sm hover:bg-secondary" variant={"default"} onClick={handleTogglePopUpJoin}>
-                Bergabung ke Kelas
-              </Button>
-            </div>
-          </div>
+        <>
+          <EmptyStatePages
+            loading={loading}
+            user={user}
+            onCreateClass={handleTogglePopUp}
+            onJoinClass={handleTogglePopUpJoin}
+          />
           {popUpCreate && <CreateClassroom status={handleTogglePopUp} />}
           {popUpJoin && <JoinClassroom status={handleTogglePopUpJoin} />}
-        </div>
+        </>
       ) : (
         <>
           <div className="flex flex-1 flex-col gap-4 pt-0">
+
             <Card className="flex w-full flex-col rounded-xl">
               <CardHeader>
-                <h1 className="text-xl font-bold">{loading ? "loading data..." : `Halo ${user?.username}`}</h1>
+                <h1 className="text-xl font-bold">
+                  {loading ? "loading data..." : `Halo ${user?.username}`}
+                </h1>
                 <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
               </CardHeader>
               <CardFooter className="mt-4">
@@ -85,9 +82,12 @@ export default function Page() {
                 </Button>
               </CardFooter>
             </Card>
+
             <div className="grid auto-rows-min grid-cols-2 gap-4 lg:grid-cols-4">
               {cardData.map((data) => (
-                <Card className="flex flex-col justify-between text-foreground" key={data.title}>
+                <Card
+                  className="flex flex-col justify-between text-foreground"
+                  key={data.title}>
                   <CardHeader>
                     <h1 className="font-bold">{data.title}</h1>
                     <p className="text-sm">{data.description}</p>
@@ -98,13 +98,16 @@ export default function Page() {
                 </Card>
               ))}
             </div>
+
             <div>
               <AttendanceChart data={chartStaticData1} />
             </div>
+
             <div className="ml-1">
               <h1 className="text-xl font-bold">Jadwal Hari Ini</h1>
               <span className="text-sm">{getToday()}</span>
             </div>
+
             <div>
               <SubjectCard today />
             </div>
@@ -113,4 +116,6 @@ export default function Page() {
       )}
     </>
   );
-}
+};
+
+export default Page;

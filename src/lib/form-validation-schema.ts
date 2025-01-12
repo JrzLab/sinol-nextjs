@@ -42,8 +42,11 @@ export const joinClassroomFormSchema = z.object({
     .min(5, { message: "Kode kelas minimal 5 karakter." }),
 });
 
-export const changeUsernameFormSchema = z.object({
-  username: z.string().nonempty({ message: "Nama pengguna wajib diisi." }).min(3, { message: "Nama pengguna minimal 3 karakter." }),
+export const changeDataFormSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string().email({ message: "Format email tidak valid." }),
+  password: z.string().nonempty({ message: "Kata sandi wajib diisi." }).min(8, { message: "Kata sandi minimal 8 karakter." }),
 });
 
 export const createEventFormSchema = z.object({
