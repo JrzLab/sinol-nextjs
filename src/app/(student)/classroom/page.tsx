@@ -2,8 +2,13 @@ import SubjectCard from "@/components/subject/subject-card";
 import Image from "next/image";
 import EducationNotFound from "../../../../public/education-404.svg";
 import SearchSubjectButton from "@/components/button/search-subject-button";
+import { getClassByUidClassUser } from "@/app/actions/api-actions";
+import { cookies } from "next/headers";
 
-const StudentClassroom = () => {
+const StudentClassroom = async () => {
+  const cookie = await cookies()
+  const valueCookies = cookie.get('uidClassUser');
+  const data = await getClassByUidClassUser(valueCookies?.value!)
   const modeNoData = false;
 
   return (
@@ -20,7 +25,8 @@ const StudentClassroom = () => {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <SearchSubjectButton />
           <div className="ml-1 space-y-2">
-            <SubjectCard format />
+            {/* <SubjectCard format /> */}
+            {JSON.stringify(data)}
           </div>
         </div>
       )}

@@ -15,7 +15,7 @@ import { IClassResponse, IGroupClass, ISubject, IUserData } from "@/lib/types/Ty
 import DataTable from "../table/data-table";
 import GeneralAlert from "../popup/general-alert";
 import { AlertDialogAction, AlertDialogCancel } from "../ui/alert-dialog";
-import { getSubjects } from "@/app/actions/api-actions";
+import { getClassByUidClassUser } from "@/app/actions/api-actions";
 import { useAuth } from "@/hooks/context/AuthProvider";
 
 interface Day {
@@ -25,9 +25,8 @@ interface Day {
 
 const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): React.ReactNode => {
   const { user } = useAuth();
-  const uid = user?.uidClassUser;
+  console.log(user)
 
-  const hasFetched = useRef<boolean>(false);
   const [subjects, setSubjects] = useState<IGroupClass[] | null>(null);
   const [subjectDataByDay, setSubjectDataByDay] = useState<Day[]>([]);
   const [confirmationPopup, setConfirmationPopup] = useState<boolean>();
@@ -45,9 +44,7 @@ const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): 
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        if (hasFetched.current) return;
-        const data = await getSubjects(uid ?? "");
-        hasFetched.current = true;
+        const data = await getClassByUidClassUser(user?.uidClassUser!);
         const today = new Date().getDay();
         const list: Day[] = [];
         const listedData = getSubjectDataEachDay({ subjects: data as IGroupClass[] });
@@ -62,7 +59,8 @@ const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): 
       }
     };
     fetchSubjects();
-  }, [uid]);
+  }, [user?.uidClassUser!]);
+
   const outConfirmation = (status: boolean) => {
     if (status) {
       console.log("delete");
@@ -71,6 +69,7 @@ const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): 
       setConfirmationPopup(false);
     }
   };
+
   return (
     <>
       {format ? (

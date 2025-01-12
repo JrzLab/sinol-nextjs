@@ -53,25 +53,22 @@ const SignUpForm = () => {
       formData.append("email", values.email);
       formData.append("password", values.confirmPassword);
 
-      toast.promise(signUpCredentials(formData)
-      .then((response) => {
-        const typedResponse = response as ISignUpResponse;
+      toast.promise(signUpCredentials(formData), {
+        loading: "Creating account...",
+        success: (response) => {
+          const typedResponse = response as ISignUpResponse;
           if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
             if (typedResponse.success && typedResponse.code === 201) {
               setTimeout(() => {
                 router.push("/auth/sign-in");
-              }, 1000); 
-              return "Account created successfully!";
+              }, 1000);
+              return typedResponse.message;
             }
-          } 
+          }
           throw new Error(typedResponse.message);
-        }),
-        {
-          loading: "Creating account...",
-          success: "Account created successfully, redirect to sign-in page...",
-          error: (err) => err.message || "Terjadi kesalahan saat mendaftar.",
         },
-      );
+        error: (err) => err.message || "Terjadi kesalahan saat mendaftar.",
+      });
     } catch (err) {
       console.error("Kesalahan saat submit:", err);
       toast.error("Terjadi kesalahan saat mendaftar.");
@@ -79,7 +76,7 @@ const SignUpForm = () => {
       setLoading(false);
     }
   };
-
+  
   return (
     <>
       <Form {...signUpForm}>
@@ -138,7 +135,7 @@ const SignUpForm = () => {
               )}
             />
             <div className="mt-2 grid gap-2">
-              <Button disabled={loading} type="submit" className="w-full" onClick={signUpForm.handleSubmit(submitHandler)}>
+              <Button disabled={loading} type="submit"  className="w-full" onClick={signUpForm.handleSubmit(submitHandler)}>
                 Daftar
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

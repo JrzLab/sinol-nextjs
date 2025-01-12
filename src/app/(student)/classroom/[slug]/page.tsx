@@ -9,13 +9,13 @@ import BubbleChat from "@/components/chat/bubble-chat";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import CreateEventPopUp from "@/components/popup/create-event";
-import { getSubjects } from "@/app/actions/api-actions";
+import { getClassByUidClassUser } from "@/app/actions/api-actions";
 
-const ClassroomPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const slug = (await params).slug;
+const ClassroomPage = async ({ params }: { params: { slug: string } }) => {
+  const slug = params.slug;
 
   // const [isOwner, setIsOwner] = useState<boolean>(true);
-  // const [openEvent, setOpenEvent] = useState<boolean>(false);
+  // const [openEvent, setOpenEvent] = useState<boolean>(false);  
   const data = subjectStaticData.filter((data) => data.id == parseInt(slug))[0] as ISubject;
 
   const events = eventStaticData

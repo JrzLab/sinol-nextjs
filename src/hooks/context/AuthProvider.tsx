@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { IUserData, IAuthContextProps } from "@/lib/types/Types";
 import { useWebSocket } from "@/hooks/use-websocket";
 import { disconnectSocket } from "@/lib/socket";
+import Cookies from "js-cookie"
 
 const AuthContext = createContext<IAuthContextProps | undefined>(undefined);
 
@@ -24,13 +25,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const currentPath = window.location.pathname;
         if (status === "authenticated" && session?.user) {
             setUser({
-                uidClassUser: session.user.uidClass!,
+                uidClassUser: session.user.uidClassUser!,
                 username: session.user.name!,
                 email: session.user.email!,
                 imageUrl: session.user.image!,
                 joinedAt: session.user.joinedAt!,
                 loginAt: session.user.loginAt!,
             });
+            Cookies.set("uidClassUser", session.user.uidClassUser!);
             if (publicRoutes.includes(currentPath)) {
                 router.push("/");
             }
