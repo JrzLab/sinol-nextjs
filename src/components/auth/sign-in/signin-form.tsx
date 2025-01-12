@@ -4,7 +4,7 @@ import SignInWithGoogleButton from "@/components/auth/button/sign-in";
 //IMPORT REACT/NEXTJS DEPENDENCIES
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +15,7 @@ import z, { set } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
 //IMPORT VALIDATION SCHEMA
 import { signInFormSchema } from "@/lib/form-validation-schema";
@@ -47,12 +47,13 @@ const SignInForm = () => {
     setError("");
     signInFormSchema.parse(values);
     toast.promise(handleCredentialsSignin(values), {
-      loading: 'Checking credentials...',
+      loading: "Checking credentials...",
       success: (response) => {
-        if(response.success) {
-          router.refresh();
+        if (response.success) {
+          window.location.reload()
           return response.message;
         }
+        console.log(response);
         throw new Error(response.message);
       },
       error: (err) => {
@@ -60,7 +61,7 @@ const SignInForm = () => {
       },
       finally: () => {
         setLoading(false);
-      }
+      },
     });
   };
 
@@ -114,7 +115,13 @@ const SignInForm = () => {
                 )}
               />
               <div className="grid gap-3">
-                <Button disabled={loading} type="submit" className="w-full hover:bg-secondary" onClick={signInForm.handleSubmit(submitHandler)} variant={"default"}>
+                <Button
+                  disabled={loading}
+                  type="submit"
+                  className="w-full hover:bg-secondary"
+                  onClick={signInForm.handleSubmit(submitHandler)}
+                  variant={"default"}
+                >
                   Masuk
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

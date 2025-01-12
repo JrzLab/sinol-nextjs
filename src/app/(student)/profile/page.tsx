@@ -9,10 +9,9 @@ import { Clock, Mail, Calendar, User, Edit, Upload } from "lucide-react";
 import { formatUnixTimestamp, formatDate, getInitials } from "@/lib/functions";
 import ImageUploadDialog from "@/components/popup/upload-avatar";
 import AccountInfoDialog from "@/components/popup/change-data";
-import { changeEmailOrUsername } from "@/app/actions/auth-actions";
-import { IResponseChangeData } from "@/lib/types/Types";
+import { changeEmailOrUsername, changeProfilePicture } from "@/app/actions/auth-actions";
+import { IResponseChangeData, IResponseChangeProfile } from "@/lib/types/Types";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 const ProfilePage: React.FC = () => {
@@ -20,40 +19,51 @@ const ProfilePage: React.FC = () => {
   const [isUploadOpen, setIsUploadOpen] = useState<boolean>(false);
   const [isAccountInfoOpen, setIsAccountInfoOpen] = useState<boolean>(false);
   const [loadingChange, setLoadingChange] = useState<boolean>(false)
-  const router = useRouter();
   const { data: session, update } = useSession();
 
-  const handleUpload = (file: File) => {
-    console.log("Uploading file:", file);
+  const handleUpdateSession = async (firstName?: string, lastName?: string, email?: string) => {
+    try {
+      session?.user && await update({
+        name: `${firstName} ${lastName}`,
+        email: email,
+      });
+    } catch (error) {
+      console.error("Error updating session:", error);
+    }
   };
 
-  const handleAccountInfoUpdate = async (firstName: string, lastName: string, email: string) => {
+  const handleUpload = (file: File) => {
+    toast.promise(changeProfilePicture(user?.email!, file), {
+      loading: "Uploading your profile picture...",
+      success: async (response) => {
+        const typedResponse = response as IResponseChangeProfile;
+        if (typedResponse.success && typedResponse.code === 200) {
+          window.location.reload();
+          return typedResponse.message;
+        } else {
+          throw new Error(typedResponse.message);
+        }
+      },
+      error: (error) => {
+        console.error("Error uploading profile picture:", error);
+        throw error;
+      },
+    });
+  };
+
+  const handleAccountInfoUpdate = async (firstName: string, lastName: string, email: string, password: string) => {
     setLoadingChange(true);
-    toast.promise(changeEmailOrUsername(user?.email!, email, firstName, lastName), {
+    toast.promise(changeEmailOrUsername(user?.email!, password, email, firstName, lastName), {
       loading: "Updating your information...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeData;
+        console.log(typedResponse)
         if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
           if (typedResponse.success && typedResponse.code === 200) {
-            
-            const updatedUser = {
-              ...session?.user,
-              name: `${typedResponse.data.firstName} ${typedResponse.data.lastName}`,
-              email: typedResponse.data.email,
-              image: session?.user?.image,
-              uidClass: session?.user?.uidClass,
-              joinedAt: session?.user?.joinedAt,
-              loginAt: session?.user?.loginAt,
-            };
-  
-            await update({
-              ...updatedUser,
-            });
-  
-            router.refresh();
+            await handleUpdateSession(typedResponse.data.firstName, typedResponse.data.lastName, typedResponse.data.email);
             return typedResponse.message;
           }
-        }
+        } 
         throw new Error(typedResponse.message);
       },
       error: (err) => {
@@ -63,7 +73,7 @@ const ProfilePage: React.FC = () => {
       finally: () => {
         setLoadingChange(false);
       },
-    });
+    }); 
   };
   
 
@@ -82,8 +92,7 @@ const ProfilePage: React.FC = () => {
                 variant="ghost"
                 className="absolute inset-0 flex items-center justify-center rounded-full bg-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 onClick={() => setIsUploadOpen(true)}
-                style={{ width: "100%", height: "100%" }}
-              >
+                style={{ width: "100%", height: "100%" }}>
                 <Upload className="h-6 w-6 text-white" />
               </Button>
             </div>
@@ -97,6 +106,7 @@ const ProfilePage: React.FC = () => {
               <Edit className="h-4 w-4" />
             </Button>
           </div>
+          
           <div className="mt-2 flex items-center justify-center space-x-2 text-gray-600">
             <Mail className="h-4 w-4" />
             <p>{loading ? "Loading data..." : user?.email || "No email provided"}</p>
@@ -128,7 +138,6 @@ const ProfilePage: React.FC = () => {
               </div>
             </CardContent>
           </Card>
-
           <Card className="transform transition-all duration-300 hover:shadow-lg">
             <CardHeader>
               <div className="flex items-center space-x-2">
@@ -150,7 +159,11 @@ const ProfilePage: React.FC = () => {
             </CardContent>
           </Card>
         </div>
-        <ImageUploadDialog isOpen={isUploadOpen} onClose={() => setIsUploadOpen(false)} onUpload={handleUpload} />
+        <ImageUploadDialog 
+          isOpen={isUploadOpen} 
+          onClose={() => setIsUploadOpen(false)} 
+          onUpload={handleUpload} 
+        />
         <AccountInfoDialog
           loading={loadingChange}
           isOpen={isAccountInfoOpen}

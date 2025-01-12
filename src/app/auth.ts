@@ -43,13 +43,10 @@ export const { handlers, signIn, auth } = NextAuth({
           });
 
           if (!response.ok) {
-            const responssText = await response.text();
-            console.log(responssText);
             throw new Error("Invalid credentials");
           }
 
           const data: ISignInResponse = await response.json();
-          console.log("Authentication successful:", data);
 
           if (!data.success) {
             console.error("Authentication failed:", data.message);
@@ -57,10 +54,10 @@ export const { handlers, signIn, auth } = NextAuth({
           }
 
           return {
-            uidClass: data.data.uid,
+            uidClassUser: data.data.uid,
             email: data.data.email,
             name: `${data.data.firstName} ${data.data.lastName || ""}`.trim(),
-            image: data.data.imageUrl || null,
+            image: `${process.env.BACKEND_URL}${data.data.imageUrl}`.trim(),
             joinedAt: new Date(data.data.joinedAt),
             loginAt: data.data.loginAt,
           };
@@ -72,14 +69,7 @@ export const { handlers, signIn, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ profile, account }) {
-      if (account?.provider === "google" && profile?.email_verified && profile?.email?.endsWith("@gmail.com")) {
-        return true;
-      }
-      return false;
-    },
-
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
       if (!token.expires) {
         const expirationDate = new Date();
         expirationDate.setMinutes(expirationDate.getMinutes() + 20);
@@ -87,7 +77,7 @@ export const { handlers, signIn, auth } = NextAuth({
       }
 
       if (user && account?.provider === "credentials") {
-        token.uid = user.uidClass;
+        token.uid = user.uidClassUser;
         token.email = user.email;
         token.name = user.name;
         token.image = user.image;
@@ -118,8 +108,6 @@ export const { handlers, signIn, auth } = NextAuth({
           });
 
           if (!response.ok) {
-            const responssText = await response.text();
-            console.log(responssText);
             throw new Error("Failed to sync user with Google Sign-In API.");
           }
 
@@ -140,11 +128,15 @@ export const { handlers, signIn, auth } = NextAuth({
         }
       }
 
+      if (trigger === "update" && session) {
+        token = { ...token, ...session };
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.uidClass = token.uid as string;
+        session.user.uidClassUser = token.uid as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
         session.user.image = token.image as string;
@@ -173,7 +165,6 @@ export const { handlers, signIn, auth } = NextAuth({
     signIn: "/auth/sign-in",
     signOut: "/auth/sign-in",
     newUser: "/auth/sign-up",
-    error: "/auth/error",
   },
   secret: process.env.AUTH_SECRET!,
 });

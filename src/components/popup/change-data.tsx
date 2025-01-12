@@ -1,44 +1,57 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "../ui/form";
+import { changeDataFormSchema } from "@/lib/form-validation-schema";
+import { IAccountInfoDialogProps } from "@/lib/types/Types";
 
-interface AccountInfoDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onUpdate: (firstName: string, lastName: string, email: string) => void;
-  currentFirstName?: string;
-  currentLastName?: string;
-  currentEmail?: string;
-  loading: boolean;
-}
+type ChangeDataFormSchema = z.infer<typeof changeDataFormSchema>;
 
-const AccountInfoDialog: React.FC<AccountInfoDialogProps> = ({
+const AccountInfoDialog: React.FC<IAccountInfoDialogProps> = ({
   isOpen,
   onClose,
   onUpdate,
   currentFirstName,
   currentLastName,
   currentEmail,
-  loading
+  loading,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<{ firstName: string; lastName: string; email: string }>({
+  const form = useForm<ChangeDataFormSchema>({
+    resolver: zodResolver(changeDataFormSchema),
     defaultValues: {
-      firstName: currentFirstName || "",
-      lastName: currentLastName || "",
-      email: currentEmail || "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
     },
   });
 
-  const onSubmit = async (data: { firstName: string; lastName: string; email: string }) => {
-    onUpdate(data.firstName, data.lastName, data.email);
+  useEffect(() => {
+    if (isOpen) {
+      form.reset({
+        firstName: currentFirstName || "",
+        lastName: currentLastName || "",
+        email: currentEmail || "",
+        password: "",
+      });
+    }
+  }, [isOpen, currentFirstName, currentLastName, currentEmail, form]);
+
+  const onSubmit = (data: ChangeDataFormSchema) => {
+    onUpdate(data.firstName, data.lastName, data.email, data.password);
     onClose();
   };
 
@@ -46,39 +59,74 @@ const AccountInfoDialog: React.FC<AccountInfoDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Change Name and Email</DialogTitle>
+          <DialogTitle>Ganti Username atau Email</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="flex space-x-2">
-            <Input
-              {...register("firstName", { required: true, minLength: 2 })}
-              placeholder="First name"
-              className="flex-1"
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex space-x-2">
+              <FormField
+                name="firstName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="First name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="lastName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Last name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+              name="email"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter new email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <Input
-              {...register("lastName", { required: true, minLength: 2 })}
-              placeholder="Last name"
-              className="flex-1"
+            <FormField
+              name="password"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" placeholder="Enter current password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          {errors.firstName || errors.lastName ? (
-            <p className="text-sm text-red-500">First and last name must be at least 2 characters</p>
-          ) : null}
-          <Input
-            {...register("email", {
-              required: true,
-              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-            })}
-            placeholder="Enter new email"
-          />
-          {errors.email && <p className="text-sm text-red-500">Please enter a valid email address</p>}
-          <DialogFooter className="flex justify-end space-x-2">
-            <Button variant="outline" type="button" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={loading}>Save Changes</Button>
-          </DialogFooter>
-        </form>
+            <DialogFooter className="flex justify-end space-x-2">
+              <Button variant="outline" type="button" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button type="submit" variant={"default"} className="hover:bg-accent" disabled={loading}>
+                Save Changes
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

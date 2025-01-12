@@ -3,7 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./style/globals.css";
 
 import FillterPage from "@/components/fillterPage";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${montserrat.className} antialiased`}>
-          <FillterPage>
-            {children}
-            <Toaster position="top-right" />
-          </FillterPage>
-        </body>
-      </html>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${montserrat.className} antialiased`}>
+        <FillterPage>
+          {children}
+          <Toaster position="top-right" />
+        </FillterPage>
+      </body>
+    </html>
   );
 }

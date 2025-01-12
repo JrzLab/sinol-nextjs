@@ -8,6 +8,10 @@ import Link from "next/link";
 const Breadcrumbs = () => {
   const pathname = usePathname();
   const getPathname = pathname.split("/").filter((path) => path);
+  const isNotFound = pathname === "/404";
+
+  if (isNotFound) return null;
+  
   return (
     <>
       <Breadcrumb>

@@ -153,3 +153,22 @@ export interface IResponseChangeData {
     imageUrl: string;
   };
 }
+
+export interface IResponseChangeProfile {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    linkProfile: string;
+  }
+}
+
+export interface IAccountInfoDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdate: (firstName: string, lastName: string, email: string, password: string) => void;
+  currentFirstName?: string;
+  currentLastName?: string;
+  currentEmail?: string;
+  loading: boolean;
+}
