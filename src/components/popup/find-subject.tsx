@@ -3,27 +3,16 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
-import { subjectStaticData } from "@/lib/staticData";
 import Link from "next/link";
+import { IGroupClass } from "@/lib/types/Types";
 
-const FindSubject = ({ status }: { status: () => void }) => {
-  interface Course {
-    id: number;
-    title: string;
-    teacher: string;
-    description: string;
-    notifications: number;
-    event: number;
-    person: number;
-    day: number;
-  }
-
+const FindSubject = ({ status, subjectData }: { status: () => void; subjectData: IGroupClass[] }) => {
   const [search, setSearch] = useState("");
-  const [result, setResult] = useState<Course[]>([]);
+  const [result, setResult] = useState<IGroupClass[]>([]);
   const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    const filteredData = subjectStaticData.filter((item) => item.title.toLowerCase().includes(search.toLowerCase()));
+    const filteredData = subjectData.filter((item) => item.className.toLowerCase().includes(search.toLowerCase()));
     setResult(filteredData);
   }, [search]);
 
@@ -58,11 +47,11 @@ const FindSubject = ({ status }: { status: () => void }) => {
                 <Input name="find" value={search} onChange={handleSearch} placeholder="Cari Jadwal" />
               </form>
               <div className="remove-sb mt-4 grid max-h-80 grid-cols-1 gap-2 overflow-auto">
-                {result.map((item) => (
-                  <Link href={`/classroom/${item.id}`} key={item.id} className="rounded-md border border-input p-2">
+                {result.map((item, index) => (
+                  <Link href={`/classroom/${item.uid}`} key={index} className="rounded-md border border-input p-2">
                     <div className="p-4">
-                      <p className="font-bold hover:underline">{item.title}</p>
-                      <p className="text-sm">{item.teacher}</p>
+                      <p className="font-bold hover:underline">{item.className}</p>
+                      <p className="text-sm">{item.ownerData.name}</p>
                     </div>
                   </Link>
                 ))}

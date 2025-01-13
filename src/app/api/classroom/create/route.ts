@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     if (!email || !uid || !className || !description) {
       return NextResponse.json({ message: "Bad request: Missing required fields" }, { status: 400 });
     }
-    const response = await fetch(`${process.env.BACKEND_URL}/class`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/class/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

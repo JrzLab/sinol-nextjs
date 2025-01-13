@@ -5,8 +5,9 @@ import { Button } from "../ui/button";
 import FindSubject from "../popup/find-subject";
 import { Card, CardHeader, CardFooter } from "../ui/card";
 import { useAuth } from "@/hooks/context/AuthProvider";
+import { IGroupClass } from "@/lib/types/Types";
 
-const SearchSubjectButton = () => {
+const SearchSubjectButton = ({ subjectData }: { subjectData: IGroupClass[] }) => {
   const { loading, user } = useAuth();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
@@ -22,7 +23,7 @@ const SearchSubjectButton = () => {
           </Button>
         </CardFooter>
       </Card>
-      {isOpen && <FindSubject status={() => setIsOpen(false)}></FindSubject>}
+      {isOpen && <FindSubject status={() => setIsOpen(false)} subjectData={subjectData} />}
     </>
   );
 };
