@@ -107,7 +107,7 @@ export interface IUserData {
   imageUrl?: string;
   joinedAt?: Date;
   loginAt?: number;
-  existClassroom?: boolean;
+  expiresAt?: Date;
 }
 
 export interface IAuthContextProps {
