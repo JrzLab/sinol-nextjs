@@ -35,7 +35,6 @@ const DashboardPage: React.FC = async () => {
   const cookie = await cookies();
   const uidCookies = cookie.get("uidClassUser");
   const userEmail = cookie.get("userId");
-
   const subjectData = uidCookies ? await getClassByUidClassUser(uidCookies.value) : null;
   const userData: IUserDataProps | undefined = await getUserData(userEmail?.value!);
   const modeNoData: boolean = subjectData?.length === 0 ? true : false;
