@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { useRouter } from "next/navigation";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,8 +28,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "@/hooks/use-toast";
 
 const CreateClassroom = ({ status }: { status: () => void }) => {
+  const router = useRouter();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(true);
 
@@ -149,7 +152,7 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
                                   <DropdownMenuRadioItem value="2">Selasa</DropdownMenuRadioItem>
                                   <DropdownMenuRadioItem value="3">Rabu</DropdownMenuRadioItem>
                                   <DropdownMenuRadioItem value="4">Kamis</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="5">Jum'at</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="5">Jumat</DropdownMenuRadioItem>
                                   <DropdownMenuRadioItem value="6">Sabtu</DropdownMenuRadioItem>
                                   <DropdownMenuRadioItem value="7">Minggu</DropdownMenuRadioItem>
                                 </DropdownMenuRadioGroup>

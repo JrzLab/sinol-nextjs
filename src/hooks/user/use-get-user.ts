@@ -1,5 +1,3 @@
-import { IUserData } from "@/lib/types/Types";
-
 export interface IUserDataProps {
   id: number;
   email: string;
@@ -15,7 +13,7 @@ export interface IUserProps {
   data: IUserDataProps;
 }
 
-export const useGetUser = async (userEmail: string) => {
+export const UseGetUser = async (userEmail: string) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/${userEmail}`, {
       method: "GET",

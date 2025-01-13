@@ -1,4 +1,4 @@
-import { IClassResponse, IGroupClass } from "@/lib/types/Types";
+import { IClassResponse } from "@/lib/types/Types";
 
 export const UseGetSubjects = async (uid: string) => {
   try {

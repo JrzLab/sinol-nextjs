@@ -1,7 +1,7 @@
 import { UseGetSubjects } from "@/hooks/classroom/use-get-class";
 import { IClassRoomCreate } from "../api/classroom/create/route";
-import { useCreateClass } from "@/hooks/classroom/use-create-class";
-import { useGetUser } from "@/hooks/user/use-get-user";
+import { UseCreateClass } from "@/hooks/classroom/use-create-class";
+import { UseGetUser } from "@/hooks/user/use-get-user";
 
 const getClassByUidClassUser = async (uid: string) => {
   const data = await UseGetSubjects(uid);
@@ -9,12 +9,12 @@ const getClassByUidClassUser = async (uid: string) => {
 };
 
 const createClassByUidClassUser = async ({ email, uid, className, description, day }: IClassRoomCreate) => {
-  const data = await useCreateClass({ email, uid, className, description, day });
+  const data = await UseCreateClass({ email, uid, className, description, day });
   return data;
 };
 
 const getUserData = async () => {
-  const data = await useGetUser("fatihattala666@gmail.com");
+  const data = await UseGetUser("fatihattala666@gmail.com");
   return data;
 };
 export { getClassByUidClassUser, createClassByUidClassUser, getUserData };

@@ -1,7 +1,6 @@
 "use client";
 
 import { PlusCircle, UserPlus } from "lucide-react";
-import { IUserData } from "@/lib/types/Types";
 import EducationSVG from "../../../public/education.svg";
 import { getGreeting } from "@/lib/functions";
 import { Button } from "../ui/button";

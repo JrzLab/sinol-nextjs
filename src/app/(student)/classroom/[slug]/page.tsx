@@ -1,5 +1,5 @@
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { eventStaticData, subjectStaticData } from "@/lib/staticData";
+import { eventStaticData } from "@/lib/staticData";
 // import { usePathname } from "next/navigation";
 import React from "react";
 import EventCard from "@/components/subject/event-card";

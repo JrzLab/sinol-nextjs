@@ -1,4 +1,4 @@
-import { IClassResponse, IGroupClass } from "@/lib/types/Types";
+import { IClassResponse } from "@/lib/types/Types";
 
 interface ICreateClassProps {
   email: string;
@@ -8,7 +8,7 @@ interface ICreateClassProps {
   day: string;
 }
 
-export const useCreateClass = async ({ email, uid, className, description, day }: ICreateClassProps) => {
+export const UseCreateClass = async ({ email, uid, className, description, day }: ICreateClassProps) => {
   try {
     const requestBody = {
       email,

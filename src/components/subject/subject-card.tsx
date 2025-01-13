@@ -63,7 +63,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
       }
     };
     fetchSubjects();
-  }, [user?.uidClassUser, format]);
+  }, [user?.uidClassUser, format, data]);
 
   const outConfirmation = (status: boolean) => {
     if (status) {
