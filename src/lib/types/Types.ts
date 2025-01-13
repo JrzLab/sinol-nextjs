@@ -122,7 +122,7 @@ export interface IGroupClassOwner {
   email: string;
 }
 export interface IGroupClass {
-  uid: number;
+  uid: string;
   day: number;
   className: string;
   description: string;
@@ -139,9 +139,14 @@ export interface IClassResponse {
   message: string;
   data: {
     uid: string;
-    userId: number;
-    createdAt: string;
-    groupClass: IGroupClass[];
+    day: string;
+    className: string;
+    description: string;
+    ownerData: {
+      email: string;
+      name: string;
+      imageUrl: string;
+    };
   };
 }
 
@@ -164,7 +169,7 @@ export interface IResponseChangeProfile {
   message: string;
   data: {
     linkProfile: string;
-  }
+  };
 }
 
 export interface IAccountInfoDialogProps {

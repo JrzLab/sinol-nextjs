@@ -1,19 +1,20 @@
 import { NextResponse, NextRequest } from "next/server";
 
-interface IClassRoomCreate {
+export interface IClassRoomCreate {
   email: string;
   uid: string;
   className: string;
   description: string;
+  day: string;
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, uid, className, description }: IClassRoomCreate = await req.json();
+    const { email, uid, className, description, day }: IClassRoomCreate = await req.json();
     if (!email || !uid || !className || !description) {
       return NextResponse.json({ message: "Bad request: Missing required fields" }, { status: 400 });
     }
-    const response = await fetch(`${process.env.BACKEND_URL}/class`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/class/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
         uid,
         className,
         description,
+        day,
       }),
     });
     const data = await response.json();

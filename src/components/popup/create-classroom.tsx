@@ -17,8 +17,21 @@ import z from "zod";
 //IMPORT VALIDATION SCHEMA
 import { createClassroomFormSchema } from "@/lib/form-validation-schema";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { createClassByUidClassUser } from "@/app/actions/api-actions";
+import { useAuth } from "@/hooks/context/AuthProvider";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const CreateClassroom = ({ status }: { status: () => void }) => {
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
   const { toast } = useToast();
@@ -38,12 +51,24 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
 
   const submitHandler = async (values: z.infer<typeof createClassroomFormSchema>) => {
     createClassroomFormSchema.parse(values);
-    // e.preventDefault();
-    // const formData = new FormData(e.currentTarget);
-    // const classroomData = {
-    //   name: formData.get("classroom") as string,
-    //   description: formData.get("description") as string,
-    // };
+    try {
+      const data = await createClassByUidClassUser({
+        email: user?.email || "",
+        uid: user?.uidClassUser || "",
+        className: values.classroomName,
+        description: values.description,
+        day: values.classroomDay,
+      });
+      if (data?.success && data?.code === 200) {
+        router.push(`/classroom/`);
+        toast({
+          title: "Kelas berhasil dibuat",
+          description: "Kelas berhasil dibuat",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
     // fetch('', {
     //   method: 'POST',
     //   headers: {
@@ -104,6 +129,38 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
                             <Textarea id="classroomDescription" placeholder="Masukan Deskripsi Kelas" {...field} />
                           </FormControl>
                           <FormDescription className="text-xs">Masukan Deskripsi Kelas</FormDescription>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={createClassroomForm.control}
+                      name="classroomDay"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor="classroomDay">Jadwal Kelas</FormLabel>
+                          <br />
+                          <FormControl>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="outline">Pilih Jadwal Kelas</Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="w-56" align={"start"}>
+                                <DropdownMenuLabel>Pilih Jadwal Kelas</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuRadioGroup value={field.value} onValueChange={(e) => field.onChange(e)}>
+                                  <DropdownMenuRadioItem value="1">Senin</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="2">Selasa</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="3">Rabu</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="4">Kamis</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="5">Jum'at</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="6">Sabtu</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="7">Minggu</DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </FormControl>
+                          <FormDescription className="text-xs">Pilih Jadwal Kelas</FormDescription>
                           <FormMessage className="text-xs" />
                         </FormItem>
                       )}
