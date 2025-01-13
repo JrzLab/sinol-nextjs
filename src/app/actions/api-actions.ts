@@ -13,8 +13,9 @@ const createClassByUidClassUser = async ({ email, uid, className, description, d
   return data;
 };
 
-const getUserData = async () => {
-  const data = await useGetUser("fatihattala666@gmail.com");
+const getUserData = async (email: string) => {
+  const data = await useGetUser(email);
   return data;
 };
+
 export { getClassByUidClassUser, createClassByUidClassUser, getUserData };

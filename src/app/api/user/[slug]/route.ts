@@ -9,6 +9,7 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
   }
 
   const backendUrl = process.env.BACKEND_URL;
+  
   if (!backendUrl) {
     console.error("BACKEND_URL is not defined in environment variables.");
     return NextResponse.json({ success: false, message: "Internal server error. Missing backend URL." }, { status: 500 });

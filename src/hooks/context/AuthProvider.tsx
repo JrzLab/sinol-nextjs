@@ -34,12 +34,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         expiresAt: session.expires!,
       });
       Cookies.set("uidClassUser", session.user.uidClassUser!);
+      Cookies.set("userId", session.user.email!);
       if (publicRoutes.includes(currentPath)) {
         router.push("/");
       }
     } else if (status === "unauthenticated" && !publicRoutes.includes(currentPath)) {
       disconnectSocket();
       signOut({ redirectTo: "/auth/sign-in" });
+      Cookies.remove("userId");
       Cookies.remove("uidClassUser");
       router.push("/auth/sign-in");
     }
