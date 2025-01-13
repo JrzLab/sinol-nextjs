@@ -1,11 +1,10 @@
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResizablePanel, ResizableHandle, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import ListStudent from "@/components/chat/teacher/list-student";
 import { studentStaticData } from "@/lib/staticData";
 
-const ConversationLayout = async ({ children, params }: { children: React.ReactNode; params: { classroomId: string } }) => {
+const ConversationLayout = async ({ children, params }: { children: React.ReactNode; params: Promise<{ classroomId: string }> }) => {
   const { classroomId } = await params;
 
   return (

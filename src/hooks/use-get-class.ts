@@ -1,6 +1,6 @@
 import { IClassResponse, IGroupClass } from "@/lib/types/Types";
 
-export const useGetSubjects = async (uid: string) => {
+export const UseGetSubjects = async (uid: string) => {
   try {
     
     const res = await fetch(`http://ip-51-79-152-83.raznar-net.my.id:10059/class/${uid}`, {

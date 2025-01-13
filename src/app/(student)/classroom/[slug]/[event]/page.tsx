@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -65,7 +66,7 @@ const Event = () => {
       <div className="grid content-start gap-2 md:grid-cols-2">
         <div>
           <Card className="overflow-hidden">
-            <img src="https://dummyimage.com/900x400" alt="" />
+            <Image src={"https://dummyimage.com/900x400"} alt="" height={900} width={400} />
             <hr />
             <CardHeader className="items-end text-end">
               <h1 className="text-lg">

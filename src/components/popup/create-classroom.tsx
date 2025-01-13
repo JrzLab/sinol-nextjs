@@ -6,8 +6,6 @@ import { Input } from "../ui/input";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,8 +18,6 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 
 const CreateClassroom = ({ status }: { status: () => void }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const router = useRouter();
-  const { toast } = useToast();
 
   const togglePopUp = () => {
     status();

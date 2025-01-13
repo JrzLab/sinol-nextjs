@@ -1,4 +1,4 @@
-const ClassroomPage = async ({ params }: { params: { classroomId: string } }) => {
+const ClassroomPage = async ({ params }: { params: Promise<{ classroomId: string }> }) => {
   const { classroomId } = await params;
   return (
     <>

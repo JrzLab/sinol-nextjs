@@ -23,17 +23,23 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdateSession = async (firstName?: string, lastName?: string, email?: string) => {
     try {
-      session?.user && await update({
-        name: `${firstName} ${lastName}`,
-        email: email,
-      });
+      if (session?.user) {
+        await update({
+          name: `${firstName} ${lastName}`,
+          email: email,
+        });
+      }
     } catch (error) {
       console.error("Error updating session:", error);
     }
   };
 
   const handleUpload = (file: File) => {
-    toast.promise(changeProfilePicture(user?.email!, file), {
+    if (!user || !user.email) {
+      toast.error("User email is not available");
+      return;
+    }
+    toast.promise(changeProfilePicture(user.email, file), {
       loading: "Uploading your profile picture...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeProfile;
@@ -53,7 +59,12 @@ const ProfilePage: React.FC = () => {
 
   const handleAccountInfoUpdate = async (firstName: string, lastName: string, email: string, password: string) => {
     setLoadingChange(true);
-    toast.promise(changeEmailOrUsername(user?.email!, password, email, firstName, lastName), {
+    if (!user?.email) {
+      toast.error("User email is not available");
+      setLoadingChange(false);
+      return;
+    }
+    toast.promise(changeEmailOrUsername(user.email, password, email, firstName, lastName), {
       loading: "Updating your information...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeData;
@@ -86,7 +97,7 @@ const ProfilePage: React.FC = () => {
             <div className="group relative">
               <Avatar className="h-32 w-32 rounded-full border-4 border-white shadow-lg">
                 <AvatarImage src={user?.imageUrl} alt="Profile Image" className="rounded-full" />
-                <AvatarFallback className="bg-gray-300 text-2xl font-bold">{getInitials(user?.username!)}</AvatarFallback>
+                <AvatarFallback className="bg-gray-300 text-2xl font-bold">{user?.username ? getInitials(user.username) : "?"}</AvatarFallback>
               </Avatar>
               <Button
                 variant="ghost"
@@ -126,14 +137,14 @@ const ProfilePage: React.FC = () => {
                 <Clock className="h-4 w-4" />
                 <div>
                   <p className="text-sm text-gray-500">Terakhir Login</p>
-                  <p className="font-medium">{formatUnixTimestamp(user?.loginAt!)}</p>
+                  <p className="font-medium">{user?.loginAt ? formatUnixTimestamp(user.loginAt) : "N/A"}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3 text-gray-600">
                 <Calendar className="h-4 w-4" />
                 <div>
                   <p className="text-sm text-gray-500">Terdaftar Pada</p>
-                  <p className="font-medium">{formatDate(user?.joinedAt!)}</p>
+                  <p className="font-medium">{user?.joinedAt ? formatDate(user.joinedAt) : "N/A"}</p>
                 </div>
               </div>
             </CardContent>

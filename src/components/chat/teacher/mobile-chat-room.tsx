@@ -1,8 +1,7 @@
 "use client";
 
-import { CardHeader, CardTitle, CardDescription, CardFooter, Card, CardContent } from "@/components/ui/card";
+import { CardHeader, CardFooter, Card, CardContent } from "@/components/ui/card";
 import { ScrollBar } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
 import { toPascalCase } from "@/lib/functions";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";

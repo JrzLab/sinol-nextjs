@@ -8,11 +8,11 @@ import { ISubject } from "@/lib/types/Types";
 import BubbleChat from "@/components/chat/bubble-chat";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import CreateEventPopUp from "@/components/popup/create-event";
-import { getClassByUidClassUser } from "@/app/actions/api-actions";
+// import CreateEventPopUp from "@/components/popup/create-event";
+// import { getClassByUidClassUser } from "@/app/actions/api-actions";
 
-const ClassroomPage = async ({ params }: { params: { slug: string } }) => {
-  const slug = params.slug;
+const ClassroomPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await params;
 
   // const [isOwner, setIsOwner] = useState<boolean>(true);
   // const [openEvent, setOpenEvent] = useState<boolean>(false);  

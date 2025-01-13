@@ -1,7 +1,7 @@
-import { useGetSubjects } from "@/hooks/use-get-class"
+import { UseGetSubjects } from "@/hooks/use-get-class"
 
 const getClassByUidClassUser = async (uid: string) => { 
-  const data = await useGetSubjects(uid);
+  const data = await UseGetSubjects(uid);
   return data;
 }
 

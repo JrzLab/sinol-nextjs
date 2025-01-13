@@ -1,4 +1,4 @@
-import { IGroupClass, IMessage, IStudent, ISubject } from "./types/Types";
+import { IGroupClass, IMessage } from "./types/Types";
 
 export const getSubjectDataEachDay = ({ subjects }: { subjects: IGroupClass[] }) => {
   const list = Array.from(new Set(subjects.map((item) => item.day)))

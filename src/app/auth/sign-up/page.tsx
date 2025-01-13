@@ -1,5 +1,7 @@
+import Image from "next/image";
 import SignUpForm from "@/components/auth/sign-up/signup-form";
 import { GalleryVerticalEnd } from "lucide-react";
+
 const SignUpPage = () => {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
@@ -19,7 +21,7 @@ const SignUpPage = () => {
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">
-        <img src="/placeholder.svg" alt="Image" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
+        <Image src="/placeholder.svg" alt="Image" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
       </div>
     </div>
   );

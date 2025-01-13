@@ -15,7 +15,7 @@ interface IGeneralAlert {
   children: React.ReactNode;
 }
 
-const GeneralAlert = ({ open, handler, title, description, children }: IGeneralAlert) => {
+const GeneralAlert = ({ open, title, description, children }: IGeneralAlert) => {
   return (
     <>
       <AlertDialog open={open}>

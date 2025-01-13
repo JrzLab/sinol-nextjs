@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { initializeSocket, disconnectSocket } from "@/lib/socket";
 
-export const useWebSocket = async (email: string) => {
+export const useWebSocket = (email: string) => {
 
   useEffect(() => {
     if (email) {

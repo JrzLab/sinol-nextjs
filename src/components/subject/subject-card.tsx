@@ -5,14 +5,12 @@ import { Icon } from "@iconify/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover, PopoverContent } from "../ui/popover";
 import { PopoverTrigger } from "../ui/popover";
 import { Bell, PanelLeftOpen, SquareUser } from "lucide-react";
-import OutConfirmation from "../popup/out-confirmation";
 import { getSubjectDataEachDay, truncateText } from "@/lib/functions";
-import { IClassResponse, IGroupClass, ISubject, IUserData } from "@/lib/types/Types";
-import DataTable from "../table/data-table";
+import { IGroupClass } from "@/lib/types/Types";
 import GeneralAlert from "../popup/general-alert";
 import { AlertDialogAction, AlertDialogCancel } from "../ui/alert-dialog";
 import { getClassByUidClassUser } from "@/app/actions/api-actions";
@@ -23,18 +21,17 @@ interface Day {
   data: IGroupClass[];
 }
 
-const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): React.ReactNode => {
+const SubjectCard = ({ format }: { format?: boolean; today?: boolean }): React.ReactNode => {
   const { user } = useAuth();
-  console.log(user)
 
   const [subjects, setSubjects] = useState<IGroupClass[] | null>(null);
   const [subjectDataByDay, setSubjectDataByDay] = useState<Day[]>([]);
   const [confirmationPopup, setConfirmationPopup] = useState<boolean>();
   const [itemDelete, setItemDelete] = useState<number>();
 
-  const togglePopUp = () => {
-    setConfirmationPopup(!confirmationPopup);
-  };
+  // const togglePopUp = () => {
+  //   setConfirmationPopup(!confirmationPopup);
+  // };
 
   const Confirmation = (id: number) => {
     setItemDelete(id);
@@ -43,8 +40,9 @@ const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): 
 
   useEffect(() => {
     const fetchSubjects = async () => {
+      if (!user?.uidClassUser) return;
       try {
-        const data = await getClassByUidClassUser(user?.uidClassUser!);
+        const data = await getClassByUidClassUser(user.uidClassUser);
         const today = new Date().getDay();
         const list: Day[] = [];
         const listedData = getSubjectDataEachDay({ subjects: data as IGroupClass[] });
@@ -53,13 +51,17 @@ const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): 
             list.push({ day: item.day.toString(), data: [item] });
           }
         });
-        format ? setSubjectDataByDay(listedData) : setSubjects(data as IGroupClass[]);
+        if (format) {
+          setSubjectDataByDay(listedData);
+        } else {
+          setSubjects(data as IGroupClass[]);
+        }
       } catch (error) {
         console.error(error);
       }
     };
     fetchSubjects();
-  }, [user?.uidClassUser!]);
+  }, [user?.uidClassUser, format]);
 
   const outConfirmation = (status: boolean) => {
     if (status) {

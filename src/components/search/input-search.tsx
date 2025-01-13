@@ -7,7 +7,7 @@ const InputSearch = ({ onSearch }: { onSearch: (query: string) => void }) => {
 
   useEffect(() => {
     onSearch(search);
-  }, [search]);
+  }, [onSearch, search]);
 
   return (
     <>

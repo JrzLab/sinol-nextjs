@@ -2,7 +2,7 @@ import { CardDescription, CardFooter, CardHeader, CardTitle } from "@/components
 import { Separator } from "@/components/ui/separator";
 import { IMessage, IStudent } from "@/lib/types/Types";
 import ChatRoom from "@/components/chat/teacher/chat-room";
-import { studentStaticData, subjectStaticData } from "@/lib/staticData";
+import { studentStaticData } from "@/lib/staticData";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,7 +11,7 @@ import MobileChatRoom from "@/components/chat/teacher/mobile-chat-room";
 import BubbleChat from "@/components/chat/bubble-chat";
 import { sortStudentsByLastMessage } from "@/lib/functions";
 
-const ConversationBox = async ({ params }: { params: { conversationId: string } }) => {
+const ConversationBox = async ({ params }: { params: Promise<{ conversationId: string }> }) => {
   const { conversationId } = await params;
   const sortedData = studentStaticData.filter((student) => student.id === parseInt(conversationId));
   const getStudentData = studentStaticData.find((student) => student.id === parseInt(conversationId)) as IStudent;

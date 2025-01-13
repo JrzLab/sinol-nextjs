@@ -21,12 +21,16 @@ import { ISubject } from "@/lib/types/Types";
 import { getDate } from "@/lib/functions";
 
 //IMPORT LUCIDE ICON
-import { ArrowUpDown, Delete, MoreHorizontal, Trash2, PanelLeftOpen, Pencil } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Trash2, PanelLeftOpen, Pencil } from "lucide-react";
 import DeleteClassroomAlert from "../popup/delete-classroom-alert";
 import DataTable from "./data-table";
 import EditClassroomDetail from "../popup/edit-classroom-detail";
 
 const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
+  const router = useRouter();
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
   const classroomScheduleColumns: ColumnDef<ISubject>[] = [
     {
       accessorKey: "id",
@@ -114,9 +118,6 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
       id: "actions",
       header: () => <div className="text-center">Pilihan</div>,
       cell: ({ row }) => {
-        const router = useRouter();
-        const [openEdit, setOpenEdit] = useState(false);
-        const [openDelete, setOpenDelete] = useState(false);
         const titleLink: string = (row.getValue("title") as string).replace(/\s/g, "-").toLowerCase();
         const data = row.original;
         return (

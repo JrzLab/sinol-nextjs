@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { IRequestResetPass } from "@/lib/types/Types";
 
 //IMPORT ACTION
-import { handleRequestResetPassword, handleVerifTokenResetPass } from "@/app/actions/auth-actions";
+import { handleRequestResetPassword } from "@/app/actions/auth-actions";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -92,13 +92,13 @@ const ForgotPasswordForm = () => {
         if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
           if (typedResponse.success) {
             return "Successfully sent link reset password to your email.";
-          } 
+          }
         }
         throw new Error(typedResponse.message);
       },
       error: (err) => {
-        if(err.message === 'User not found'){
-          return 'User Email Ini Tidak Ditemukan'
+        if (err.message === "User not found") {
+          return "User Email Ini Tidak Ditemukan";
         }
       },
       finally: () => {

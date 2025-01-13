@@ -1,6 +1,6 @@
 "use client";
 
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Button } from "../ui/button";
@@ -22,16 +22,14 @@ import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { format } from "date-fns";
 
 const CreateEventPopUp = ({ status }: { status: () => void }) => {
-  interface IFile {
-    id: number;
-    name: string;
-    ext: string;
-  }
+  // interface IFile {
+  //   id: number;
+  //   name: string;
+  //   ext: string;
+  // }
 
   const [isOpen, setIsOpen] = useState(true);
-  const [file, setFile] = useState<IFile[]>([]);
-  const [date, setDate] = React.useState<Date>();
-  const { toast } = useToast();
+  // const [file, setFile] = useState<IFile[]>([]);
 
   const togglePopUp = () => {
     status();
@@ -47,22 +45,22 @@ const CreateEventPopUp = ({ status }: { status: () => void }) => {
     },
   });
 
-  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-    const fileArray = Array.from(files);
-    const fileNames = fileArray.map((file) => file.name);
-    const fileExt = fileArray.map((file) => file.type);
+  // const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = e.target.files;
+  //   if (!files) return;
+  //   const fileArray = Array.from(files);
+  //   const fileNames = fileArray.map((file) => file.name);
+  //   const fileExt = fileArray.map((file) => file.type);
 
-    const list: IFile[] = [];
-    let i = 0;
-    fileArray.map((file) => {
-      list.push({ name: file.name, ext: file.type, id: i++ });
-    });
+  //   const list: IFile[] = [];
+  //   let i = 0;
+  //   fileArray.map((file) => {
+  //     list.push({ name: file.name, ext: file.type, id: i++ });
+  //   });
 
-    setFile(list);
-    toast({ title: "File Uploader", description: "file berhasil diupload" });
-  };
+  //   setFile(list);
+  //   toast({ title: "File Uploader", description: "file berhasil diupload" });
+  // };
 
   const submitHandler = async (values: z.infer<typeof createEventFormSchema>) => {
     createEventFormSchema.parse(values);
@@ -124,7 +122,7 @@ const CreateEventPopUp = ({ status }: { status: () => void }) => {
                     <FormField
                       control={createEventForm.control}
                       name="eventScore"
-                      render={({ field }) => (
+                      render={() => (
                         <FormItem>
                           <FormLabel htmlFor="eventDescription">Nilai Tugas</FormLabel>
                           <FormControl>

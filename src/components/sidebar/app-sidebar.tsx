@@ -1,27 +1,27 @@
 "use client";
 
 import * as React from "react";
-import { AppWindow, AudioWaveform, BookOpen, Command, GalleryVerticalEnd, Settings2, SquareLibrary } from "lucide-react";
+import { AppWindow, SquareLibrary } from "lucide-react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavProjects } from "@/components/sidebar/nav-projects";
 import { NavUser } from "@/components/sidebar/nav-user";
 import SidebarLogo from "@/components/sidebar/sidebar-logo";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
-import { subjectStaticData } from "@/lib/staticData";
+// import { subjectStaticData } from "@/lib/staticData";
 import { useAuth } from "@/hooks/context/AuthProvider";
 
-const getSubject = () => {
-  const list: { title: string; url: string }[] = [];
-  const today = new Date().getDay();
-  console.log(today);
-  subjectStaticData.forEach((item) => {
-    if (item.day == today) {
-      list.push({ title: item.title, url: `/classroom/${item.id}` });
-    }
-  });
-  return list;
-};
+// const getSubject = () => {
+//   const list: { title: string; url: string }[] = [];
+//   const today = new Date().getDay();
+//   console.log(today);
+//   subjectStaticData.forEach((item) => {
+//     if (item.day == today) {
+//       list.push({ title: item.title, url: `/classroom/${item.id}` });
+//     }
+//   });
+//   return list;
+// };
 
 // This is sample data.
 const data = {

@@ -1,8 +1,6 @@
 import ClassroomSchedule from "@/components/table/classroom-schedule";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { getGreeting } from "@/lib/functions";
-import { chartStaticData1, subjectStaticData } from "@/lib/staticData";
+import { subjectStaticData } from "@/lib/staticData";
 import Link from "next/link";
 import React from "react";
 
@@ -29,7 +27,7 @@ const TeacherPage = () => {
       total: 20,
     },
   ];
-  const greeting = getGreeting();
+
   return (
     <>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">

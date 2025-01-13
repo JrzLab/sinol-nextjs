@@ -1,17 +1,14 @@
 'use client';
 
 import React from 'react'
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { Card, CardHeader } from '@/components/ui/card';
 import Image from 'next/image';
-import profile from '@/app/image/profile.jpg'
 
 const page = () => {
   return (
     <div className='flex flex-col items-center text-sm'>
       <div className="rounded-full bg-black w-24 aspect-square overflow-hidden border-2 border-black">
-        <Image src={profile} alt='profile images' width={100} height={100} className='object-cover object-center '/>
+        <Image src={""} alt='profile images' width={100} height={100} className='object-cover object-center '/>
       </div>
       <div className="mt-4 fex text-center flex-col items-center">
         <h1 className='text-lg'><b>Alif Mahendra</b></h1>

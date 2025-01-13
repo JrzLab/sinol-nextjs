@@ -86,7 +86,7 @@ export interface IResetPassword {
   success: boolean;
   code: number;
   message: string;
-  data: {};
+  data: 0;
 }
 
 export interface ISignUpResponse {

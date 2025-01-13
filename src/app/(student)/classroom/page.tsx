@@ -1,4 +1,3 @@
-import SubjectCard from "@/components/subject/subject-card";
 import Image from "next/image";
 import EducationNotFound from "../../../../public/education-404.svg";
 import SearchSubjectButton from "@/components/button/search-subject-button";
@@ -8,7 +7,7 @@ import { cookies } from "next/headers";
 const StudentClassroom = async () => {
   const cookie = await cookies()
   const valueCookies = cookie.get('uidClassUser');
-  const data = await getClassByUidClassUser(valueCookies?.value!)
+  const data = valueCookies ? await getClassByUidClassUser(valueCookies.value) : null;
   const modeNoData = false;
 
   return (
@@ -18,7 +17,7 @@ const StudentClassroom = async () => {
           <div className="flex flex-col items-center justify-center gap-4 p-8">
             <Image src={EducationNotFound} alt="not found" className="h-48 w-48 opacity-50" />
             <h2 className="text-2xl font-semibold text-gray-600">Classroom Not Found</h2>
-            <p className="text-gray-500">You haven't joined any classroom yet.</p>
+            <p className="text-gray-500">You havent joined any classroom yet.</p>
           </div>
         </div>
       ) : (

@@ -1,19 +1,26 @@
 import React from "react";
-import { Card, CardContent, CardHeader } from "../ui/card";
+import { Card, CardHeader } from "../ui/card";
 import { getDate } from "@/lib/functions";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
-interface Data {
-  title: string;
-  subjectId: number;
-  id: number;
-  description: string;
-  date: string;
+interface EventContent {
+  subtitle: string;
+  text: string;
+  file: string;
+  path: string;
 }
 
-const EventCard = ({ data }: { data: any }) => {
-  console.log(data);
+interface Event {
+  subjectId: number; // Foreign key
+  eventId: number; // Primary key
+  title: string;
+  date: string; // Format: "YYYY/MM/DD HH:mm:ss"
+  description: string;
+  content: EventContent[];
+}
+
+const EventCard = ({ data }: { data: Event }) => {
   return (
     <div>
       <Card className="text-foreground">

@@ -14,7 +14,7 @@ import { useState } from "react";
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import z, { set } from "zod";
+import z from "zod";
 
 //IMPORT SHADCN COMPONENTS
 import { Button } from "@/components/ui/button";

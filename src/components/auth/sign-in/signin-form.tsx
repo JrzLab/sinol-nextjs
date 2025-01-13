@@ -2,14 +2,13 @@
 import SignInWithGoogleButton from "@/components/auth/button/sign-in";
 
 //IMPORT REACT/NEXTJS DEPENDENCIES
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import z, { set } from "zod";
+import z from "zod";
 
 //IMPORT SHADCN COMPONENT
 import { Button } from "@/components/ui/button";
@@ -21,16 +20,14 @@ import { toast } from "sonner";
 import { signInFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff} from "lucide-react";
 
 //IMPORT ACTION
 import { handleCredentialsSignin } from "@/app/actions/auth-actions";
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const togglePassword = () => setShowPassword((prev: boolean) => !prev);
   const signInForm = useForm<z.infer<typeof signInFormSchema>>({
@@ -44,7 +41,6 @@ const SignInForm = () => {
   //SUBMIT HANDLER FOR VALIDATION FORM
   const submitHandler = async (values: z.infer<typeof signInFormSchema>) => {
     setLoading(true);
-    setError("");
     signInFormSchema.parse(values);
     toast.promise(handleCredentialsSignin(values), {
       loading: "Checking credentials...",

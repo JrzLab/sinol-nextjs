@@ -1,13 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { chartStaticData1, subjectStaticData } from "@/lib/staticData";
-import { getToday, getGreeting } from "@/lib/functions";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+// import { chartStaticData1 } from "@/lib/staticData";
+import { getToday } from "@/lib/functions";
 import { useAuth } from "@/hooks/context/AuthProvider";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import SubjectCard from "@/components/subject/subject-card";
-import AttendanceChart from "@/components/chart/attendance-chart";
 import CreateClassroom from "@/components/popup/create-classroom";
 import JoinClassroom from "@/components/popup/join-classroom";
 import Link from "next/link";
@@ -98,11 +97,7 @@ const Page: React.FC = () => {
                 </Card>
               ))}
             </div>
-
-            <div>
-              <AttendanceChart data={chartStaticData1} />
-            </div>
-
+            
             <div className="ml-1">
               <h1 className="text-xl font-bold">Jadwal Hari Ini</h1>
               <span className="text-sm">{getToday()}</span>
