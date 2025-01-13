@@ -6,9 +6,9 @@ import { getClassByUidClassUser } from "@/app/actions/api-actions";
 import { cookies } from "next/headers";
 
 const StudentClassroom = async () => {
-  const cookie = await cookies()
-  const valueCookies = cookie.get('uidClassUser');
-  const data = await getClassByUidClassUser(valueCookies?.value!)
+  const cookie = await cookies();
+  const valueCookies = cookie.get("uidClassUser");
+  const data = await getClassByUidClassUser(valueCookies?.value!);
   const modeNoData = false;
 
   return (
@@ -25,8 +25,7 @@ const StudentClassroom = async () => {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <SearchSubjectButton />
           <div className="ml-1 space-y-2">
-            {/* <SubjectCard format /> */}
-            {JSON.stringify(data)}
+            <SubjectCard format data={data} />
           </div>
         </div>
       )}

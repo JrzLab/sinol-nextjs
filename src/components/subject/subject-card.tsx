@@ -23,14 +23,14 @@ interface Day {
   data: IGroupClass[];
 }
 
-const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): React.ReactNode => {
+const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] }): React.ReactNode => {
   const { user } = useAuth();
-  console.log(user)
 
-  const [subjects, setSubjects] = useState<IGroupClass[] | null>(null);
+  const [subjects, setSubjects] = useState<IGroupClass[]>([]);
   const [subjectDataByDay, setSubjectDataByDay] = useState<Day[]>([]);
   const [confirmationPopup, setConfirmationPopup] = useState<boolean>();
   const [itemDelete, setItemDelete] = useState<number>();
+  const hasFetched = useRef(false);
 
   const togglePopUp = () => {
     setConfirmationPopup(!confirmationPopup);
@@ -44,18 +44,20 @@ const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): 
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const data = await getClassByUidClassUser(user?.uidClassUser!);
+        if (hasFetched.current) return;
         const today = new Date().getDay();
-        const list: Day[] = [];
         const listedData = getSubjectDataEachDay({ subjects: data as IGroupClass[] });
+        const list: IGroupClass[] = [];
         data?.forEach((item) => {
           if (item.day == today) {
-            list.push({ day: item.day.toString(), data: [item] });
+            list.push(item);
           }
         });
-        format ? setSubjectDataByDay(listedData) : setSubjects(data as IGroupClass[]);
-      } catch (error) {
+        format ? setSubjectDataByDay(listedData) : setSubjects(list);
+      } catch (error: any) {
         console.error(error);
+      } finally {
+        hasFetched.current = true;
       }
     };
     fetchSubjects();
@@ -63,7 +65,6 @@ const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): 
 
   const outConfirmation = (status: boolean) => {
     if (status) {
-      console.log("delete");
       setConfirmationPopup(false);
     } else {
       setConfirmationPopup(false);
@@ -122,7 +123,7 @@ const SubjectCard = ({ format, today }: { format?: boolean; today?: boolean }): 
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
           {subjects?.map((subject, index) => (
             <Popover key={subject.day + index}>
-              <Card className="flex flex-col justify-between">
+              <Card className="flex flex-col justify-between text-foreground">
                 <CardHeader>
                   <div className="flex flex-row justify-between">
                     <div className="flex flex-col">
