@@ -7,6 +7,7 @@ export const getSubjectDataEachDay = ({ subjects }: { subjects: IGroupClass[] })
       day: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"][day - 1],
       data: subjects.filter((item) => item.day === day),
     }));
+
   return list;
 };
 

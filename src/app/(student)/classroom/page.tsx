@@ -3,13 +3,14 @@ import EducationNotFound from "../../../../public/education-404.svg";
 import SearchSubjectButton from "@/components/button/search-subject-button";
 import { getClassByUidClassUser } from "@/app/actions/api-actions";
 import { cookies } from "next/headers";
+import { IGroupClass } from "@/lib/types/Types";
 
 const StudentClassroom = async () => {
-  const cookie = await cookies()
-  const valueCookies = cookie.get('uidClassUser');
-  const data = valueCookies ? await getClassByUidClassUser(valueCookies.value) : null;
-  const modeNoData = false;
+  const cookie = await cookies();
+  const valueCookies = cookie.get("uidClassUser");
+  const subjectData = valueCookies ? await getClassByUidClassUser(valueCookies.value) : null;
 
+  const modeNoData: boolean = subjectData?.length === 0 ? true : false;
   return (
     <>
       {modeNoData ? (
@@ -22,10 +23,9 @@ const StudentClassroom = async () => {
         </div>
       ) : (
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <SearchSubjectButton />
+          <SearchSubjectButton subjectData={subjectData as IGroupClass[]} />
           <div className="ml-1 space-y-2">
-            {/* <SubjectCard format /> */}
-            {JSON.stringify(data)}
+            <SubjectCard format data={subjectData} />
           </div>
         </div>
       )}

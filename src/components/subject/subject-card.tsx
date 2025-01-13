@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Popover, PopoverContent } from "../ui/popover";
 import { PopoverTrigger } from "../ui/popover";
 import { Bell, PanelLeftOpen, SquareUser } from "lucide-react";
@@ -13,7 +13,6 @@ import { getSubjectDataEachDay, truncateText } from "@/lib/functions";
 import { IGroupClass } from "@/lib/types/Types";
 import GeneralAlert from "../popup/general-alert";
 import { AlertDialogAction, AlertDialogCancel } from "../ui/alert-dialog";
-import { getClassByUidClassUser } from "@/app/actions/api-actions";
 import { useAuth } from "@/hooks/context/AuthProvider";
 
 interface Day {
@@ -21,20 +20,21 @@ interface Day {
   data: IGroupClass[];
 }
 
-const SubjectCard = ({ format }: { format?: boolean; today?: boolean }): React.ReactNode => {
+const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] }): React.ReactNode => {
   const { user } = useAuth();
 
-  const [subjects, setSubjects] = useState<IGroupClass[] | null>(null);
+  const [subjects, setSubjects] = useState<IGroupClass[]>([]);
   const [subjectDataByDay, setSubjectDataByDay] = useState<Day[]>([]);
   const [confirmationPopup, setConfirmationPopup] = useState<boolean>();
-  const [itemDelete, setItemDelete] = useState<number>();
+  const [itemDelete, setItemDelete] = useState<string>();
+  const hasFetched = useRef(false);
 
   // const togglePopUp = () => {
   //   setConfirmationPopup(!confirmationPopup);
   // };
 
-  const Confirmation = (id: number) => {
-    setItemDelete(id);
+  const Confirmation = (uid: string) => {
+    setItemDelete(uid);
     setConfirmationPopup(!confirmationPopup);
   };
 
@@ -42,13 +42,13 @@ const SubjectCard = ({ format }: { format?: boolean; today?: boolean }): React.R
     const fetchSubjects = async () => {
       if (!user?.uidClassUser) return;
       try {
-        const data = await getClassByUidClassUser(user.uidClassUser);
+        if (hasFetched.current) return;
         const today = new Date().getDay();
-        const list: Day[] = [];
         const listedData = getSubjectDataEachDay({ subjects: data as IGroupClass[] });
+        const list: IGroupClass[] = [];
         data?.forEach((item) => {
           if (item.day == today) {
-            list.push({ day: item.day.toString(), data: [item] });
+            list.push(item);
           }
         });
         if (format) {
@@ -58,6 +58,8 @@ const SubjectCard = ({ format }: { format?: boolean; today?: boolean }): React.R
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        hasFetched.current = true;
       }
     };
     fetchSubjects();
@@ -65,7 +67,6 @@ const SubjectCard = ({ format }: { format?: boolean; today?: boolean }): React.R
 
   const outConfirmation = (status: boolean) => {
     if (status) {
-      console.log("delete");
       setConfirmationPopup(false);
     } else {
       setConfirmationPopup(false);
@@ -124,7 +125,7 @@ const SubjectCard = ({ format }: { format?: boolean; today?: boolean }): React.R
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
           {subjects?.map((subject, index) => (
             <Popover key={subject.day + index}>
-              <Card className="flex flex-col justify-between">
+              <Card className="flex flex-col justify-between text-foreground">
                 <CardHeader>
                   <div className="flex flex-row justify-between">
                     <div className="flex flex-col">

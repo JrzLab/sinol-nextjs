@@ -3,20 +3,17 @@ import { eventStaticData, subjectStaticData } from "@/lib/staticData";
 // import { usePathname } from "next/navigation";
 import React from "react";
 import EventCard from "@/components/subject/event-card";
-import StudentChat from "@/components/chat/student/student-chat";
-import { ISubject } from "@/lib/types/Types";
-import BubbleChat from "@/components/chat/bubble-chat";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-// import CreateEventPopUp from "@/components/popup/create-event";
-// import { getClassByUidClassUser } from "@/app/actions/api-actions";
+import { getClassByUidClassUser } from "@/app/actions/api-actions";
+import { cookies } from "next/headers";
 
 const ClassroomPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
-
-  // const [isOwner, setIsOwner] = useState<boolean>(true);
-  // const [openEvent, setOpenEvent] = useState<boolean>(false);  
-  const data = subjectStaticData.filter((data) => data.id == parseInt(slug))[0] as ISubject;
+  const cookie = await cookies();
+  const valueCookies = cookie.get("uidClassUser");
+  const subjectData = valueCookies ? await getClassByUidClassUser(valueCookies.value) : null;
+  const data = subjectData?.find((data) => data.uid == slug);
 
   const events = eventStaticData
     .filter((data) => data.subjectId == parseInt(slug))
@@ -25,22 +22,22 @@ const ClassroomPage = async ({ params }: { params: Promise<{ slug: string }> }) 
   return (
     <>
       <div className="relative">
-        <StudentChat status="online" data={data}>
+        {/* <StudentChat status="online" data={subjectStaticData}>
           <BubbleChat position={"sender"} chatRoomType={"student"}>
             Hi, Selamat pagi, ada yang bisa saya bantu?
           </BubbleChat>
           <BubbleChat position={"receiver"} chatRoomType={"student"}>
             test
           </BubbleChat>
-        </StudentChat>
+        </StudentChat> */}
       </div>
       <Card className="text-foreground">
         <CardHeader>
-          <h1 className="font-bold">{data.title}</h1>
-          <p>{data.description}</p>
+          <h1 className="font-bold">{data?.className}</h1>
+          <p>{data?.description}</p>
           {true ? (
             <div className="flex gap-2 pt-8">
-              <Link href={`/classroom/${data.id}/join`}>
+              <Link href={`/classroom/${data?.uid}/join`}>
                 <Button>Ubah Kelas</Button>
               </Link>
               <Button variant={"outline"}>Lihat </Button>
@@ -51,11 +48,11 @@ const ClassroomPage = async ({ params }: { params: Promise<{ slug: string }> }) 
         <CardFooter className="grid grid-cols-3">
           <div className="w-full pt-6">
             <h1 className="font-bold">Teacher</h1>
-            <p>{data.teacher}</p>
+            <p>{data?.ownerData.name}</p>
           </div>
           <div className="w-full pt-6">
             <h1 className="font-bold">Tugas</h1>
-            <p>{data.event}</p>
+            <p>{data?.day}</p>
           </div>
         </CardFooter>
       </Card>
