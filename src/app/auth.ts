@@ -50,7 +50,7 @@ export const { handlers, signIn, auth } = NextAuth({
 
           if (!data.success) {
             console.error("Authentication failed:", data.message);
-            return null;
+            throw new Error("Authentication failed");
           }
 
           return {
@@ -63,13 +63,14 @@ export const { handlers, signIn, auth } = NextAuth({
           };
         } catch (error) {
           console.error("Authentication error:", error instanceof Error ? error.message : String(error));
-          return null;
+          throw new Error("Authentication process halted");
         }
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user, account, trigger, session }) {
+      
       if (!token.expires) {
         const expirationDate = new Date();
         expirationDate.setMinutes(expirationDate.getMinutes() + 20);
@@ -122,9 +123,11 @@ export const { handlers, signIn, auth } = NextAuth({
             token.loginAt = data.data.loginAt;
           } else {
             console.error("Google Sign-In API error:", data.message);
+            throw new Error("Google Sign-In API error");
           }
         } catch (error) {
           console.error("Error during Google Sign-In fetch:", error instanceof Error ? error.message : String(error));
+          throw new Error("Google Sign-In fetch halted");
         }
       }
 

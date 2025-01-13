@@ -33,12 +33,13 @@ const cardData = [
 
 const DashboardPage: React.FC = async () => {
   const cookie = await cookies();
-  const valueCookies = cookie.get("uidClassUser");
-  const subjectData = valueCookies ? await getClassByUidClassUser(valueCookies.value) : null;
-  const userData: IUserDataProps | undefined = await getUserData();
+  const uidCookies = cookie.get("uidClassUser");
+  const userEmail = cookie.get("userId");
 
-  console.log(subjectData?.length)
+  const subjectData = uidCookies ? await getClassByUidClassUser(uidCookies.value) : null;
+  const userData: IUserDataProps | undefined = await getUserData(userEmail?.value!);
   const modeNoData: boolean = subjectData?.length === 0 ? true : false;
+
   return (
     <>
       {modeNoData ? (
@@ -50,7 +51,7 @@ const DashboardPage: React.FC = async () => {
           <div className="flex flex-1 flex-col gap-4 pt-0">
             <Card className="flex w-full flex-col rounded-xl">
               <CardHeader>
-                <h1 className="text-xl font-bold">{`Halo ${userData?.firstName}`}</h1>
+                <h1 className="text-xl font-bold">{`Halo ${userData?.firstName} ${userData?.lastName || ""}`}</h1>
                 <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
               </CardHeader>
               <CardFooter className="mt-4">
@@ -59,7 +60,6 @@ const DashboardPage: React.FC = async () => {
                 </Button>
               </CardFooter>
             </Card>
-
             <div className="grid auto-rows-min grid-cols-2 gap-4 lg:grid-cols-4">
               {cardData.map((data) => (
                 <Card className="flex flex-col justify-between text-foreground" key={data.title}>
