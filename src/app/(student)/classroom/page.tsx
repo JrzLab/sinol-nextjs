@@ -4,6 +4,7 @@ import SearchSubjectButton from "@/components/button/search-subject-button";
 import { getClassByUidClassUser } from "@/app/actions/api-actions";
 import { cookies } from "next/headers";
 import { IGroupClass } from "@/lib/types/Types";
+import SubjectCard from "@/components/subject/subject-card";
 
 const StudentClassroom = async () => {
   const cookie = await cookies();
@@ -25,7 +26,7 @@ const StudentClassroom = async () => {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <SearchSubjectButton subjectData={subjectData as IGroupClass[]} />
           <div className="ml-1 space-y-2">
-            <SubjectCard format data={subjectData} />
+            <SubjectCard format data={subjectData!} />
           </div>
         </div>
       )}

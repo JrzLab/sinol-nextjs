@@ -138,15 +138,7 @@ export interface IClassResponse {
   success: boolean;
   message: string;
   data: {
-    uid: string;
-    day: string;
-    className: string;
-    description: string;
-    ownerData: {
-      email: string;
-      name: string;
-      imageUrl: string;
-    };
+    groupClass: IGroupClass[];
   };
 }
 
