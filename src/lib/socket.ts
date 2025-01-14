@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import { ChatMessage, IMsgWS } from "./types/Types";
+import { IMsgWS } from "./types/Types";
 
 let socket: Socket | null = null;
 

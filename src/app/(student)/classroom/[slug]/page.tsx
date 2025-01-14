@@ -33,11 +33,13 @@ const ClassroomPage = () => {
       }
     };
     fetchData().then(async (data) => {
-      const getEventData = await getEventByUidClassUser(user?.uidClassUser ?? '', data?.uid ?? '');
-      if (getEventData !== null) {
-        setDataEvent(getEventData);
-      } else {
-        setDataEvent([]);
+      if (user?.uidClassUser && data?.uid) {
+        const getEventData = await getEventByUidClassUser(user.uidClassUser, data.uid);
+        if (getEventData !== null) {
+          setDataEvent(getEventData);
+        } else {
+          setDataEvent([]);
+        }
       }
     });
   }, [user, setDataClass, slug, setDataEvent]);
@@ -45,14 +47,17 @@ const ClassroomPage = () => {
   const buttonChatHandler = async () => {
     if (!messageData.length) {
       const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
-      const data = await fetch(`${wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3000") : wsUrl?.replace("10073", "10059")}/websocket/chat/history`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const data = await fetch(
+        `${wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3000") : wsUrl?.replace("10073", "10059")}/websocket/chat/history`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "no-cors",
+          body: JSON.stringify({ emailUser1: dataClass?.ownerData.email, emailUser2: user?.email }),
         },
-        mode: "no-cors",
-        body: JSON.stringify({ emailUser1: dataClass?.ownerData.email, emailUser2: user?.email }),
-      });
+      );
       const response = (await data.json()) as ChatHistoryResponse;
       roomId.current = response.data.id;
       setMessageData(response.data.messages);
@@ -111,7 +116,7 @@ const ClassroomPage = () => {
         <div className="flex flex-col gap-4">
           <div className="flex justify-end">
             <Button onClick={() => setOpenEvent(!openEvent)}>Buat Tugas</Button>
-            {openEvent ? <CreateEventPopUp classUid={dataClass?.uid ?? ''} status={() => setOpenEvent(!openEvent)} /> : null}
+            {openEvent && dataClass?.uid ? <CreateEventPopUp classUid={dataClass.uid} status={() => setOpenEvent(!openEvent)} /> : null}
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {dataEvent?.map((event) => <EventCard key={event.id} eventData={event} subjectData={dataClass!} />)}
