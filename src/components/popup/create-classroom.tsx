@@ -18,6 +18,8 @@ import { createClassroomFormSchema } from "@/lib/form-validation-schema";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { createClassByUidClassUser } from "@/app/actions/api-actions";
 import { useAuth } from "@/hooks/context/AuthProvider";
+import { toast } from "sonner";
+import { IClassResponse } from "@/lib/types/Types";
 
 import {
   DropdownMenu,
@@ -28,7 +30,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "@/hooks/use-toast";
 
 const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void }) => {
   const router = useRouter();
@@ -45,21 +46,32 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
   const submitHandler = async (values: z.infer<typeof createClassroomFormSchema>) => {
     createClassroomFormSchema.parse(values);
     try {
-      const data = await createClassByUidClassUser({
-        email: user?.email || "",
-        uid: user?.uidClassUser || "",
-        className: values.classroomName,
-        description: values.description,
-        day: values.classroomDay,
-      });
-      if (data?.success && data?.code === 200) {
-        router.push(`/classroom/`);
-        status();
-        toast({
-          title: "Kelas berhasil dibuat",
-          description: "Kelas berhasil dibuat",
-        });
-      }
+      toast.promise(
+        createClassByUidClassUser({
+          email: user?.email || "",
+          uid: user?.uidClassUser || "",
+          className: values.classroomName,
+          description: values.description,
+          day: values.classroomDay,
+        }),
+        {
+          loading: "Creating Classroom...",
+          success: (response) => {
+            const typedResponse = response as IClassResponse;
+            console.log(typedResponse)
+            if(typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
+              if (typedResponse?.code === 200 && typedResponse.success) {
+                window.location.reload();
+                return typedResponse.message;
+              }
+            }
+            throw new Error(typedResponse.message);
+          },
+          error: (error) => {
+            return error.message;
+          },
+        },
+      );
     } catch (error) {
       console.log(error);
     }
