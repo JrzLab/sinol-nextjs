@@ -12,6 +12,7 @@ import BubbleChat from "@/components/chat/bubble-chat";
 import { useAuth } from "@/hooks/context/AuthProvider";
 import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass } from "@/lib/types/Types";
 import CreateEventPopUp from "@/components/popup/create-event";
+import EditClassroomDetail from "@/components/popup/edit-classroom-detail";
 
 const ClassroomPage = () => {
   const params = useParams();
@@ -22,6 +23,7 @@ const ClassroomPage = () => {
   const [dataEvent, setDataEvent] = useState<IEvent[]>();
   const [messageData, setMessageData] = useState<ChatMessage[]>([]);
   const [openEvent, setOpenEvent] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,9 +94,7 @@ const ClassroomPage = () => {
           <p>{dataClass?.description}</p>
           {true ? (
             <div className="flex gap-2 pt-8">
-              <Link href={`/classroom/${dataClass?.uid}/join`}>
-                <Button>Ubah Kelas</Button>
-              </Link>
+              <Button onClick={() => setOpenEdit(true)}>Ubah Kelas</Button>
               <Button variant={"outline"}>Lihat </Button>
             </div>
           ) : null}
@@ -122,6 +122,7 @@ const ClassroomPage = () => {
           </div>
         </div>
       </div>
+      {openEdit && <EditClassroomDetail data={dataClass!} dialogHandler={() => setOpenEdit(!openEdit)} open={openEdit} />}
     </>
   );
 };

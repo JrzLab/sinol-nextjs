@@ -249,6 +249,21 @@ export interface IResponseCreateEvent {
   data: IEvent;
 }
 
+export interface IRequestEditClass {
+  uid: string;
+  className: string;
+  description: string;
+  email: string;
+  day: string;
+}
+
+export interface IResponseEditClass {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IGroupClass;
+}
+
 export interface IRequestEditEvent {
   id: string;
   title: string;
