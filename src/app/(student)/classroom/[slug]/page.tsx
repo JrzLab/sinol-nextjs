@@ -12,6 +12,7 @@ import BubbleChat from "@/components/chat/bubble-chat";
 import { useAuth } from "@/hooks/context/AuthProvider";
 import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass } from "@/lib/types/Types";
 import CreateEventPopUp from "@/components/popup/create-event";
+import { getSocket } from "@/lib/socket";
 
 const ClassroomPage = () => {
   const params = useParams();
@@ -22,6 +23,16 @@ const ClassroomPage = () => {
   const [dataEvent, setDataEvent] = useState<IEvent[]>();
   const [messageData, setMessageData] = useState<ChatMessage[]>([]);
   const [openEvent, setOpenEvent] = useState<boolean>(false);
+  const [isListenerAdded, setIsListenerAdded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isListenerAdded) {
+      getSocket()?.on("updateMessageClient", (data: ChatMessage) => {
+        setMessageData((prev) => [...prev, data]);
+      });
+      setIsListenerAdded(true);
+    }
+  }, [isListenerAdded]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,13 +59,12 @@ const ClassroomPage = () => {
     if (!messageData.length) {
       const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
       const data = await fetch(
-        `${wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3000") : wsUrl?.replace("10073", "10059")}/websocket/chat/history`,
+        `${wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3002") : wsUrl?.replace("10073", "10059")}/websocket/chat/history`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          mode: "no-cors",
           body: JSON.stringify({ emailUser1: dataClass?.ownerData.email, emailUser2: user?.email }),
         },
       );
@@ -62,10 +72,6 @@ const ClassroomPage = () => {
       roomId.current = response.data.id;
       setMessageData(response.data.messages);
     }
-  };
-
-  const addChatHandler = async (message: ChatMessage) => {
-    setMessageData((prev) => [...prev, message]);
   };
 
   const getEventLength = dataEvent?.length;
@@ -76,7 +82,6 @@ const ClassroomPage = () => {
           <StudentChat
             classDataWs={{ idRoom: roomId.current, emailUser: user?.email ?? "", teacherData: dataClass?.ownerData || {} }}
             buttonGetChat={buttonChatHandler}
-            addChatHandler={addChatHandler}
           >
             {messageData &&
               messageData.map((data, index) => (
