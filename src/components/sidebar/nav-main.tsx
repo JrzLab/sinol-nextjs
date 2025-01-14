@@ -45,25 +45,10 @@ export function NavMain() {
     const getSubject = async () => {
       const data = await getClassByUidClassUser(uidUser!);
       setSubject(data!);
-      return data!;
+      return data;
     };
-    getSubject().then((data) => {
-      data.map(async (item) => {
-        const eventData = await getEventByUidClassUser(uidUser!, "fe612ce0");
-        console.log(eventData);
-
-        setNavClassData((prev) => [
-          ...prev,
-          {
-            classUid: item.uid,
-            title: item.className,
-            events: [],
-          },
-        ]);
-      });
-    });
+    getSubject()
   }, [setSubject, setNavClassData, setEvent, uidUser]);
-  console.log(navClassData);
 
   return (
     <SidebarGroup>
