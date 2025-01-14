@@ -11,7 +11,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import Breadcrumbs from "@/components/sidebar/breadcrumbs";
 import CreateJoinPopover from "./popup/create-join-popover";
 import { ProtectedRoute } from "@/hooks/protected-pages";
-import { Fallback } from "@radix-ui/react-avatar";
+import Fallback from "./Fallback";
 
 export default function FillterPage({ children }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();

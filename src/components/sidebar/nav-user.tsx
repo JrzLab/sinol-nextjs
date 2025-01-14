@@ -2,7 +2,7 @@
 
 import { ChevronsUpDown, CircleUserRound } from "lucide-react";
 import Link from "next/link";
-import SignOutButton from "../auth/button/logout";
+import SignOutButton from "@/components/auth/button/logout";
 import { getInitials } from "@/lib/functions";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

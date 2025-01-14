@@ -232,3 +232,23 @@ export interface IResponseEvent {
   message: string;
   data: IEvent[];
 }
+
+export interface IClassNavbarData {
+  classUid: string;
+  title: string;
+}
+
+export interface IUserDataProps {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string | null;
+  imageUrl: string | null;
+}
+
+export interface IUserProps {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IUserDataProps;
+}

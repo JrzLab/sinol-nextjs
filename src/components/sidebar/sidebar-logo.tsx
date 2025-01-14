@@ -2,11 +2,10 @@
 
 import * as React from "react";
 import { SidebarMenu, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
-import SinolLogo from "../sinol-logo";
+import SinolLogo from "@/components/sinol-logo";
 
 const SidebarLogo = () => {
   const { open } = useSidebar();
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>

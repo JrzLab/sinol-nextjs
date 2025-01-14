@@ -39,7 +39,7 @@ const ClassroomPage = () => {
 
   const buttonChatHandler = async () => {
     if (!messageData.length) {
-      const data = await fetch(`${process.env.NEXT_PUBLIC_WS_URL?.replace("3001", "3002")}/websocket/chat/history`, {
+      const data = await fetch(`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}/websocket/chat/history`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
