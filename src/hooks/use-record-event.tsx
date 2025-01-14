@@ -1,70 +1,49 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 
 export const useRecordEvents = (isAuthenticated: boolean) => {
+  const pathname = usePathname();
   const [isEventOccurred, setIsEventOccurred] = useState(false);
 
-  const handleEvent = useCallback(
-    (event: Event): void => {
+  const handleClickEvent = useCallback(
+    (event: MouseEvent): void => {
       if (!isAuthenticated) return;
 
-      let eventOccurred = false;
+      // Pastikan hanya memproses klik pada tombol
+      if ((event.target as HTMLElement).tagName === "BUTTON" && (event.target as HTMLElement).id !== "signout") {
+        setIsEventOccurred(true);
 
-      if (
-        event instanceof KeyboardEvent ||
-        event instanceof MouseEvent ||
-        event instanceof TouchEvent ||
-        event.type === "scroll" ||
-        event.type === "resize"
-      ) {
-        eventOccurred = true;
-      }
-
-      setIsEventOccurred(eventOccurred);
-
-      if (eventOccurred) {
+        // Reset state setelah 500ms
         setTimeout(() => setIsEventOccurred(false), 500);
       }
     },
-    [isAuthenticated]
+    [isAuthenticated],
   );
+
+  const handleScrollEvent = useCallback(() => {
+    if (!isAuthenticated || pathname === '/profile') return;
+
+    setIsEventOccurred(true);
+
+    // Reset state setelah 500ms
+    setTimeout(() => setIsEventOccurred(false), 500);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
 
     // Menambahkan event listeners
-    window.addEventListener("keydown", handleEvent);
-    window.addEventListener("mousemove", handleEvent);
-    window.addEventListener("scroll", handleEvent);
-    window.addEventListener("click", handleEvent);
-    window.addEventListener("mouseenter", handleEvent);
-    window.addEventListener("drag", handleEvent);
-    window.addEventListener("resize", handleEvent);
-
-    // Untuk touch events pada perangkat mobile
-    window.addEventListener("touchstart", handleEvent);
-    window.addEventListener("touchmove", handleEvent);
-    window.addEventListener("touchend", handleEvent);
-    window.addEventListener("touchcancel", handleEvent);
+    window.addEventListener("click", handleClickEvent);
+    window.addEventListener("scroll", handleScrollEvent);
 
     return () => {
-      // Menghapus event listeners
-      window.removeEventListener("keydown", handleEvent);
-      window.removeEventListener("mousemove", handleEvent);
-      window.removeEventListener("scroll", handleEvent);
-      window.removeEventListener("click", handleEvent);
-      window.removeEventListener("mouseenter", handleEvent);
-      window.removeEventListener("drag", handleEvent);
-      window.removeEventListener("resize", handleEvent);
-
-      // Untuk touch events pada perangkat mobile
-      window.removeEventListener("touchstart", handleEvent);
-      window.removeEventListener("touchmove", handleEvent);
-      window.removeEventListener("touchend", handleEvent);
-      window.removeEventListener("touchcancel", handleEvent);
+      // Menghapus event listeners saat komponen unmount
+      window.removeEventListener("click", handleClickEvent);
+      window.removeEventListener("scroll", handleScrollEvent);
     };
-  }, [isAuthenticated, handleEvent]);
+  }, [isAuthenticated, handleClickEvent, handleScrollEvent]);
 
   return isEventOccurred;
 };
