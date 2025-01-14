@@ -2,7 +2,7 @@
 import SignInWithGoogleButton from "@/components/auth/button/sign-in";
 
 //IMPORT REACT/NEXTJS DEPENDENCIES
-import { useState} from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 //IMPORT VALIDATION DEPEDENCIES
@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { signInFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
-import { Eye, EyeOff} from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 //IMPORT ACTION
 import { handleCredentialsSignin } from "@/app/actions/auth-actions";
@@ -46,7 +46,7 @@ const SignInForm = () => {
       loading: "Checking credentials...",
       success: (response) => {
         if (response.success) {
-          window.location.reload()
+          window.location.reload();
           return response.message;
         }
         console.log(response);

@@ -1,11 +1,12 @@
+import React from "react";
+import { cookies } from "next/headers";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { getToday } from "@/lib/functions";
 import { Button } from "@/components/ui/button";
+import { EmptyStatePages } from "@/components/empety/empety";
 import SubjectCard from "@/components/subject/subject-card";
 import Link from "next/link";
-import { EmptyStatePages } from "@/components/empety/empety";
+import { getToday } from "@/lib/functions";
 import { getClassByUidClassUser, getUserData } from "./actions/api-actions";
-import { cookies } from "next/headers";
 import { IUserDataProps } from "@/hooks/user/use-get-user";
 
 const cardData = [
@@ -31,59 +32,63 @@ const cardData = [
   },
 ];
 
-const DashboardPage: React.FC = async () => {
+async function fetchDashboardData() {
   const cookie = await cookies();
   const uidCookies = cookie.get("uidClassUser");
   const userEmail = cookie.get("userId");
+
   const subjectData = uidCookies ? await getClassByUidClassUser(uidCookies.value) : null;
-  const userData: IUserDataProps | undefined = await getUserData(userEmail?.value!);
-  const modeNoData: boolean = subjectData?.length === 0 ? true : false;
+  const userData: IUserDataProps | undefined = userEmail ? await getUserData(userEmail.value) : undefined;
+
+  return { subjectData, userData };
+}
+
+const DashboardPage: React.FC = async () => {
+  const { subjectData, userData } = await fetchDashboardData();
+  const modeNoData: boolean = !subjectData || subjectData.length === 0 || !userData;
+
+  if (modeNoData) {
+    return <EmptyStatePages />;
+  }
 
   return (
-    <>
-      {modeNoData ? (
-        <>
+    <div className="flex flex-1 flex-col gap-4 pt-0">
+      <Card className="flex w-full flex-col rounded-xl">
+        <CardHeader>
+          <h1 className="text-xl font-bold">{`Halo ${userData?.firstName} ${userData?.lastName || ""}`}</h1>
+          <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
+        </CardHeader>
+        <CardFooter className="mt-4">
+          <Button className="hover:bg-secondary" variant={"default"}>
+            <Link href="/classroom">Lihat Jadwal</Link>
+          </Button>
+        </CardFooter>
+      </Card>
+      <div className="grid auto-rows-min grid-cols-2 gap-4 lg:grid-cols-4">
+        {cardData.map((data) => (
+          <Card className="flex flex-col justify-between text-foreground" key={data.title}>
+            <CardHeader>
+              <h1 className="font-bold">{data.title}</h1>
+              <p className="text-sm">{data.description}</p>
+            </CardHeader>
+            <CardFooter>
+              <h1 className="text-2xl font-bold">{data.total}</h1>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+      <div className="ml-1">
+        <h1 className="text-xl font-bold">Jadwal Hari Ini</h1>
+        <span className="text-sm">{getToday()}</span>
+      </div>
+      <div>
+        {subjectData && subjectData.length > 0 ? (
+          <SubjectCard format={false} data={subjectData} />
+        ) : (
           <EmptyStatePages />
-        </>
-      ) : (
-        <>
-          <div className="flex flex-1 flex-col gap-4 pt-0">
-            <Card className="flex w-full flex-col rounded-xl">
-              <CardHeader>
-                <h1 className="text-xl font-bold">{`Halo ${userData?.firstName} ${userData?.lastName || ""}`}</h1>
-                <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
-              </CardHeader>
-              <CardFooter className="mt-4">
-                <Button className="hover:bg-secondary" variant={"default"}>
-                  <Link href="/classroom">Lihat Jadwal</Link>
-                </Button>
-              </CardFooter>
-            </Card>
-            <div className="grid auto-rows-min grid-cols-2 gap-4 lg:grid-cols-4">
-              {cardData.map((data) => (
-                <Card className="flex flex-col justify-between text-foreground" key={data.title}>
-                  <CardHeader>
-                    <h1 className="font-bold">{data.title}</h1>
-                    <p className="text-sm">{data.description}</p>
-                  </CardHeader>
-                  <CardFooter>
-                    <h1 className="text-2xl font-bold">{data.total}</h1>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-            <div className="ml-1">
-              <h1 className="text-xl font-bold">Jadwal Hari Ini</h1>
-              <span className="text-sm">{getToday()}</span>
-            </div>
-
-            <div>
-              <SubjectCard format={false} data={subjectData!} />
-            </div>
-          </div>
-        </>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   );
 };
 

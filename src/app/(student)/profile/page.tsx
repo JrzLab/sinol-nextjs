@@ -34,6 +34,18 @@ const ProfilePage: React.FC = () => {
     }
   };
 
+  const handleUpdateImage = async (image: string) => {
+    try {
+      if (session?.user) {
+        await update({
+          image,
+        });
+      }
+    } catch (error) {
+      console.error("Error updating session:", error);
+    }
+  };
+
   const handleUpload = (file: File) => {
     if (!user || !user.email) {
       toast.error("User email is not available");
@@ -44,7 +56,7 @@ const ProfilePage: React.FC = () => {
       success: async (response) => {
         const typedResponse = response as IResponseChangeProfile;
         if (typedResponse.success && typedResponse.code === 200) {
-          window.location.reload();
+          await handleUpdateImage(`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${typedResponse.data.linkProfile}`);
           return typedResponse.message;
         } else {
           throw new Error(typedResponse.message);
@@ -145,13 +157,6 @@ const ProfilePage: React.FC = () => {
                 <div>
                   <p className="text-sm text-gray-500">Terdaftar Pada</p>
                   <p className="font-medium">{user?.joinedAt ? formatDate(user.joinedAt) : "N/A"}</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3 text-gray-600">
-                <Calendar className="h-4 w-4" />
-                <div>
-                  <p className="text-sm text-gray-500">Session Berakhir Pada</p>
-                  <p className="font-medium">{formatDate(user?.expiresAt!)}</p>
                 </div>
               </div>
             </CardContent>

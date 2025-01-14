@@ -14,7 +14,7 @@ const FindSubject = ({ status, subjectData }: { status: () => void; subjectData:
   useEffect(() => {
     const filteredData = subjectData.filter((item) => item.className.toLowerCase().includes(search.toLowerCase()));
     setResult(filteredData);
-  }, [search]);
+  }, [search, subjectData]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);

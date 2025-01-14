@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SignUpForm from "@/components/auth/sign-up/signup-form";
 import { GalleryVerticalEnd } from "lucide-react";
+import logos from "../../../../public/LogoS.svg"
 
 const SignUpPage = () => {
   return (
@@ -21,7 +22,7 @@ const SignUpPage = () => {
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">
-        <Image src="/placeholder.svg" alt="Image" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
+        <Image src={logos} alt="Image" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
       </div>
     </div>
   );

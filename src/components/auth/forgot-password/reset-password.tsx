@@ -1,7 +1,7 @@
 "use client";
 //IMPORT REACT/NEXTJS DEPENDENCIES
 import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 // IMPORT TYPES
 import { IResetPassword } from "@/lib/types/Types";
@@ -31,6 +31,7 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const togglePassword = () => setShowPassword((prev: boolean) => !prev);
   const query = useSearchParams();
+  const router = useRouter();
 
   const resetPasswordForm = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
@@ -50,6 +51,7 @@ const ResetPassword = () => {
       success: (response) => {
         const typedResponse = response as IResetPassword;
         if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
+          router.push("/auth/sign-in");
           return typedResponse.message;
         }
         throw new Error(typedResponse.message);

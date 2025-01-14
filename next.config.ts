@@ -8,8 +8,7 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
       },
     ],
-  },
-  output: "standalone",
+  }
 };
 
 export default nextConfig;
