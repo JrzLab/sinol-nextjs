@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight, SquareLibrary } from "lucide-react";
 import Link from "next/link";
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -14,46 +14,86 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import Cookies from "js-cookie";
+import { useEffect, useRef, useState } from "react";
+import { IEvent, IGroupClass } from "@/lib/types/Types";
+import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
+import { truncateText } from "@/lib/functions";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+interface IEventDataProps {
+  id: number;
+  title: string;
+  url: string;
+}
+
+interface IClassNavbarData {
+  classUid: string;
+  title: string;
+  events: IEventDataProps[];
+}
+
+export function NavMain() {
+  const uidUser = Cookies.get("uidClassUser");
+  const hasFetched = useRef(false);
+  const [subject, setSubject] = useState<IGroupClass[]>([]);
+  const [event, setEvent] = useState<IEvent[]>([]);
+  const [navClassData, setNavClassData] = useState<IClassNavbarData[]>([]);
+
+  useEffect(() => {
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+    const getSubject = async () => {
+      const data = await getClassByUidClassUser(uidUser!);
+      setSubject(data!);
+      return data!;
+    };
+    getSubject().then((data) => {
+      data.map(async (item) => {
+        const eventData = await getEventByUidClassUser(uidUser!, "fe612ce0");
+        console.log(eventData);
+
+        setNavClassData((prev) => [
+          ...prev,
+          {
+            classUid: item.uid,
+            title: item.className,
+            events: [],
+          },
+        ]);
+      });
+    });
+  }, [setSubject, setNavClassData, setEvent, uidUser]);
+  console.log(navClassData);
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Section</SidebarGroupLabel>
+      <SidebarGroupLabel>Kelas</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible key={item.title} asChild defaultOpen={item.isActive} className="group/collapsible">
+        {subject.map((item, index) => (
+          <Collapsible key={index} asChild className="group/collapsible">
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+                <SidebarMenuButton tooltip={item.className}>
+                  <SquareLibrary />
+                  <span className="text-xs">{truncateText(item.className, 40)}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <Link href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </Link>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
+                  {event.map(async (subItem, index) => {
+                    return (
+                      <>
+                        <SidebarMenuSubItem key={index}>
+                          <SidebarMenuSubButton asChild>
+                            <Link href={`/classroom/${item.uid}/${subItem.id}`}>
+                              <span>{subItem.title}</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      </>
+                    );
+                  })}
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>

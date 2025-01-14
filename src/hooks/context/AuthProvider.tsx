@@ -18,7 +18,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isUnauthenticated = status === "unauthenticated";
   const loading = status === "loading";
 
-  useWebSocket(session?.user.email!);
+  useWebSocket(session?.user?.email ?? "");
 
   useEffect(() => {
     const publicRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password"];

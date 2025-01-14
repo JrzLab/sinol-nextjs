@@ -42,8 +42,8 @@ export const joinClassroomFormSchema = z.object({
   classroomCode: z
     .string()
     .nonempty({ message: "Kode kelas wajib diisi." })
-    .max(5, { message: "Kode kelas maksimal 5 karakter." })
-    .min(5, { message: "Kode kelas minimal 5 karakter." }),
+    .max(8, { message: "Kode kelas maksimal 8 karakter." })
+    .min(8, { message: "Kode kelas minimal 8 karakter." }),
 });
 
 export const changeDataFormSchema = z.object({

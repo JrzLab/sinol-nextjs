@@ -9,6 +9,7 @@ import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Breadcrumbs from "@/components/sidebar/breadcrumbs";
+import CreateJoinPopover from "./popup/create-join-popover";
 
 export default function FillterPage({ children }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
@@ -32,6 +33,9 @@ export default function FillterPage({ children }: Readonly<{ children: React.Rea
                 <SidebarTrigger className="-ml-1" />
                 <Separator orientation="vertical" className="mr-2 h-4" />
                 <Breadcrumbs />
+              </div>
+              <div className="ml-auto pr-4">
+                <CreateJoinPopover />
               </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
