@@ -1,13 +1,9 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
-import { Popover, PopoverContent } from "../ui/popover";
-import { PopoverTrigger } from "../ui/popover";
-import { Bell, PanelLeftOpen, SquareUser } from "lucide-react";
 import { getSubjectDataEachDay, truncateText } from "@/lib/functions";
 import { IGroupClass, IEvent } from "@/lib/types/Types";
 import GeneralAlert from "../popup/general-alert";
@@ -143,7 +139,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
                 </CardHeader>
                 <div>
                   <CardContent>
-                    <p>{subject.description}</p>
+                    <p>{truncateText(subject.description, 100)}</p>
                   </CardContent>
                   <CardFooter>
                     <p className="text-sm font-light">{subject.day} Notifikasi</p>

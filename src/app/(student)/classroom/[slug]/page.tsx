@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import EventCard from "@/components/subject/event-card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { getClassByUidClassUser, getEventByUidClassUser, leaveClassByUidClassUser } from "@/app/actions/api-actions";
 import StudentChat from "@/components/chat/student/student-chat";
 import BubbleChat from "@/components/chat/bubble-chat";

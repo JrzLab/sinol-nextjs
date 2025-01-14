@@ -13,6 +13,8 @@ import { IUserDataProps, IGroupClass, IEvent } from "@/lib/types/Types";
 import { Loader2 } from "lucide-react";
 
 const DashboardPage: React.FC = () => {
+  const uidCookies = Cookies.get("uidClassUser");
+  const userEmail = Cookies.get("userId");
   const [subjectData, setSubjectData] = useState<IGroupClass[] | undefined>(undefined);
   const [eventData, setEventData] = useState<IEvent[] | undefined>(undefined);
   const [userData, setUserData] = useState<IUserDataProps | undefined>(undefined);
@@ -31,8 +33,6 @@ const DashboardPage: React.FC = () => {
   ]);
 
   useEffect(() => {
-    const uidCookies = Cookies.get("uidClassUser");
-    const userEmail = Cookies.get("userId");
     const fetchDashboardData = async () => {
       if (uidCookies && userEmail) {
         const subjectData = await getClassByUidClassUser(uidCookies);
@@ -59,8 +59,8 @@ const DashboardPage: React.FC = () => {
       setLoading(false);
     };
     fetchDashboardData();
-  }, []);
-
+  }, [uidCookies, userEmail]);
+  
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[80vh]">
@@ -68,12 +68,13 @@ const DashboardPage: React.FC = () => {
       </div>
     );
   }
-
+  
   const modeNoData: boolean = !subjectData || subjectData.length === 0 || !userData;
   
-  if (modeNoData) {
+  if (modeNoData || !eventData || !subjectData || subjectData.length === 0) {
     return <EmptyStatePages />;
   }
+
   return (
     <div className="flex flex-1 flex-col gap-4 pt-0">
       <Card className="flex w-full flex-col rounded-xl">
