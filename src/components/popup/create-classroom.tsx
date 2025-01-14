@@ -56,9 +56,8 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
         }),
         {
           loading: "Creating Classroom...",
-          success: (response) => {
+          success:  async (response) => {
             const typedResponse = response as IClassResponse;
-            console.log(typedResponse);
             if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
               if (typedResponse?.code === 200 && typedResponse.success) {
                 window.location.href = `/classroom`;
