@@ -247,3 +247,11 @@ export interface IResponseCreateEvent {
   message: string;
   data: IEvent;
 }
+
+export interface IUserDataProps {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string | null;
+  imageUrl: string | null;
+}
