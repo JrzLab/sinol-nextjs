@@ -7,7 +7,7 @@ import SubjectCard from "@/components/subject/subject-card";
 import Link from "next/link";
 import { getToday } from "@/lib/functions";
 import { getClassByUidClassUser, getUserData } from "./actions/api-actions";
-import { IUserDataProps } from "@/hooks/user/use-get-user";
+import { IUserDataProps } from "@/lib/types/Types";
 
 const cardData = [
   {
@@ -32,14 +32,21 @@ const cardData = [
   },
 ];
 
-const DashboardPage: React.FC = async () => {
+async function fetchDashboardData() {
   const cookie = await cookies();
   const uidCookies = cookie.get("uidClassUser");
   const userEmail = cookie.get("userId");
-
   const subjectData = uidCookies ? await getClassByUidClassUser(uidCookies.value) : null;
   const userData: IUserDataProps | undefined = userEmail ? await getUserData(userEmail.value) : undefined;
+  return { subjectData, userData };
+}
 
+const DashboardPage: React.FC = async () => {
+  const { subjectData, userData } = await fetchDashboardData();
+  const modeNoData: boolean = !subjectData || subjectData.length === 0 || !userData;
+  if (modeNoData) {
+    return <EmptyStatePages />;
+  }
   return (
     <div className="flex flex-1 flex-col gap-4 pt-0">
       <Card className="flex w-full flex-col rounded-xl">

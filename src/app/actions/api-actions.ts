@@ -27,11 +27,7 @@ const joinClassByUidClassUser = async ({ uidClass, uidClassUser }: IJoinRequestP
 };
 
 const getEventByUidClassUser = async (uid: string, classUid: string) => {
-  const subjectData = await UseGetSubjects(uid);
-  const eventData = subjectData?.find((data) => data.uid == classUid);
-  console.log(eventData);
-
-  const data = await UseGetEvent("fe612ce0");
+  const data = await UseGetEvent("5fcbe82c");
   return data?.data as IEvent[];
 };
 

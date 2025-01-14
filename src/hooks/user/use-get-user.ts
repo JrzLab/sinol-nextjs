@@ -1,17 +1,4 @@
-export interface IUserDataProps {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string | null;
-  imageUrl: string | null;
-}
-
-export interface IUserProps {
-  code: number;
-  success: boolean;
-  message: string;
-  data: IUserDataProps;
-}
+import { IUserDataProps, IUserProps } from "@/lib/types/Types";
 
 export const UseGetUser = async (userEmail: string) => {
   try {
