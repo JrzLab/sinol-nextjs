@@ -211,3 +211,26 @@ export async function changeProfilePicture(email: string, image: File) {
     return error;
   }
 }
+
+export async function uploadAssignment(email: string, classUid: string, file: File) {
+  try {
+    if (!email) {
+      throw new Error("Email is required");
+    }
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("classSubjectId", classUid);
+    formData.append("file", file);
+    const response = await fetch(`${process.env.BACKEND_URL}/class/task/upload`, {
+      method: "POST",
+      body: formData,
+    });
+    const data: IResponseChangeProfile = await response.json();
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Change profile picture failed");
+    }
+    return data as IResponseChangeProfile;
+  } catch (error) {
+    return error;
+  }
+}

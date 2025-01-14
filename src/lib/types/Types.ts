@@ -154,6 +154,19 @@ export interface IResponseChangeProfile {
   };
 }
 
+export interface IResponseTaskUpload {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+      id: number;
+      fileName: string;
+      url: string;
+      userTaskId: number;
+  }[];
+}
+
+
 export interface IAccountInfoDialogProps {
   isOpen: boolean;
   onClose: () => void;
