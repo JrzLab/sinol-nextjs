@@ -262,3 +262,16 @@ export interface IUserProps {
   message: string;
   data: IUserDataProps;
 }
+
+
+interface IEventDataProps {
+  id: number;
+  title: string;
+  url: string;
+}
+
+export interface IClassNavbarData {
+  classUid: string;
+  title: string;
+  events: IEventDataProps[];
+}

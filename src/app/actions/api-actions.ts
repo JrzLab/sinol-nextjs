@@ -3,7 +3,7 @@ import { IClassRoomCreate } from "../api/classroom/create/route";
 import { UseCreateClass } from "@/hooks/classroom/use-create-class";
 import { UseGetUser } from "@/hooks/user/use-get-user";
 import { IJoinRequestProps, UseJoinClass } from "@/hooks/classroom/use-join-class";
-import { IEvent, IResponseEvent, IResponseJoinClass } from "@/lib/types/Types";
+import { IEvent, IResponseJoinClass } from "@/lib/types/Types";
 import { UseGetEvent } from "@/hooks/classroom/event/use-get-event";
 import { UseCreateEvent } from "@/hooks/classroom/event/use-create-event";
 

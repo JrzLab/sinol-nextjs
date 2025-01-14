@@ -1,7 +1,6 @@
 "use client";
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { eventStaticData } from "@/lib/staticData";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import EventCard from "@/components/subject/event-card";
@@ -11,7 +10,7 @@ import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/ap
 import StudentChat from "@/components/chat/student/student-chat";
 import BubbleChat from "@/components/chat/bubble-chat";
 import { useAuth } from "@/hooks/context/AuthProvider";
-import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass, IResponseEvent } from "@/lib/types/Types";
+import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass } from "@/lib/types/Types";
 import CreateEventPopUp from "@/components/popup/create-event";
 
 const ClassroomPage = () => {
@@ -34,7 +33,7 @@ const ClassroomPage = () => {
       }
     };
     fetchData().then(async (data) => {
-      const getEventData = await getEventByUidClassUser(user?.uidClassUser!, data?.uid!);
+      const getEventData = await getEventByUidClassUser(user?.uidClassUser ?? '', data?.uid ?? '');
       if (getEventData !== null) {
         setDataEvent(getEventData);
       } else {
@@ -112,7 +111,7 @@ const ClassroomPage = () => {
         <div className="flex flex-col gap-4">
           <div className="flex justify-end">
             <Button onClick={() => setOpenEvent(!openEvent)}>Buat Tugas</Button>
-            {openEvent ? <CreateEventPopUp classUid={dataClass?.uid!} status={() => setOpenEvent(!openEvent)} /> : null}
+            {openEvent ? <CreateEventPopUp classUid={dataClass?.uid ?? ''} status={() => setOpenEvent(!openEvent)} /> : null}
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {dataEvent?.map((event) => <EventCard key={event.id} eventData={event} subjectData={dataClass!} />)}
