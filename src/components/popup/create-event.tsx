@@ -21,15 +21,13 @@ import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { format } from "date-fns";
 import { createEventByUidClassUser } from "@/app/actions/api-actions";
-const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: string }) => {
-  // interface IFile {
-  //   id: number;
-  //   name: string;
-  //   ext: string;
-  // }
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
+const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: string }) => {
   const [isOpen, setIsOpen] = useState(true);
-  // const [file, setFile] = useState<IFile[]>([]);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const togglePopUp = () => {
     status();
@@ -40,29 +38,13 @@ const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: 
     defaultValues: {
       eventName: "",
       eventDescription: "",
-      eventScore: 0, //Tidak Dinilai
+      eventScore: 0,
       eventDueDate: new Date(),
     },
   });
 
-  // const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = e.target.files;
-  //   if (!files) return;
-  //   const fileArray = Array.from(files);
-  //   const fileNames = fileArray.map((file) => file.name);
-  //   const fileExt = fileArray.map((file) => file.type);
-
-  //   const list: IFile[] = [];
-  //   let i = 0;
-  //   fileArray.map((file) => {
-  //     list.push({ name: file.name, ext: file.type, id: i++ });
-  //   });
-
-  //   setFile(list);
-  //   toast({ title: "File Uploader", description: "file berhasil diupload" });
-  // };
-
   const submitHandler = async (values: z.infer<typeof createEventFormSchema>) => {
+    setLoading(true);
     createEventFormSchema.parse(values);
     try {
       const reqBody = {
@@ -72,14 +54,26 @@ const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: 
         dueDate: values.eventDueDate.toISOString(),
         uid: classUid,
       };
-      console.log(reqBody);
-
-      const data = await createEventByUidClassUser(classUid, reqBody.title, reqBody.description, reqBody.dueDate, reqBody.maxScore);
-      if (data?.success && data?.code === 200) {
-        console.log("Tugas berhasil dibuat");
-      }
+      toast.promise(createEventByUidClassUser(classUid, reqBody.title, reqBody.description, reqBody.dueDate, reqBody.maxScore), {
+        loading: "Creating Event...",
+        success: async (response) => {
+          if (response?.code === 200 && response.success) {
+            return response?.message
+          }
+          throw new Error(response?.message)
+        },
+        error: (err) => {
+          return err.message
+        },
+        finally() {
+          setLoading(false);
+          status();
+          window.location.reload()
+        },
+      });
     } catch (e) {
       console.error(e);
+      setLoading(false);
     }
   };
 
@@ -187,8 +181,8 @@ const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: 
                       )}
                     />
                   </div>
-                  <Button type="submit" onClick={createEventForm.handleSubmit(submitHandler)} className="hover:bg-secondary" variant={"default"}>
-                    Buat Kelas
+                  <Button disabled={loading} type="submit" onClick={createEventForm.handleSubmit(submitHandler)} className="hover:bg-secondary" variant={"default"}>
+                    Buat Tugas
                   </Button>
                 </form>
               </Form>

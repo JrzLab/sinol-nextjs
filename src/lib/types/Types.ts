@@ -154,6 +154,19 @@ export interface IResponseChangeProfile {
   };
 }
 
+export interface IResponseTaskUpload {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+      id: number;
+      fileName: string;
+      url: string;
+      userTaskId: number;
+  }[];
+}
+
+
 export interface IAccountInfoDialogProps {
   isOpen: boolean;
   onClose: () => void;
@@ -222,8 +235,9 @@ export interface IEvent {
   id: number;
   title: string;
   description: string;
-  dueDateAt: string; // Format date dalam string ISO
+  dueDateAt: string;
   maxScore: number;
+  status: "OPEN" | "CLOSED";
 }
 
 export interface IResponseEvent {

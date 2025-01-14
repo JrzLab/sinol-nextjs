@@ -4,17 +4,27 @@ import { getDate } from "@/lib/functions";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { IEvent, IGroupClass } from "@/lib/types/Types";
+import { truncateText } from "@/lib/functions";
 
 const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; eventData: IEvent }) => {
   return (
     <div>
       <Card className="text-foreground">
-        <CardHeader className="items-start">
-          <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="font-bold">
-            {eventData.title}
-          </Link>
+        <CardHeader>
+          <div className="flex justify-between">
+            <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="hover:underline font-bold">
+              {truncateText(eventData.title, 20)}
+            </Link>
+            <p>
+              {eventData.status === "OPEN" ? (
+                <span className="rounded-md text-xs bg-green-200 p-2">Tersedia</span>
+              ) : (
+                <span className="rounded-md text-xs bg-red-200 p-2">Tidak Tersedia</span>
+              )}
+            </p>
+          </div>
           <p>{eventData.description}</p>
-          <div className="flex w-full justify-end pt-6">
+          <div className="flex w-full items-center justify-end pt-6">
             <Button className="hover:bg-secondary" variant={"default"}>
               Detail
             </Button>
@@ -22,7 +32,7 @@ const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; event
         </CardHeader>
         <hr />
         <CardHeader className="flex flex-col items-end">
-          <span className="text-xs">{getDate({ children: eventData.dueDateAt })}</span>
+          <span className="text-xs">Deadline: {getDate({ children: eventData.dueDateAt })}</span>
         </CardHeader>
       </Card>
     </div>

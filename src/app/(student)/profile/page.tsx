@@ -159,13 +159,6 @@ const ProfilePage: React.FC = () => {
                   <p className="font-medium">{user?.joinedAt ? formatDate(user.joinedAt) : "N/A"}</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3 text-gray-600">
-                <Calendar className="h-4 w-4" />
-                <div>
-                  <p className="text-sm text-gray-500">Session Berakhir Pada</p>
-                  <p className="font-medium">{user?.expiresAt ? formatDate(user.expiresAt) : "N/A"}</p>
-                </div>
-              </div>
             </CardContent>
           </Card>
           <Card className="transform transition-all duration-300 hover:shadow-lg">
