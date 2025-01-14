@@ -36,7 +36,7 @@ const DashboardPage: React.FC = () => {
     const fetchDashboardData = async () => {
       if (uidCookies && userEmail) {
         const subjectData = await getClassByUidClassUser(uidCookies);
-        const eventData = subjectData ? await getEventByUidClassUser(uidCookies, subjectData[0].uid) : undefined;
+        const eventData = subjectData && subjectData.length > 0 ? await getEventByUidClassUser(uidCookies, subjectData[0].uid) : [];
         const userData = await getUserData(userEmail);
 
         setSubjectData(subjectData);
@@ -60,17 +60,25 @@ const DashboardPage: React.FC = () => {
     };
     fetchDashboardData();
   }, [uidCookies, userEmail]);
-  
+
+  if (!eventData || eventData.length === 0) {
+    return (
+      <>
+        <EmptyStatePages />
+      </>
+    );
+  }
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-[80vh]">
+      <div className="flex h-[80vh] items-center justify-center">
         <Loader2 width={50} height={50} className="animate-spin" />
       </div>
     );
   }
-  
+
   const modeNoData: boolean = !subjectData || subjectData.length === 0 || !userData;
-  
+
   if (modeNoData || !eventData || !subjectData || subjectData.length === 0) {
     return <EmptyStatePages />;
   }

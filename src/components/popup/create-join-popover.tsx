@@ -13,6 +13,7 @@ const CreateJoinPopover = () => {
   const isMainPage = pathname === "/";
   const [popUpCreate, setPopUpCreate] = useState<boolean>(false);
   const [popUpJoin, setPopUpJoin] = useState<boolean>(false);
+
   return (
     <>
       {isMainPage && (
