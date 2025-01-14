@@ -1,18 +1,43 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import EducationNotFound from "../../../../public/education-404.svg";
 import SearchSubjectButton from "@/components/button/search-subject-button";
 import { getClassByUidClassUser } from "@/app/actions/api-actions";
-import { cookies } from "next/headers";
 import { IGroupClass } from "@/lib/types/Types";
 import SubjectCard from "@/components/subject/subject-card";
+import { Loader2 } from "lucide-react";
 
-const StudentClassroom = async () => {
-  const cookie = await cookies();
-  const valueCookies = cookie.get("uidClassUser");
-  const subjectData = valueCookies ? await getClassByUidClassUser(valueCookies.value) : null;
+const StudentClassroom = () => {
+  const [subjectData, setSubjectData] = useState<IGroupClass[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const modeNoData: boolean = subjectData?.length === 0 ? true : false;
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      const uidClassUser = Cookies.get("uidClassUser");
+      if (uidClassUser) {
+        const data = await getClassByUidClassUser(uidClassUser);
+        setSubjectData(data!);
+      } else {
+        setSubjectData([]);
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
+
+  const modeNoData: boolean = !loading && subjectData?.length === 0;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[80vh]">
+        <Loader2 width={50} height={50} className="animate-spin" />;
+      </div>
+    );
+  }
+
   return (
     <>
       {modeNoData ? (
@@ -20,7 +45,7 @@ const StudentClassroom = async () => {
           <div className="flex flex-col items-center justify-center gap-4 p-8">
             <Image src={EducationNotFound} alt="not found" className="h-48 w-48 opacity-50" />
             <h2 className="text-2xl font-semibold text-gray-600">Classroom Not Found</h2>
-            <p className="text-gray-500">You havent joined any classroom yet.</p>
+            <p className="text-gray-500">You haven't joined any classroom yet.</p>
           </div>
         </div>
       ) : (

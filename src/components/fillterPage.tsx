@@ -10,7 +10,6 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Breadcrumbs from "@/components/sidebar/breadcrumbs";
 import { ProtectedRoute } from "@/hooks/protected-pages";
-import Fallback from "./Fallback";
 import CreateJoinPopover from "./popup/create-join-popover";
 
 export default function FillterPage({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -24,7 +23,7 @@ export default function FillterPage({ children }: Readonly<{ children: React.Rea
         {notShowPage.includes(pathname) ? (
           <>{children}</>
         ) : (
-          <ProtectedRoute fallback={<Fallback />}>
+          <ProtectedRoute>
             <SidebarProvider>
               <AppSidebar />
               <SidebarInset className="min-h-screen">
