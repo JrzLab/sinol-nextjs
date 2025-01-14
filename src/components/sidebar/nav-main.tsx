@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronRight, SquareLibrary } from "lucide-react";
-import Link from "next/link";
+import { Navlink } from "./nav-class-link";
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
@@ -72,30 +72,12 @@ export function NavMain() {
         {subject.map((item, index) => (
           <Collapsible key={index} asChild className="group/collapsible">
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.className}>
-                  <SquareLibrary />
+              <SidebarMenuButton tooltip={item.className}>
+                <SquareLibrary />
+                <Navlink href={item.uid}>
                   <span className="text-xs">{truncateText(item.className, 40)}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {event.map(async (subItem, index) => {
-                    return (
-                      <>
-                        <SidebarMenuSubItem key={index}>
-                          <SidebarMenuSubButton asChild>
-                            <Link href={`/classroom/${item.uid}/${subItem.id}`}>
-                              <span>{subItem.title}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      </>
-                    );
-                  })}
-                </SidebarMenuSub>
-              </CollapsibleContent>
+                </Navlink>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           </Collapsible>
         ))}

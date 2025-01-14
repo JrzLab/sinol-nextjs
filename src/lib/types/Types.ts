@@ -222,8 +222,9 @@ export interface IEvent {
   id: number;
   title: string;
   description: string;
-  dueDateAt: string; // Format date dalam string ISO
+  dueDateAt: string;
   maxScore: number;
+  status: "OPEN" | "CLOSED";
 }
 
 export interface IResponseEvent {

@@ -12,16 +12,27 @@ import BubbleChat from "@/components/chat/bubble-chat";
 import { useAuth } from "@/hooks/context/AuthProvider";
 import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass } from "@/lib/types/Types";
 import CreateEventPopUp from "@/components/popup/create-event";
+import { getSocket } from "@/lib/socket";
 
 const ClassroomPage = () => {
+  const { user } = useAuth();
   const params = useParams();
   const slug = params.slug as string;
-  const { user } = useAuth();
   const roomId = useRef<number>(0);
   const [dataClass, setDataClass] = useState<IGroupClass>();
   const [dataEvent, setDataEvent] = useState<IEvent[]>();
   const [messageData, setMessageData] = useState<ChatMessage[]>([]);
   const [openEvent, setOpenEvent] = useState<boolean>(false);
+  const [listenerAdded, setListenerAdded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!listenerAdded) {
+      getSocket()?.on("updateMessageClient", (data: ChatMessage) => {
+        setMessageData((prev) => [...prev, data]);
+      });
+      setListenerAdded(true);
+    }
+  }, [listenerAdded]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,18 +65,14 @@ const ClassroomPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          mode: "no-cors",
           body: JSON.stringify({ emailUser1: dataClass?.ownerData.email, emailUser2: user?.email }),
         },
       );
       const response = (await data.json()) as ChatHistoryResponse;
+      console.log(response);
       roomId.current = response.data.id;
       setMessageData(response.data.messages);
     }
-  };
-
-  const addChatHandler = async (message: ChatMessage) => {
-    setMessageData((prev) => [...prev, message]);
   };
 
   const getEventLength = dataEvent?.length;
@@ -76,7 +83,6 @@ const ClassroomPage = () => {
           <StudentChat
             classDataWs={{ idRoom: roomId.current, emailUser: user?.email ?? "", teacherData: dataClass?.ownerData || {} }}
             buttonGetChat={buttonChatHandler}
-            addChatHandler={addChatHandler}
           >
             {messageData &&
               messageData.map((data, index) => (
@@ -96,7 +102,7 @@ const ClassroomPage = () => {
               <Link href={`/classroom/${dataClass?.uid}/join`}>
                 <Button>Ubah Kelas</Button>
               </Link>
-              <Button variant={"outline"}>Lihat </Button>
+              <Button variant={"outline"}>Lihat</Button>
             </div>
           ) : null}
         </CardHeader>
@@ -115,7 +121,7 @@ const ClassroomPage = () => {
       <div className="mt-4 flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           <div className="flex justify-end">
-            <Button onClick={() => setOpenEvent(!openEvent)}>Buat Tugas</Button>
+            {dataClass && dataClass?.ownerData.email !== user?.email ? null : <Button onClick={() => setOpenEvent(!openEvent)}>Buat Tugas</Button>}
             {openEvent && dataClass?.uid ? <CreateEventPopUp classUid={dataClass.uid} status={() => setOpenEvent(!openEvent)} /> : null}
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

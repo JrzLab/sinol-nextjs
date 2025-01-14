@@ -1,132 +1,42 @@
-import { Button } from "@/components/ui/button";
+import { cookies } from "next/headers";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { FileText, Grid2x2, WholeWord } from "lucide-react";
+import { getEventByUidClassUser, getUserData } from "@/app/actions/api-actions";
+import { notFound } from "next/navigation";
+import { IUserDataProps } from "@/lib/types/Types";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
-const Event = () => {
-  const staticFile = [
-    {
-      id: 1,
-      name: "file name",
-      ext: ".pdf",
-      icon: <FileText className="w-full" width={100} />,
-    },
-    {
-      id: 2,
-      name: "file name",
-      ext: ".docx",
-      icon: <WholeWord className="w-full" width={100} />,
-    },
-    {
-      id: 3,
-      name: "file name",
-      ext: ".exls",
-      icon: <Grid2x2 className="w-full" width={100} />,
-    },
-    {
-      id: 4,
-      name: "file name",
-      ext: ".exls",
-      icon: <Grid2x2 className="w-full" width={100} />,
-    },
-  ];
+const Event = async ({ params }: { params: Promise<{ slug: string; event: string }> }) => {
+  const { slug, event } = await params;
+  const cookiesData = await cookies();
+  const userEmail = cookiesData.get("userId");
+
+  const dataEvent = await getEventByUidClassUser(event, slug);
+  const userData: IUserDataProps | undefined = userEmail ? await getUserData(userEmail.value) : undefined;
+  const filteredData = dataEvent?.find((data) => data.id === parseInt(event));
+
+  if (!filteredData) return notFound();
+
   return (
     <div className="flex w-full flex-col gap-2 text-sm">
       <Card>
         <CardHeader>
-          <h1 className="text-xl font-bold">Event name</h1>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque sapiente veniam porro. Lorem ipsum dolor sit amet, consectetur adipisicing
-            elit. Magnam itaque voluptatibus aspernatur voluptatem, cupiditate minus incidunt id labore illum, ipsa distinctio voluptates
-            reprehenderit ducimus. Voluptates rem eligendi consectetur illo accusantium accusamus quia nesciunt illum tempore dolore voluptate tempora
-            aperiam ad placeat cumque soluta ipsa eius, praesentium neque odit voluptatum, cupiditate repudiandae! Provident atque aut quos sint
-            recusandae harum minus illum. Dolore placeat eligendi maiores deserunt, corrupti aut eum. Quasi, ullam animi voluptate repellat
-            distinctio, nesciunt ad, magnam velit doloribus facere commodi! Pariatur illo nemo hic voluptas vero accusantium. Dolores error ratione
-            odit dolore ullam at aperiam, eveniet corrupti iste eius cumque molestias quaerat vel, nihil quia alias cupiditate et officia quo. Eum
-            magni a accusamus, odio voluptatem vel obcaecati neque, quis molestias consequatur sunt animi nemo officiis commodi, unde impedit
-            dignissimos. Officiis, fugit. Maiores accusantium ad minima quasi maxime voluptas perspiciatis! Cumque totam sed quae vero dicta quaerat
-            praesentium corrupti assumenda quis voluptatem, suscipit ipsum esse, beatae quo facere rem nihil aperiam. Maxime aspernatur minima quae.
-            Numquam eveniet minima nemo, laborum cumque eum blanditiis maxime voluptates ullam nobis? Optio saepe eligendi sapiente voluptatibus
-            assumenda, repellendus nostrum labore unde reprehenderit deleniti magnam porro? Eaque recusandae perferendis voluptatem eos quasi vero!
-            Iure quos obcaecati molestiae nisi quidem nostrum ad sed, deleniti tempore.
-          </p>
+          <h1 className="text-xl font-bold">{filteredData.title}</h1>
+          <p>{filteredData.description}</p>
         </CardHeader>
         <hr />
         <CardHeader className="flex-row items-end gap-2">
-          <div className="aspect-square w-12 rounded-full bg-black"></div>
-          <div className="">
-            <h1 className="text-lg">
-              <b>teacher name</b>
+          <Avatar className="flex items-center">
+            <AvatarImage width={50} height={50} className="rounded-lg" src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${userData?.imageUrl}`} />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          <div className="text-sm">
+            <h1>
+              {userData?.firstName} {userData?.lastName}
             </h1>
-            <p>teacher name</p>
+            <p>{userData?.email}</p>
           </div>
         </CardHeader>
       </Card>
-      <div className="grid content-start gap-2 md:grid-cols-2">
-        <div>
-          <Card className="overflow-hidden">
-            <hr />
-            <CardHeader className="items-end text-end">
-              <h1 className="text-lg">
-                <b>file name</b>
-              </h1>
-              <p>file image(jpg, png, jpeg) Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod enim architecto unde?</p>
-            </CardHeader>
-          </Card>
-        </div>
-        <div>
-          <Card>
-            <CardHeader className="items-end overflow-hidden text-end">
-              <h1>
-                <b>file</b>
-              </h1>
-              <p>description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam quasi eligendi cum.</p>
-            </CardHeader>
-            <hr />
-            <CardHeader>
-              <div className="grid grid-cols-4 gap-2">
-                {staticFile.map((file) => (
-                  <div className="mb-4" key={file.id}>
-                    <div className="mb-2 flex aspect-square flex-col items-center justify-center rounded border shadow-sm">
-                      <h1>{file.icon}</h1>
-                    </div>
-                    <p>
-                      {file.name}
-                      {file.ext}
-                    </p>
-                  </div>
-                ))}
-                {staticFile.map((file) => (
-                  <div className="mb-4" key={file.id}>
-                    <div className="mb-2 flex aspect-square flex-col items-center justify-center rounded border shadow-sm">
-                      <h1>{file.icon}</h1>
-                    </div>
-                    <p>
-                      {file.name}
-                      {file.ext}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <Button>Download</Button>
-            </CardHeader>
-          </Card>
-        </div>
-        <form>
-          <Card>
-            <CardHeader className="items-center">
-              <h1 className="text-lg">
-                <b>Pengumpulan tugas</b>
-              </h1>
-              <p>kumpulkan tugas event ini</p>
-            </CardHeader>
-            <hr />
-            <CardHeader>
-              <Input type="file" className="mt-4" />
-            </CardHeader>
-          </Card>
-        </form>
-      </div>
     </div>
   );
 };

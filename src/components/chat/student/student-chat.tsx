@@ -21,12 +21,10 @@ interface IClassDataWS {
 const StudentChat = ({
   classDataWs,
   buttonGetChat,
-  addChatHandler,
   children,
 }: {
   classDataWs: IClassDataWS;
   buttonGetChat: () => void;
-  addChatHandler: (message: ChatMessage) => void;
   children: React.ReactNode;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -42,10 +40,6 @@ const StudentChat = ({
     const message = (new FormData(form)).get("text") as string;
 
     UseWebSocketChat(classDataWs.teacherData.email, classDataWs.emailUser, message, classDataWs.idRoom);
-    getSocket()?.on("updateMessageClient", (data: ChatMessage) => {
-      addChatHandler(data);
-    });
-    
   };
 
   return (
