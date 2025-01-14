@@ -333,3 +333,36 @@ export interface IViewsUser {
   imageUrl: string;
   createdAt: string;
 }
+
+export interface IJadwalKelasTable {
+  id: number;
+  classUid: string;
+  className: string;
+  classDay: number;
+  classDescription: string;
+  classEvent: number | null;
+  classMember: number | null;
+  classStatus: "active" | "inactive";
+}
+
+export interface IRequestClassroomLeave {
+  uidClass: string;
+  uidClassUser: string;
+}
+
+export interface IResponseClassroomLeave {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    uid: string;
+    day: number;
+    className: string;
+    description: string;
+    ownerData: {
+      email: string;
+      name: string;
+      imageUrl: string;
+    };
+  };
+}

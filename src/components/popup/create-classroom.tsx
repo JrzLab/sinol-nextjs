@@ -58,8 +58,8 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
           loading: "Creating Classroom...",
           success: (response) => {
             const typedResponse = response as IClassResponse;
-            console.log(typedResponse)
-            if(typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
+            console.log(typedResponse);
+            if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
               if (typedResponse?.code === 200 && typedResponse.success) {
                 window.location.href = `/classroom/${typedResponse.data.groupClass[0].uid}`;
                 return typedResponse.message;
@@ -137,7 +137,7 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
                             <FormControl>
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                  <Button variant="outline">{field.value}</Button>
+                                  <Button variant="outline">Pilih Jadwal Kelas</Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56" align={"start"}>
                                   <DropdownMenuLabel>Pilih Jadwal Kelas</DropdownMenuLabel>

@@ -22,13 +22,15 @@ const StudentChat = ({
   classDataWs,
   buttonGetChat,
   children,
+  isOpen,
+  setIsOpen,
 }: {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   classDataWs: IClassDataWS;
   buttonGetChat: () => void;
   children: React.ReactNode;
 }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const openChatHandler = () => {
     setIsOpen(!isOpen);
   };
@@ -37,10 +39,9 @@ const StudentChat = ({
     e.preventDefault();
 
     const form = e.currentTarget;
-    const message = (new FormData(form)).get("text") as string;
+    const message = new FormData(form).get("text") as string;
 
     UseWebSocketChat(classDataWs.teacherData.email, classDataWs.emailUser, message, classDataWs.idRoom);
-  
   };
 
   return (

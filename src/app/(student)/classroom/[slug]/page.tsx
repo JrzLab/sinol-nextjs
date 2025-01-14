@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import EventCard from "@/components/subject/event-card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
+import { getClassByUidClassUser, getEventByUidClassUser, leaveClassByUidClassUser } from "@/app/actions/api-actions";
 import StudentChat from "@/components/chat/student/student-chat";
 import BubbleChat from "@/components/chat/bubble-chat";
 import { useAuth } from "@/hooks/context/AuthProvider";
@@ -14,6 +14,10 @@ import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass } from "@/lib/typ
 import CreateEventPopUp from "@/components/popup/create-event";
 import { getSocket } from "@/lib/socket";
 import EditClassroomDetail from "@/components/popup/edit-classroom-detail";
+import { LogOut, MessageCircleQuestion } from "lucide-react";
+import GeneralAlert from "@/components/popup/general-alert";
+import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 const ClassroomPage = () => {
   const { user } = useAuth();
@@ -25,6 +29,9 @@ const ClassroomPage = () => {
   const [messageData, setMessageData] = useState<ChatMessage[]>([]);
   const [openEvent, setOpenEvent] = useState<boolean>(false);
   const [isListenerAdded, setIsListenerAdded] = useState<boolean>(false);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [isLeaveAlertOpen, setIsLeaveAlertOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isListenerAdded) {
@@ -76,13 +83,37 @@ const ClassroomPage = () => {
       setMessageData(response.data.messages);
     }
   };
-
+  const leaveClassHandler = async () => {
+    try {
+      toast.promise(leaveClassByUidClassUser(dataClass?.uid!, user?.uidClassUser!), {
+        loading: "Keluar Kelas...",
+        success: async (response) => {
+          if (response?.code === 200 && response?.success) {
+            return response.message;
+          }
+          throw new Error(response?.message);
+        },
+        error: (err) => {
+          return err.message;
+        },
+        finally: () => {
+          setIsLeaveAlertOpen(!isLeaveAlertOpen);
+          setLoading(false);
+          window.location.href = "/classroom";
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
   const getEventLength = dataEvent?.length;
   return (
     <>
       {dataClass && dataClass?.ownerData.email !== user?.email ? (
         <div className="relative">
           <StudentChat
+            isOpen={isChatOpen}
+            setIsOpen={setIsChatOpen}
             classDataWs={{ idRoom: roomId.current, emailUser: user?.email ?? "", teacherData: dataClass?.ownerData || {} }}
             buttonGetChat={buttonChatHandler}
           >
@@ -97,16 +128,32 @@ const ClassroomPage = () => {
       ) : null}
       <Card className="text-foreground">
         <CardHeader>
-          <h1 className="font-bold">{dataClass?.className}</h1>
-          <p>{dataClass?.description}</p>
+          <div className="flex flex-row items-start justify-between">
+            <div className="flex flex-col">
+              <h1 className="font-bold">{dataClass?.className}</h1>
+              <p>{dataClass?.description}</p>
+            </div>
+            <div className="flex flex-row gap-2">
+              {dataClass?.ownerData.email !== user?.email ? (
+                <Button size={"icon"} variant={"outline"} onClick={() => setIsChatOpen(!isChatOpen)}>
+                  <MessageCircleQuestion />
+                </Button>
+              ) : null}
+              <Button size={"icon"} variant={"outline"} onClick={() => setIsLeaveAlertOpen(true)}>
+                <LogOut />
+              </Button>
+            </div>
+          </div>
           {true ? (
             <div className="flex gap-2 pt-8">
               {dataClass?.ownerData.email === user?.email ? (
-                <Button onClick={() => setOpenEdit(true)} variant={"default"} className="hover:bg-secondary">
-                  Ubah Kelas
-                </Button>
+                <>
+                  <Button onClick={() => setOpenEdit(true)} variant={"default"} className="hover:bg-secondary">
+                    Ubah Kelas
+                  </Button>
+                  <Button variant={"outline"}>Lihat Anggota</Button>
+                </>
               ) : null}
-              <Button variant={"outline"}>Lihat Anggota</Button>
             </div>
           ) : null}
         </CardHeader>
@@ -134,6 +181,10 @@ const ClassroomPage = () => {
         </div>
       </div>
       {openEdit && <EditClassroomDetail data={dataClass!} dialogHandler={() => setOpenEdit(!openEdit)} open={openEdit} />}
+      <GeneralAlert open={isLeaveAlertOpen} title="Apakah Anda Yakin?" description="Tindakan keluar kelas ini tidak dapat diurungkan atau diulang.">
+        <AlertDialogCancel onClick={() => setIsLeaveAlertOpen(false)}>Batal</AlertDialogCancel>
+        <AlertDialogAction onClick={() => leaveClassHandler()}>Keluar</AlertDialogAction>
+      </GeneralAlert>
     </>
   );
 };
