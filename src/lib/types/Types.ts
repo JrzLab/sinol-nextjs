@@ -232,3 +232,18 @@ export interface IResponseEvent {
   message: string;
   data: IEvent[];
 }
+
+export interface IRequestCreateEvent {
+  uid: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  maxScore: number;
+}
+
+export interface IResponseCreateEvent {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IEvent;
+}

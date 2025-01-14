@@ -3,32 +3,17 @@ import { Card, CardHeader } from "../ui/card";
 import { getDate } from "@/lib/functions";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { IEvent, IGroupClass } from "@/lib/types/Types";
 
-interface EventContent {
-  subtitle: string;
-  text: string;
-  file: string;
-  path: string;
-}
-
-interface Event {
-  subjectId: number; // Foreign key
-  eventId: number; // Primary key
-  title: string;
-  date: string; // Format: "YYYY/MM/DD HH:mm:ss"
-  description: string;
-  content: EventContent[];
-}
-
-const EventCard = ({ data }: { data: Event }) => {
+const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; eventData: IEvent }) => {
   return (
     <div>
       <Card className="text-foreground">
         <CardHeader className="items-start">
-          <Link href={`/classroom/${data.subjectId}/tugas/${data.eventId}`} className="font-bold">
-            {data.title}
+          <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="font-bold">
+            {eventData.title}
           </Link>
-          <p>{data.description}</p>
+          <p>{eventData.description}</p>
           <div className="flex w-full justify-end pt-6">
             <Button className="hover:bg-secondary" variant={"default"}>
               Detail
@@ -37,7 +22,7 @@ const EventCard = ({ data }: { data: Event }) => {
         </CardHeader>
         <hr />
         <CardHeader className="flex flex-col items-end">
-          <span className="text-xs">{getDate({ children: data.date })}</span>
+          <span className="text-xs">{getDate({ children: eventData.dueDateAt })}</span>
         </CardHeader>
       </Card>
     </div>

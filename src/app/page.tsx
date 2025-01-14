@@ -16,18 +16,8 @@ const cardData = [
     total: 20,
   },
   {
-    title: "Absensi",
-    description: "Absensi yang Sudah Dikirim",
-    total: 20,
-  },
-  {
     title: "Tugas",
     description: "Tugas yang Sudah Dikirim",
-    total: 20,
-  },
-  {
-    title: "Tabel Peringkat",
-    description: "Peringkat Semua Pengguna",
     total: 20,
   },
 ];
@@ -53,7 +43,7 @@ const DashboardPage: React.FC = async () => {
           </Button>
         </CardFooter>
       </Card>
-      <div className="grid auto-rows-min grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid auto-rows-min grid-cols-2 gap-4 lg:grid-cols-2">
         {cardData.map((data) => (
           <Card className="flex flex-col justify-between text-foreground" key={data.title}>
             <CardHeader>
@@ -70,13 +60,7 @@ const DashboardPage: React.FC = async () => {
         <h1 className="text-xl font-bold">Jadwal Hari Ini</h1>
         <span className="text-sm">{getToday()}</span>
       </div>
-      <div>
-        {subjectData && subjectData.length > 0 ? (
-          <SubjectCard format={false} data={subjectData} />
-        ) : (
-          <EmptyStatePages />
-        )}
-      </div>
+      <div>{subjectData && subjectData.length > 0 ? <SubjectCard format={false} data={subjectData} /> : <EmptyStatePages />}</div>
     </div>
   );
 };

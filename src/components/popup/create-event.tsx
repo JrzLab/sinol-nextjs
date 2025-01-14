@@ -1,7 +1,7 @@
 "use client";
 
 // import { useToast } from "@/hooks/use-toast";
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -20,8 +20,8 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { format } from "date-fns";
-
-const CreateEventPopUp = ({ status }: { status: () => void }) => {
+import { createEventByUidClassUser } from "@/app/actions/api-actions";
+const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: string }) => {
   // interface IFile {
   //   id: number;
   //   name: string;
@@ -64,6 +64,23 @@ const CreateEventPopUp = ({ status }: { status: () => void }) => {
 
   const submitHandler = async (values: z.infer<typeof createEventFormSchema>) => {
     createEventFormSchema.parse(values);
+    try {
+      const reqBody = {
+        title: values.eventName,
+        description: values.eventDescription,
+        maxScore: values.eventScore,
+        dueDate: values.eventDueDate.toISOString(),
+        uid: classUid,
+      };
+      console.log(reqBody);
+
+      const data = await createEventByUidClassUser(classUid, reqBody.title, reqBody.description, reqBody.dueDate, reqBody.maxScore);
+      if (data?.success && data?.code === 200) {
+        console.log("Tugas berhasil dibuat");
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -122,11 +139,18 @@ const CreateEventPopUp = ({ status }: { status: () => void }) => {
                     <FormField
                       control={createEventForm.control}
                       name="eventScore"
-                      render={() => (
+                      render={({ field }) => (
                         <FormItem>
-                          <FormLabel htmlFor="eventDescription">Nilai Tugas</FormLabel>
+                          <FormLabel htmlFor="eventScore">Nilai Tugas</FormLabel>
                           <FormControl>
-                            <Input type="number" placeholder="Masukan Nilai Tugas" />
+                            <Input
+                              type="number"
+                              id="eventScore"
+                              placeholder="Masukan Nilai Tugas"
+                              {...field}
+                              value={field.value || ""}
+                              onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                            />
                           </FormControl>
                           <FormDescription className="text-xs">Masukan Nilai Tugas.</FormDescription>
                           <FormMessage className="text-xs" />

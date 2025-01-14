@@ -56,6 +56,6 @@ export const changeDataFormSchema = z.object({
 export const createEventFormSchema = z.object({
   eventName: z.string().nonempty({ message: "Nama tugas wajib diisi." }),
   eventDescription: z.string().nonempty({ message: "Deskripsi tugas wajib diisi." }),
-  eventScore: z.number().int({ message: "Nilai tugas harus berupa angka." }).min(0, { message: "Nilai tugas minimal 0." }),
+  eventScore: z.number().min(0, { message: "Nilai tugas minimal 0." }).max(100, { message: "Nilai tugas maksimal 100." }),
   eventDueDate: z.date({ required_error: "Tanggal wajib diisi." }),
 });
