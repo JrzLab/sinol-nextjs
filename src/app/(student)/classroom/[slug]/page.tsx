@@ -94,8 +94,12 @@ const ClassroomPage = () => {
           <p>{dataClass?.description}</p>
           {true ? (
             <div className="flex gap-2 pt-8">
-              <Button onClick={() => setOpenEdit(true)}>Ubah Kelas</Button>
-              <Button variant={"outline"}>Lihat </Button>
+              {dataClass?.ownerData.email === user?.email ? (
+                <Button onClick={() => setOpenEdit(true)} variant={"default"} className="hover:bg-secondary">
+                  Ubah Kelas
+                </Button>
+              ) : null}
+              <Button variant={"outline"}>Lihat Anggota</Button>
             </div>
           ) : null}
         </CardHeader>

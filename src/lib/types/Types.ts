@@ -286,3 +286,17 @@ export interface IUserDataProps {
   lastName: string | null;
   imageUrl: string | null;
 }
+
+export interface IResponseViewUsers {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IViewsUser[];
+}
+
+export interface IViewsUser {
+  email: string;
+  name: string;
+  imageUrl: string;
+  createdAt: string;
+}

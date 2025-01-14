@@ -3,12 +3,13 @@ import { IClassRoomCreate } from "../api/classroom/create/route";
 import { UseCreateClass } from "@/hooks/classroom/use-create-class";
 import { UseGetUser } from "@/hooks/user/use-get-user";
 import { IJoinRequestProps, UseJoinClass } from "@/hooks/classroom/use-join-class";
-import { IEvent, IRequestEditClass, IResponseJoinClass } from "@/lib/types/Types";
+import { IEvent, IRequestEditClass, IResponseJoinClass, IViewsUser } from "@/lib/types/Types";
 import { UseGetEvent } from "@/hooks/classroom/event/use-get-event";
 import { UseCreateEvent } from "@/hooks/classroom/event/use-create-event";
 import { UseEditEvent } from "@/hooks/classroom/event/use-edit-event";
 import { UseDeleteEvent } from "@/hooks/classroom/event/use-delete-event";
 import { UseUpdateClass } from "@/hooks/classroom/use-update-class";
+import { UseGetUsersClass } from "@/hooks/classroom/use-get-users-class";
 
 const getClassByUidClassUser = async (uid: string) => {
   const data = await UseGetSubjects(uid);
@@ -57,7 +58,13 @@ const updateClassByUidClassUser = async (uid: string, className: string, descrip
   return data;
 };
 
+const getUsersClassByUidClass = async (uid: string) => {
+  const data = await UseGetUsersClass(uid);
+  return data as IViewsUser[];
+};
+
 export {
+  getUsersClassByUidClass,
   updateClassByUidClassUser,
   deleteEventByUidClassUser,
   getClassByUidClassUser,
