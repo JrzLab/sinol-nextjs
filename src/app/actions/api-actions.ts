@@ -3,8 +3,9 @@ import { IClassRoomCreate } from "../api/classroom/create/route";
 import { UseCreateClass } from "@/hooks/classroom/use-create-class";
 import { UseGetUser } from "@/hooks/user/use-get-user";
 import { IJoinRequestProps, UseJoinClass } from "@/hooks/classroom/use-join-class";
-import { IEvent, IResponseJoinClass } from "@/lib/types/Types";
+import { IEvent, IResponseEvent, IResponseJoinClass } from "@/lib/types/Types";
 import { UseGetEvent } from "@/hooks/classroom/event/use-get-event";
+import { UseCreateEvent } from "@/hooks/classroom/event/use-create-event";
 
 const getClassByUidClassUser = async (uid: string) => {
   const data = await UseGetSubjects(uid);
@@ -27,8 +28,15 @@ const joinClassByUidClassUser = async ({ uidClass, uidClassUser }: IJoinRequestP
 };
 
 const getEventByUidClassUser = async (uid: string, classUid: string) => {
-  const data = await UseGetEvent("5fcbe82c");
-  return data?.data as IEvent[];
+  const data = await UseGetEvent(uid, classUid);
+  if (data?.code === 200 && data?.success === true) {
+    return data.data as IEvent[];
+  }
 };
 
-export { getClassByUidClassUser, createClassByUidClassUser, getUserData, joinClassByUidClassUser, getEventByUidClassUser };
+const createEventByUidClassUser = async (uid: string, title: string, description: string, dueDate: string, maxScore: number) => {
+  const data = await UseCreateEvent({ uid, title, description, dueDate, maxScore });
+  return data;
+};
+
+export { getClassByUidClassUser, createClassByUidClassUser, getUserData, joinClassByUidClassUser, getEventByUidClassUser, createEventByUidClassUser };

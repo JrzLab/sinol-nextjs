@@ -39,32 +39,6 @@ export function NavMain() {
   const [event, setEvent] = useState<IEvent[]>([]);
   const [navClassData, setNavClassData] = useState<IClassNavbarData[]>([]);
 
-  useEffect(() => {
-    if (hasFetched.current) return;
-    hasFetched.current = true;
-    const getSubject = async () => {
-      const data = await getClassByUidClassUser(uidUser!);
-      setSubject(data!);
-      return data!;
-    };
-    getSubject().then((data) => {
-      data.map(async (item) => {
-        const eventData = await getEventByUidClassUser(uidUser!, "fe612ce0");
-        console.log(eventData);
-
-        setNavClassData((prev) => [
-          ...prev,
-          {
-            classUid: item.uid,
-            title: item.className,
-            events: [],
-          },
-        ]);
-      });
-    });
-  }, [setSubject, setNavClassData, setEvent, uidUser]);
-  console.log(navClassData);
-
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Kelas</SidebarGroupLabel>

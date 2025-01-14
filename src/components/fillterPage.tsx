@@ -23,8 +23,7 @@ export default function FillterPage({ children }: Readonly<{ children: React.Rea
         {notShowPage.includes(pathname) ? (
           <>{children}</>
         ) : (
-          <ProtectedRoute
-            fallback={<Fallback/>}>
+          <ProtectedRoute fallback={<Fallback />}>
             <SidebarProvider>
               <AppSidebar />
               <SidebarInset className="min-h-screen">
