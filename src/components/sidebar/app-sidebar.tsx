@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AppWindow, SquareLibrary } from "lucide-react";
+import { AppWindow, NotebookPen, SquareLibrary } from "lucide-react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavProjects } from "@/components/sidebar/nav-projects";
@@ -11,28 +11,6 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } fr
 import { useAuth } from "@/hooks/context/AuthProvider";
 
 const data = {
-  navMain: [
-    {
-      title: "Kelas",
-      url: "/classroom",
-      icon: SquareLibrary,
-      isActive: true,
-      items: [
-        {
-          title: "Kelas 1",
-          url: "/classroom/1",
-        },
-        {
-          title: "Kelas 2",
-          url: "/classroom/2",
-        },
-        {
-          title: "Kelas 3",
-          url: "/classroom/3",
-        },
-      ],
-    },
-  ],
   page: [
     {
       name: "Halaman Utama",
@@ -43,6 +21,11 @@ const data = {
       name: "Kelas",
       url: "/classroom",
       icon: SquareLibrary,
+    },
+    {
+      name: "Mengajar",
+      url: "/teacher",
+      icon: NotebookPen,
     },
   ],
 };

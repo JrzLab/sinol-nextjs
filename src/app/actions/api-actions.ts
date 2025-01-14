@@ -3,13 +3,14 @@ import { IClassRoomCreate } from "../api/classroom/create/route";
 import { UseCreateClass } from "@/hooks/classroom/use-create-class";
 import { UseGetUser } from "@/hooks/user/use-get-user";
 import { IJoinRequestProps, UseJoinClass } from "@/hooks/classroom/use-join-class";
-import { IEvent, IRequestEditClass, IResponseJoinClass, IViewsUser } from "@/lib/types/Types";
+import { IEvent, IRequestClassroomLeave, IRequestEditClass, IResponseJoinClass, IViewsUser } from "@/lib/types/Types";
 import { UseGetEvent } from "@/hooks/classroom/event/use-get-event";
 import { UseCreateEvent } from "@/hooks/classroom/event/use-create-event";
 import { UseEditEvent } from "@/hooks/classroom/event/use-edit-event";
 import { UseDeleteEvent } from "@/hooks/classroom/event/use-delete-event";
 import { UseUpdateClass } from "@/hooks/classroom/use-update-class";
 import { UseGetUsersClass } from "@/hooks/classroom/use-get-users-class";
+import { UseLeaveClass } from "@/hooks/classroom/use-leave-class";
 
 const getClassByUidClassUser = async (uid: string) => {
   const data = await UseGetSubjects(uid);
@@ -18,6 +19,11 @@ const getClassByUidClassUser = async (uid: string) => {
 
 const createClassByUidClassUser = async ({ email, uid, className, description, day }: IClassRoomCreate) => {
   const data = await UseCreateClass({ email, uid, className, description, day });
+  return data;
+};
+
+const leaveClassByUidClassUser = async (uidClass: string, uidClassUser: string) => {
+  const data = await UseLeaveClass({ uidClass, uidClassUser });
   return data;
 };
 
@@ -64,6 +70,7 @@ const getUsersClassByUidClass = async (uid: string) => {
 };
 
 export {
+  leaveClassByUidClassUser,
   getUsersClassByUidClass,
   updateClassByUidClassUser,
   deleteEventByUidClassUser,

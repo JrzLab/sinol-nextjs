@@ -20,7 +20,7 @@ import z from "zod";
 import { classroomFormSchema, editClassroomFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT INTERFACE
-import { IGroupClass } from "@/lib/types/Types";
+import { IGroupClass, IJadwalKelasTable } from "@/lib/types/Types";
 
 //IMPORT LUCIDE ICON
 import { X } from "lucide-react";

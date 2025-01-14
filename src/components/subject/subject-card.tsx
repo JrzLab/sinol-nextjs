@@ -76,56 +76,41 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
   return (
     <>
       {format ? (
-        subjectDataByDay && subjectDataByDay.map((data, index) => (
+        subjectDataByDay &&
+        subjectDataByDay.map((data, index) => (
           <div className="grid gap-4" key={index + data.day}>
             <h1 className="mt-6">{data.day}</h1>
             <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
               {data.data.map((subject, index) => (
-                <Popover key={subject.uid + index}>
-                  <Card className="flex flex-col justify-between text-foreground">
-                    <CardHeader>
-                      <div className="flex flex-row items-start justify-between">
-                        <div className="flex flex-col">
-                          <Link href={`/classroom/${subject.uid}`} className="text-xl font-bold hover:underline">
-                            {subject.className}
-                          </Link>
-                          <p className="text-sm text-foreground">{subject.ownerData.name}</p>
-                        </div>
-                        <PopoverTrigger className="mt-2 rounded-md bg-primary px-3 py-2 text-white hover:bg-secondary">
-                          <Icon icon="tabler:dots" style={{ width: "24px", height: "24px" }} />
-                        </PopoverTrigger>
+                <Card key={index - Math.random()} className="flex flex-col justify-between text-foreground">
+                  <CardHeader>
+                    <div className="flex flex-row items-start justify-between">
+                      <div className="flex flex-col">
+                        <Link href={`/classroom/${subject.uid}`} className="text-xl font-bold hover:underline">
+                          {subject.className}
+                        </Link>
+                        <p className="text-sm text-foreground">{subject.ownerData.name}</p>
                       </div>
-                    </CardHeader>
-                    <div>
-                      <CardContent>
-                        <p>{truncateText(subject.description, 100)}</p>
-                      </CardContent>
-                      <CardFooter>
-                        <p className="text-sm font-light">{subject.className} Notifikasi</p>
-                      </CardFooter>
                     </div>
-                  </Card>
-                  <PopoverContent className="grid w-auto justify-items-start gap-2 bg-card p-2">
-                    <Button className="flex w-full justify-start gap-2" variant={"ghost"} onClick={() => Confirmation(subject.uid)}>
-                      <PanelLeftOpen /> Keluar Kelas{" "}
-                    </Button>
-                    <Button className="flex w-full justify-start gap-2" variant={"ghost"}>
-                      <Bell /> Lihat Tugas{" "}
-                    </Button>
-                    <Button className="flex w-full justify-start gap-2" variant={"ghost"}>
-                      <SquareUser /> Hubungi{" "}
-                    </Button>
-                  </PopoverContent>
-                </Popover>
+                  </CardHeader>
+                  <div>
+                    <CardContent>
+                      <p>{truncateText(subject.description, 100)}</p>
+                    </CardContent>
+                    <CardFooter>
+                      <p className="text-sm font-light">{subject.className} Notifikasi</p>
+                    </CardFooter>
+                  </div>
+                </Card>
               ))}
             </div>
           </div>
         ))
       ) : (
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
-          {subjects && subjects.map((subject, index) => (
-            <Popover key={subject.day + index}>
-              <Card className="flex flex-col justify-between text-foreground">
+          {subjects &&
+            subjects.map((subject, index) => (
+              <Card key={index - Math.random()} className="flex flex-col justify-between text-foreground">
                 <CardHeader>
                   <div className="flex flex-row justify-between">
                     <div className="flex flex-col">
@@ -134,9 +119,6 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
                       </Link>
                       <p className="text-sm">{subject.ownerData.name}</p>
                     </div>
-                    <PopoverTrigger className="mt-2 rounded-md bg-primary px-3 py-2 text-white hover:bg-secondary">
-                      <Icon icon="tabler:dots" style={{ width: "24px", height: "24px" }} />
-                    </PopoverTrigger>
                   </div>
                 </CardHeader>
                 <div>
@@ -148,19 +130,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
                   </CardFooter>
                 </div>
               </Card>
-              <PopoverContent className="grid w-auto justify-items-start gap-2 bg-card p-2">
-                <Button className="flex w-full justify-start gap-2" variant={"ghost"} onClick={() => Confirmation(subject.uid)}>
-                  <PanelLeftOpen /> Keluar Kelas{" "}
-                </Button>
-                <Button className="flex w-full justify-start gap-2" variant={"ghost"}>
-                  <Bell /> Lihat Tugas{" "}
-                </Button>
-                <Button className="flex w-full justify-start gap-2" variant={"ghost"}>
-                  <SquareUser /> Hubungi{" "}
-                </Button>
-              </PopoverContent>
-            </Popover>
-          ))}
+            ))}
         </div>
       )}
       {confirmationPopup ? (

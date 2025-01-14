@@ -2,7 +2,7 @@
 //IMPORT NEXTJS
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 //IMPORT SHADCN COMPONENTS
 import { ColumnDef } from "@tanstack/react-table";
@@ -17,8 +17,8 @@ import {
 import { Button } from "../ui/button";
 
 //IMPORT INTERFACE & FUNCTION
-import { ISubject } from "@/lib/types/Types";
-import { getDate } from "@/lib/functions";
+import { IGroupClass, IJadwalKelasTable } from "@/lib/types/Types";
+import { getDate, truncateText } from "@/lib/functions";
 
 //IMPORT LUCIDE ICON
 import { ArrowUpDown, MoreHorizontal, Trash2, PanelLeftOpen, Pencil } from "lucide-react";
@@ -26,12 +26,46 @@ import DeleteClassroomAlert from "../popup/delete-classroom-alert";
 import DataTable from "./data-table";
 import EditClassroomDetail from "../popup/edit-classroom-detail";
 
-const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
+import Cookies from "js-cookie";
+import { getEventByUidClassUser, getUsersClassByUidClass } from "@/app/actions/api-actions";
+const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
+  const cookies = Cookies.get("uidClassUser");
   const router = useRouter();
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [jadwalDataTable, setJadwalDataTable] = useState<IJadwalKelasTable[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userPromises = subjectData.map((doc) => getUsersClassByUidClass(doc.uid));
+        const eventPromises = subjectData.map((doc) => getEventByUidClassUser(cookies!, doc.uid));
 
-  const classroomScheduleColumns: ColumnDef<ISubject>[] = [
+        const usersData = await Promise.all(userPromises);
+        const eventsData = await Promise.all(eventPromises);
+
+        const getToday = new Date().getDay();
+        const data: IJadwalKelasTable[] = subjectData.map((doc, index) => ({
+          id: index + 1,
+          classUid: doc.uid,
+          className: doc.className,
+          classDay: doc.day,
+          classDescription: doc.description,
+          classMember: usersData[index]?.length || 0,
+          classEvent: eventsData[index]?.length || 0,
+          classStatus: getToday === doc.day ? "active" : "inactive",
+        }));
+        setJadwalDataTable(data);
+      } catch (error) {
+        console.error("Error fetching class data:", error);
+      }
+    };
+
+    if (subjectData.length > 0) {
+      fetchData();
+    }
+  }, [subjectData, cookies, setJadwalDataTable]);
+
+  const classroomScheduleColumns: ColumnDef<IJadwalKelasTable>[] = [
     {
       accessorKey: "id",
       enableHiding: false,
@@ -41,49 +75,94 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
       cell: ({ row }) => <div className="ml-2">{row.getValue("id")}</div>,
     },
     {
-      accessorKey: "title",
+      accessorKey: "classUid",
       header: () => {
-        return <div>Nama Jadwal</div>;
+        return <div>Kode Kelas</div>;
       },
       cell: ({ row }) => {
-        const title: string = (row.getValue("title") as string).replace(/\s/g, "-").toLowerCase();
         return (
           <div>
-            <Link className="underline hover:font-semibold hover:text-black" href={`/teacher/classroom/${title}`}>
-              {row.getValue("title")}
+            <h1 className="underline hover:font-semibold hover:text-black">{row.getValue("classUid")}</h1>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "className",
+      header: () => {
+        return <div>Nama Kelas</div>;
+      },
+      cell: ({ row }) => {
+        return (
+          <div>
+            <Link className="underline hover:font-semibold hover:text-black" href={`/teacher/${row.getValue("classUid")}`}>
+              {row.getValue("className")}
             </Link>
           </div>
         );
       },
     },
     {
-      accessorKey: "date",
+      accessorKey: "classDay",
       header: ({ column }) => {
         return (
           <div className="flex cursor-pointer gap-2 hover:text-black" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            <h1>Waktu & Tanggal</h1>
+            <h1>Hari</h1>
             <ArrowUpDown className="my-auto h-7 w-7 md:h-4 md:w-4" />
           </div>
         );
       },
-      cell: ({ row }) => <div>{getDate({ children: row.getValue("date") })}</div>,
+      cell: ({ row }) => {
+        let day;
+        switch (row.getValue("classDay")) {
+          case 1:
+            day = "Senin";
+            break;
+          case 2:
+            day = "Selasa";
+            break;
+          case 3:
+            day = "Rabu";
+            break;
+          case 4:
+            day = "Kamis";
+            break;
+          case 5:
+            day = "Jumat";
+            break;
+          case 6:
+            day = "Sabtu";
+            break;
+          case 7:
+            day = "Minggu";
+            break;
+        }
+        return <div>{day}</div>;
+      },
     },
     {
-      accessorKey: "event",
+      accessorKey: "classDescription",
+      header: () => <div className="text-center">Deskripsi Kelas</div>,
+      cell: ({ row }) => {
+        return <div className="text-center font-medium">{truncateText(row.getValue("classDescription"), 20)}</div>;
+      },
+    },
+    {
+      accessorKey: "classEvent",
       header: () => <div className="text-center">Total Tugas</div>,
       cell: ({ row }) => {
-        return <div className="text-center font-medium">{row.getValue("event")}</div>;
+        return <div className="text-center font-medium">{row.getValue("classEvent")}</div>;
       },
     },
     {
-      accessorKey: "person",
+      accessorKey: "classMember",
       header: () => <div className="text-center">Jumlah Siswa</div>,
       cell: ({ row }) => {
-        return <div className="text-center font-medium">{row.getValue("person")}</div>;
+        return <div className="text-center font-medium">{row.getValue("classMember")}</div>;
       },
     },
     {
-      accessorKey: "status",
+      accessorKey: "classStatus",
       header: ({ column }) => {
         return (
           <div
@@ -96,7 +175,7 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
         );
       },
       cell: ({ row }) => {
-        const status: string = row.getValue("status");
+        const status: string = row.getValue("classStatus");
         return (
           <div className="flex items-center justify-center gap-2">
             {status === "active" ? (
@@ -118,7 +197,6 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
       id: "actions",
       header: () => <div className="text-center">Pilihan</div>,
       cell: ({ row }) => {
-        const titleLink: string = (row.getValue("title") as string).replace(/\s/g, "-").toLowerCase();
         const data = row.original;
         return (
           <>
@@ -131,9 +209,9 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Pilihan</DropdownMenuLabel>
-                <DropdownMenuItem onClick={() => router.push(`/teacher/classroom/${titleLink}`)}>
+                <DropdownMenuItem onClick={() => router.push(`/teacher/${row.getValue("classUid")}`)}>
                   <PanelLeftOpen />
-                  Lihat Jadwal
+                  Lihat Kelas
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -142,22 +220,22 @@ const ClassroomSchedule = ({ tableData }: { tableData: ISubject[] }) => {
                   }}
                 >
                   <Pencil />
-                  Ubah Jadwal
+                  Ubah Kelas
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setOpenDelete(true)}>
                   <Trash2 />
-                  Hapus Jadwal
+                  Hapus Kelas
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DeleteClassroomAlert open={openDelete} dialogHandler={() => setOpenDelete(false)} />
-            <EditClassroomDetail data={data} open={openEdit} dialogHandler={() => setOpenEdit(false)} />
+            {/* <EditClassroomDetail data={data} open={openEdit} dialogHandler={() => setOpenEdit(false)} /> */}
           </>
         );
       },
     },
   ];
-  return <DataTable columns={classroomScheduleColumns} data={tableData} />;
+  return <DataTable columns={classroomScheduleColumns} data={jadwalDataTable} />;
 };
 
 export default ClassroomSchedule;

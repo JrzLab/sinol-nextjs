@@ -59,8 +59,8 @@ const DataTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValu
         <div className="flex items-center gap-3 py-4">
           <Input
             placeholder="Pencarian..."
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-            onChange={(e) => table.getColumn("title")?.setFilterValue(e.target.value)}
+            value={(table.getColumn("className")?.getFilterValue() as string) ?? ""}
+            onChange={(e) => table.getColumn("className")?.setFilterValue(e.target.value)}
             className="w-full md:w-1/3"
           />
           <DropdownMenu>

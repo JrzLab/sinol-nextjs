@@ -8,7 +8,7 @@ const ConversationPage = () => {
         <Card className="p-1">
           <CardHeader className="my-auto flex flex-row items-center justify-start align-middle">
             <MessageCircle className="mr-2 mt-1 font-bold" />
-            <h1 className="text-lg font-semibold">Select student to start conversation</h1>
+            <h1 className="text-lg font-semibold">Pilih pengguna untuk melakukan diskusi!</h1>
           </CardHeader>
         </Card>
       </div>
