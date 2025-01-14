@@ -8,6 +8,6 @@ export const UseWebSocketChat = (emailOwnerClass: string, emailUserClass: string
       message: messages,
       idRoom: `${idRoom}`,
     };
-    return sendDataMessage("sendMessage", message);
+    sendDataMessage("sendMessage", message);
   }
 };

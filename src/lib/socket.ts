@@ -25,21 +25,27 @@ export const initializeSocket = (clientId: string): Socket => {
     socket.on("connect", () => {
       console.log("Connected to WebSocket server");
     });
+
     socket.on("disconnect", () => {
       console.log("Disconnected from WebSocket server");
     });
+
     socket.on("error", (error) => {
       console.error("WebSocket error:", error);
     });
+
     socket.on("connect_error", (err) => {
       console.error("Connection error:", err.message);
     });
+
     socket.on("reconnect_attempt", () => {
       console.log("Attempting to reconnect...");
     });
+
     socket.on("reconnect_failed", () => {
       console.warn("Reconnection failed");
     });
+
     socket.on("reconnect", (attemptNumber) => {
       console.log(`Reconnected after ${attemptNumber} attempts`);
     });
@@ -56,18 +62,8 @@ export const disconnectSocket = (): void => {
   }
 };
 
-export const sendDataMessage = (emit: string, data: IMsgWS): Promise<ChatMessage> => {
-  return new Promise((resolve, reject) => {
-    if (socket) {
-      socket.emit(emit, data);
-
-      socket.on("updateMessageClient", (data: ChatMessage) => {
-        resolve(data);
-      });
-
-      socket.on("error", (error) => {
-        reject(error);
-      });
-    }
-  });
+export const sendDataMessage = (emit: string, data: IMsgWS) => {
+  if (socket) {
+    socket.emit(emit, data);
+  }
 };
