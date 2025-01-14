@@ -25,7 +25,7 @@ const EventCard = ({ data }: { data: Event }) => {
     <div>
       <Card className="text-foreground">
         <CardHeader className="items-start">
-          <Link href={`/classroom/${data.subjectId}/${data.eventId}`} className="font-bold">
+          <Link href={`/classroom/${data.subjectId}/tugas/${data.eventId}`} className="font-bold">
             {data.title}
           </Link>
           <p>{data.description}</p>

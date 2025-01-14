@@ -18,4 +18,6 @@ const getUserData = async (email: string) => {
   return data;
 };
 
+
+
 export { getClassByUidClassUser, createClassByUidClassUser, getUserData };

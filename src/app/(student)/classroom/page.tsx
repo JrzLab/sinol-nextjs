@@ -12,6 +12,7 @@ const StudentClassroom = async () => {
   const subjectData = valueCookies ? await getClassByUidClassUser(valueCookies.value) : null;
 
   const modeNoData: boolean = subjectData?.length === 0 ? true : false;
+  
   return (
     <>
       {modeNoData ? (

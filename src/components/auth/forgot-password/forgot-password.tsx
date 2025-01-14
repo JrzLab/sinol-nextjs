@@ -148,9 +148,9 @@ const ForgotPasswordForm = () => {
                   <Button
                     disabled={loading}
                     type="submit"
-                    className="w-full disabled:opacity-50"
-                    onClick={forgotPasswordForm.handleSubmit(submitHandler)}
-                  >
+                    variant={"default"}
+                    className="w-full hover:bg-accent"
+                    onClick={forgotPasswordForm.handleSubmit(submitHandler)}>
                     Submit
                   </Button>
                 </div>

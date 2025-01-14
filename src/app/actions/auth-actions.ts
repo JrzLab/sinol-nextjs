@@ -29,9 +29,8 @@ export async function handleCredentialsSignin({
     };
   } catch (error) {
     if (error instanceof AuthError) {
-      console.error("Authentication error:", error);
       switch (error.type) {
-        case "CredentialsSignin":
+        case "CallbackRouteError":
           return {
             success: false,
             message: "Invalid credentials. Please check your email and password.",

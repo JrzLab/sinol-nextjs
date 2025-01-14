@@ -8,14 +8,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ success: false, message: "Slug is required." }, { status: 400 });
   }
 
-  const backendUrl = process.env.BACKEND_URL;
-  if (!backendUrl) {
-    console.error("BACKEND_URL is not defined in environment variables.");
-    return NextResponse.json({ success: false, message: "Internal server error. Missing backend URL." }, { status: 500 });
-  }
-
   try {
-    const response = await fetch(`${backendUrl}/class/${slug}`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/class/${slug}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
