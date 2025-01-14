@@ -25,6 +25,19 @@ if (typeof document !== "undefined") {
   document.head.appendChild(style);
 }
 
+const motivasi = [
+  "Hari yang indah untuk mengerjakan tugasmu, hehe.",
+  "Ayo, sedikit lagi tugasmu selesai! Kamu pasti bisa, semangat!",
+  "Jadikan tugas ini langkah kecil menuju mimpi besarmu, kamu hebat!",
+  "Hari ini adalah kesempatan emas untuk menyelesaikan tugasmu. Gas pol!",
+  "Setiap tugas yang selesai adalah bukti kerja kerasmu. Semangat terus!",
+  "Tugas ini cuma sementara, hasil kerjamu akan bertahan selamanya. Yuk, lanjutkan!",
+  "Waktunya bikin dirimu bangga dengan menyelesaikan tugas ini. You got this!",
+  "Kerjakan tugas dengan senyum, hasilnya pasti lebih memuaskan!",
+  "Ingat, hasil terbaik selalu datang dari usaha terbaik. Kamu pasti bisa!",
+  "Satu tugas selesai, satu langkah lebih dekat ke tujuanmu. Keep it up!",
+];
+
 export const EmptyStatePages: React.FC = () => {
   const { loading, user } = useAuth();
   const [popUpCreate, setPopUpCreate] = useState<boolean>(false);
@@ -47,7 +60,7 @@ export const EmptyStatePages: React.FC = () => {
               <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
                 {loading ? "Loading data..." : `${getGreeting()}, ${user?.username}!`}
               </h2>
-              <p className="text-lg text-muted-foreground">Mulailah perjalanan belajar Anda dengan membuat atau bergabung dengan kelas. </p>
+              <p className="text-lg text-muted-foreground">{motivasi[Math.floor(Math.random() * motivasi.length)]}</p>
             </div>
             <div className="animate-float relative my-8">
               <Image src={EducationSVG} alt="education" width={323} height={323} className="object-cover drop-shadow-lg" priority />
