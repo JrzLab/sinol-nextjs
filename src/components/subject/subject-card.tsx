@@ -76,7 +76,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
   return (
     <>
       {format ? (
-        subjectDataByDay.map((data, index) => (
+        subjectDataByDay && subjectDataByDay.map((data, index) => (
           <div className="grid gap-4" key={index + data.day}>
             <h1 className="mt-6">{data.day}</h1>
             <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
@@ -123,7 +123,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
         ))
       ) : (
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
-          {subjects?.map((subject, index) => (
+          {subjects && subjects.map((subject, index) => (
             <Popover key={subject.day + index}>
               <Card className="flex flex-col justify-between text-foreground">
                 <CardHeader>

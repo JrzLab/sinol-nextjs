@@ -31,6 +31,19 @@ const cardData = [
   },
 ];
 
+const motivasi = [
+  "Hari yang indah untuk mengerjakan tugasmu, hehe.",
+  "Ayo, sedikit lagi tugasmu selesai! Kamu pasti bisa, semangat!",
+  "Jadikan tugas ini langkah kecil menuju mimpi besarmu, kamu hebat!",
+  "Hari ini adalah kesempatan emas untuk menyelesaikan tugasmu. Gas pol!",
+  "Setiap tugas yang selesai adalah bukti kerja kerasmu. Semangat terus!",
+  "Tugas ini cuma sementara, hasil kerjamu akan bertahan selamanya. Yuk, lanjutkan!",
+  "Waktunya bikin dirimu bangga dengan menyelesaikan tugas ini. You got this!",
+  "Kerjakan tugas dengan senyum, hasilnya pasti lebih memuaskan!",
+  "Ingat, hasil terbaik selalu datang dari usaha terbaik. Kamu pasti bisa!",
+  "Satu tugas selesai, satu langkah lebih dekat ke tujuanmu. Keep it up!",
+];
+
 const DashboardPage: React.FC = async () => {
   const cookie = await cookies();
   const uidCookies = cookie.get("uidClassUser");
@@ -51,7 +64,7 @@ const DashboardPage: React.FC = async () => {
             <Card className="flex w-full flex-col rounded-xl">
               <CardHeader>
                 <h1 className="text-xl font-bold">{`Halo ${userData?.firstName} ${userData?.lastName || ""}`}</h1>
-                <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
+                <p className="-mt-1">{motivasi[Math.floor(Math.random() * motivasi.length)]}</p>
               </CardHeader>
               <CardFooter className="mt-4">
                 <Button className="hover:bg-secondary" variant={"default"}>

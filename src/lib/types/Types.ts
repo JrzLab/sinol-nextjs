@@ -8,7 +8,6 @@ export interface ISubject {
   event: number;
   person: number;
   day: number;
-  status: "active" | "idle";
   date: Date;
 }
 
@@ -120,17 +119,16 @@ export interface IAuthContextProps {
 
 export interface IGroupClassOwner {
   email: string;
+  name: string;
+  imageUrl: string;
 }
+
 export interface IGroupClass {
   uid: string;
   day: number;
   className: string;
   description: string;
-  ownerData: {
-    email: string;
-    name: string;
-    imageUrl: string;
-  };
+  ownerData: IGroupClassOwner;
 }
 
 export interface IClassResponse {
@@ -172,4 +170,41 @@ export interface IAccountInfoDialogProps {
   currentLastName?: string;
   currentEmail?: string;
   loading: boolean;
+}
+
+export interface ChatHistoryResponse {
+  code: number;
+  status: boolean;
+  message: string;
+  data: ChatHistoryData;
+}
+
+export interface ChatHistoryData {
+  id: number;
+  createdAt: string; // ISO date string
+  expiredAt: string; // ISO date string
+  userAId: number;
+  userBId: number;
+  messages: ChatMessage[];
+}
+
+export interface ChatMessage {
+  uid: string; // UUID
+  roomChatId: number;
+  senderId: number;
+  sender: ChatSender;
+  content: string;
+  messageTemp: string; // ISO date string
+}
+
+interface ChatSender {
+  email: string;
+  firstName: string;
+}
+
+export interface IMsgWS {
+  identifySender: string;
+  identifyReciver: string;
+  message: string;
+  idRoom: string;
 }

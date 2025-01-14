@@ -1,4 +1,5 @@
 import { io, Socket } from "socket.io-client";
+import { ChatMessage, IMsgWS } from "./types/Types";
 
 let socket: Socket | null = null;
 
@@ -9,8 +10,8 @@ export const initializeSocket = (clientId: string): Socket => {
 
   if (!socket) {
     socket = io(process.env.NEXT_PUBLIC_WS_URL as string, {
-      query: { 
-        clientIdentify: clientId 
+      query: {
+        clientIdentify: clientId,
       },
       transports: ["websocket"],
       reconnection: true,
@@ -53,4 +54,20 @@ export const disconnectSocket = (): void => {
     socket.disconnect();
     socket = null;
   }
+};
+
+export const sendDataMessage = (emit: string, data: IMsgWS): Promise<ChatMessage> => {
+  return new Promise((resolve, reject) => {
+    if (socket) {
+      socket.emit(emit, data);
+
+      socket.on("updateMessageClient", (data: ChatMessage) => {
+        resolve(data);
+      });
+
+      socket.on("error", (error: any) => {
+        reject(error);
+      });
+    }
+  });
 };

@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IUserData, IAuthContextProps } from "@/lib/types/Types";
-import { useWebSocket } from "@/hooks/use-websocket";
+import { useWebSocket } from "@/hooks/websocket/use-websocket";
 import { disconnectSocket } from "@/lib/socket";
 import Cookies from "js-cookie";
 

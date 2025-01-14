@@ -1,43 +1,84 @@
+"use client";
+
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { eventStaticData } from "@/lib/staticData";
-// import { usePathname } from "next/navigation";
-import React from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import EventCard from "@/components/subject/event-card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getClassByUidClassUser } from "@/app/actions/api-actions";
-import { cookies } from "next/headers";
+import StudentChat from "@/components/chat/student/student-chat";
+import BubbleChat from "@/components/chat/bubble-chat";
+import { useAuth } from "@/hooks/context/AuthProvider";
+import { ChatHistoryResponse, ChatMessage, IGroupClass } from "@/lib/types/Types";
 
-const ClassroomPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const { slug } = await params;
-  const cookie = await cookies();
-  const valueCookies = cookie.get("uidClassUser");
-  const subjectData = valueCookies ? await getClassByUidClassUser(valueCookies.value) : null;
-  const data = subjectData?.find((data) => data.uid == slug);
+const ClassroomPage = () => {
+  const params = useParams();
+  const slug = params.slug as string;
+  const { user } = useAuth();
+  const roomId = useRef<number>(0);
+  const [dataClass, setDataClass] = useState<IGroupClass>();
+  const [messageData, setMessageData] = useState<ChatMessage[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getClassByUidClassUser(user?.uidClassUser!);
+      const dataClas = data!.find((data) => data.uid == slug);
+      setDataClass(dataClas);
+    };
+
+    fetchData();
+  }, [user, setDataClass, slug]);
 
   const events = eventStaticData
     .filter((data) => data.subjectId == parseInt(slug))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+  const buttonChatHandler = async () => {
+    if (!messageData.length) {
+      const data = await fetch(`${process.env.NEXT_PUBLIC_WS_URL?.replace("3001", "3002")}/websocket/chat/history`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ emailUser1: dataClass?.ownerData.email, emailUser2: user?.email }),
+      });
+      const response = (await data.json()) as ChatHistoryResponse;
+      roomId.current = response.data.id;
+      setMessageData(response.data.messages);
+    }
+  };
+
+  const addChatHandler = async (message: ChatMessage) => {
+    setMessageData((prev) => [...prev, message]);
+  };
+
   return (
     <>
-      <div className="relative">
-        {/* <StudentChat status="online" data={subjectStaticData}>
-          <BubbleChat position={"sender"} chatRoomType={"student"}>
-            Hi, Selamat pagi, ada yang bisa saya bantu?
-          </BubbleChat>
-          <BubbleChat position={"receiver"} chatRoomType={"student"}>
-            test
-          </BubbleChat>
-        </StudentChat> */}
-      </div>
+      {dataClass && dataClass?.ownerData.email !== user?.email ? (
+        <div className="relative">
+          <StudentChat
+            classDataWs={{ idRoom: roomId.current, emailUser: user?.email!, teacherData: dataClass.ownerData }}
+            buttonGetChat={buttonChatHandler}
+            addChatHandler={addChatHandler}
+          >
+            {messageData &&
+              messageData.map((data, index) => (
+                <BubbleChat key={index} position={data.sender.email === dataClass.ownerData.email ? "receiver" : "sender"} chatRoomType={"student"}>
+                  {data.content}
+                </BubbleChat>
+              ))}
+          </StudentChat>
+        </div>
+      ) : null}
       <Card className="text-foreground">
         <CardHeader>
-          <h1 className="font-bold">{data?.className}</h1>
-          <p>{data?.description}</p>
+          <h1 className="font-bold">{dataClass?.className}</h1>
+          <p>{dataClass?.description}</p>
           {true ? (
             <div className="flex gap-2 pt-8">
-              <Link href={`/classroom/${data?.uid}/join`}>
+              <Link href={`/classroom/${dataClass?.uid}/join`}>
                 <Button>Ubah Kelas</Button>
               </Link>
               <Button variant={"outline"}>Lihat </Button>
@@ -48,11 +89,11 @@ const ClassroomPage = async ({ params }: { params: Promise<{ slug: string }> }) 
         <CardFooter className="grid grid-cols-3">
           <div className="w-full pt-6">
             <h1 className="font-bold">Teacher</h1>
-            <p>{data?.ownerData.name}</p>
+            <p>{dataClass?.ownerData.name}</p>
           </div>
           <div className="w-full pt-6">
             <h1 className="font-bold">Tugas</h1>
-            <p>{data?.day}</p>
+            <p>{dataClass?.day}</p>
           </div>
         </CardFooter>
       </Card>
