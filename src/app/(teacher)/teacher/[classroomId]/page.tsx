@@ -58,7 +58,7 @@ const TeacherClassroom = () => {
               <p>{dataClass?.description}</p>
             </div>
             <div className="flex flex-row gap-2">
-              {dataClass?.ownerData.email !== user?.email ? (
+              {dataClass?.ownerData.email === user?.email ? (
                 <Button size={"icon"} variant={"outline"} onClick={() => router.push(`/teacher/${slug}/chat`)}>
                   <MessageCircleQuestion />
                 </Button>

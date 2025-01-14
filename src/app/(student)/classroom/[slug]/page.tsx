@@ -23,24 +23,24 @@ const ClassroomPage = () => {
   const params = useParams();
   const slug = params.slug as string;
   const roomId = useRef<number>(0);
+  const isListenerAdded = useRef<boolean>(false);
   const [dataClass, setDataClass] = useState<IGroupClass>();
   const [dataEvent, setDataEvent] = useState<IEvent[]>();
   const [messageData, setMessageData] = useState<ChatMessage[]>([]);
   const [openEvent, setOpenEvent] = useState<boolean>(false);
-  const [isListenerAdded, setIsListenerAdded] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [isLeaveAlertOpen, setIsLeaveAlertOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!isListenerAdded) {
+    if (!isListenerAdded.current) {
       getSocket()?.on("updateMessageClient", (data: ChatMessage) => {
         setMessageData((prev) => [...prev, data]);
       });
-      setIsListenerAdded(true);
+      isListenerAdded.current = true;
     }
   }, [isListenerAdded]);
-  const [openEdit, setOpenEdit] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,7 +77,6 @@ const ClassroomPage = () => {
         },
       );
       const response = (await data.json()) as ChatHistoryResponse;
-      console.log(response);
       roomId.current = response.data.id;
       setMessageData(response.data.messages);
     }
