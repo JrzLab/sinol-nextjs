@@ -1,8 +1,10 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 
 export const useRecordEvents = (isAuthenticated: boolean) => {
+  const pathname = usePathname();
   const [isEventOccurred, setIsEventOccurred] = useState(false);
 
   const handleClickEvent = useCallback(
@@ -17,11 +19,11 @@ export const useRecordEvents = (isAuthenticated: boolean) => {
         setTimeout(() => setIsEventOccurred(false), 500);
       }
     },
-    [isAuthenticated]
+    [isAuthenticated],
   );
 
   const handleScrollEvent = useCallback(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || pathname === '/profile') return;
 
     setIsEventOccurred(true);
 
