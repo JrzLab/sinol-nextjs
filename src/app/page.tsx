@@ -37,6 +37,7 @@ const DashboardPage: React.FC = async () => {
   if (modeNoData) {
     return <EmptyStatePages />;
   }
+  
   return (
     <div className="flex flex-1 flex-col gap-4 pt-0">
       <Card className="flex w-full flex-col rounded-xl">

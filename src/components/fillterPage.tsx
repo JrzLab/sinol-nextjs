@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { AuthProvider } from "@/hooks/context/AuthProvider";
-import { SessionProvider } from "next-auth/react";
+import { AuthProvider, useAuth } from "@/hooks/context/AuthProvider";
+import { SessionProvider, useSession } from "next-auth/react";
 
 // SHADCN/UI IMPORT COMPONENTS
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
@@ -12,6 +12,32 @@ import Breadcrumbs from "@/components/sidebar/breadcrumbs";
 import { ProtectedRoute } from "@/hooks/protected-pages";
 import Fallback from "./Fallback";
 import CreateJoinPopover from "./popup/create-join-popover";
+import { useEffect } from "react";
+
+function ActivityTest({ children }: Readonly<{ children: React.ReactNode }>) {
+  const { isEventRecorded } = useAuth();
+  const { data: session, update } = useSession();
+
+  useEffect(() => {
+    try {
+      const updateExpires = async () => {
+        if (isEventRecorded && session?.user) {
+          const expirationDate = new Date();
+          expirationDate.setMinutes(expirationDate.getMinutes() + 20);
+          await update({
+            expires: expirationDate.toISOString(),
+          });
+        }
+      };
+
+      updateExpires();
+    } catch (error) {
+      console.error("Error updating session:", error);
+    }
+  }, [isEventRecorded]);
+
+  return <>{children}</>;
+}
 
 export default function FillterPage({ children }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
@@ -38,7 +64,9 @@ export default function FillterPage({ children }: Readonly<{ children: React.Rea
                     <CreateJoinPopover />
                   </div>
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                  <ActivityTest>{children}</ActivityTest>
+                </div>
               </SidebarInset>
             </SidebarProvider>
           </ProtectedRoute>

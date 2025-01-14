@@ -1,29 +1,37 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
-import { useAuth } from "./context/AuthProvider";
 
-export const useRecordEvents = () => {
-  const { isAuthenticated } = useAuth();
+import { useEffect, useState, useCallback } from "react";
+
+export const useRecordEvents = (isAuthenticated: boolean) => {
   const [isEventOccurred, setIsEventOccurred] = useState(false);
 
-  const handleEvent = useCallback((event: Event): void => {
-    if (!isAuthenticated) return; 
+  const handleEvent = useCallback(
+    (event: Event): void => {
+      if (!isAuthenticated) return;
 
-    let eventOccurred = false;
-    
-    if (event instanceof KeyboardEvent || event instanceof MouseEvent || event instanceof TouchEvent || event.type === "scroll" || event.type === "resize") {
-      eventOccurred = true;
-    }
+      let eventOccurred = false;
 
-    setIsEventOccurred(eventOccurred);
+      if (
+        event instanceof KeyboardEvent ||
+        event instanceof MouseEvent ||
+        event instanceof TouchEvent ||
+        event.type === "scroll" ||
+        event.type === "resize"
+      ) {
+        eventOccurred = true;
+      }
 
-    if (eventOccurred) {
-      setTimeout(() => setIsEventOccurred(false), 500);
-    }
-  }, [isAuthenticated]);
+      setIsEventOccurred(eventOccurred);
+
+      if (eventOccurred) {
+        setTimeout(() => setIsEventOccurred(false), 500);
+      }
+    },
+    [isAuthenticated]
+  );
 
   useEffect(() => {
-    if (!isAuthenticated) return; 
+    if (!isAuthenticated) return;
 
     // Menambahkan event listeners
     window.addEventListener("keydown", handleEvent);

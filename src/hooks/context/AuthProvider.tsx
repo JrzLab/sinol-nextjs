@@ -7,6 +7,7 @@ import { IUserData, IAuthContextProps } from "@/lib/types/Types";
 import { UseWebSocket } from "@/hooks/websocket/use-websocket";
 import { disconnectSocket } from "@/lib/socket";
 import Cookies from "js-cookie";
+import { useRecordEvents } from "../use-record-event";
 
 const AuthContext = createContext<IAuthContextProps | undefined>(undefined);
 
@@ -51,7 +52,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [session, loading, status, router]);
 
-  return <AuthContext.Provider value={{ isAuthenticated, isUnauthenticated, user, status, loading }}>{children}</AuthContext.Provider>;
+  const isEventRecorded = useRecordEvents(isAuthenticated);
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, isUnauthenticated, isEventRecorded, user, status, loading }}>{children}</AuthContext.Provider>
+  );
 };
 
 export const useAuth = (): IAuthContextProps => {

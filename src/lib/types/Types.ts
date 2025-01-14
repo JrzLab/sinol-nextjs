@@ -104,6 +104,7 @@ export interface IUserData {
 export interface IAuthContextProps {
   isAuthenticated: boolean;
   isUnauthenticated: boolean;
+  isEventRecorded: boolean;
   user: IUserData | null;
   status: "authenticated" | "loading" | "unauthenticated";
   loading: boolean;
