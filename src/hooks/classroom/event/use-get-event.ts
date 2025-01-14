@@ -1,18 +1,20 @@
-import { IClassResponse } from "@/lib/types/Types";
+import { IResponseEvent } from "@/lib/types/Types";
 
-export const useGetSubjects = async (uid: string) => {
+export const UseGetEvent = async (classUid: string) => {
   try {
-    const res = await fetch(`${process.env.BACKEND_URL}/class/${uid}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/classroom/${classUid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    const data: IClassResponse = await res.json();
+    const data: IResponseEvent = await res.json();
 
     if (data.success && data.code === 200) {
-      return data.data;
+      console.log(data);
+
+      return data;
     } else {
       console.warn(`API responded with an error. Code: ${data.code}, Message: ${data.message}`);
     }

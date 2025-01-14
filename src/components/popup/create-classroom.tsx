@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader } from "../ui/card";
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "../ui/input";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
@@ -30,15 +30,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
 
-const CreateClassroom = ({ status }: { status: () => void }) => {
+const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void }) => {
   const router = useRouter();
   const { user } = useAuth();
-  const [isOpen, setIsOpen] = useState(true);
-
-  const togglePopUp = () => {
-    status();
-    setIsOpen(!isOpen);
-  };
 
   const createClassroomForm = useForm<z.infer<typeof createClassroomFormSchema>>({
     resolver: zodResolver(createClassroomFormSchema),
@@ -60,6 +54,7 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
       });
       if (data?.success && data?.code === 200) {
         router.push(`/classroom/`);
+        status();
         toast({
           title: "Kelas berhasil dibuat",
           description: "Kelas berhasil dibuat",
@@ -68,19 +63,6 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
     } catch (error) {
       console.log(error);
     }
-    // fetch('', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(classroomData),
-    // }).then(res => res.json()).then(res => res.status == 200 ?
-    //   router.push(`/classroom/${res.data.id}`) :
-    //   toast({
-    //     title: "Failed to create classroom",
-    //     description: "gagal membuat kelas baru",
-    //   })
-    // )
   };
 
   return (
@@ -94,7 +76,7 @@ const CreateClassroom = ({ status }: { status: () => void }) => {
                   <h1 className="text-lg font-bold">Buat Kelas</h1>
                   <p className="text-sm">Mulai petualangan belajarmu dengan membuat kelas baru. Mudah dan cepat!</p>
                 </div>
-                <Button onClick={togglePopUp} variant={"default"} className="hover:bg-secondary">
+                <Button onClick={() => status()} variant={"default"} className="hover:bg-secondary">
                   <X />
                 </Button>
               </div>

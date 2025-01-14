@@ -43,14 +43,6 @@ export const EmptyStatePages: React.FC = () => {
   const [popUpCreate, setPopUpCreate] = useState<boolean>(false);
   const [popUpJoin, setPopUpJoin] = useState<boolean>(false);
 
-  const handleTogglePopUp = (): void => {
-    setPopUpCreate(!popUpCreate);
-  };
-
-  const handleTogglePopUpJoin = (): void => {
-    setPopUpJoin(!popUpJoin);
-  };
-
   return (
     <>
       <div className="flex flex-col items-center justify-center px-0 md:px-6">
@@ -66,11 +58,11 @@ export const EmptyStatePages: React.FC = () => {
               <Image src={EducationSVG} alt="education" width={323} height={323} className="object-cover drop-shadow-lg" priority />
             </div>
             <div className="flex w-full max-w-md flex-col gap-4 sm:flex-row">
-              <Button className="flex-1 gap-2 py-2 text-sm hover:bg-secondary md:py-5" variant={"default"} onClick={handleTogglePopUp}>
+              <Button className="flex-1 gap-2 py-2 text-sm hover:bg-secondary md:py-5" variant={"default"} onClick={() => setPopUpCreate(true)}>
                 <PlusCircle className="h-5 w-5" />
                 Buat Kelas
               </Button>
-              <Button className="flex-1 gap-2 py-2 text-sm hover:bg-secondary md:py-5" variant={"default"} onClick={handleTogglePopUpJoin}>
+              <Button className="flex-1 gap-2 py-2 text-sm hover:bg-secondary md:py-5" variant={"default"} onClick={() => setPopUpJoin(true)}>
                 <UserPlus className="h-5 w-5" />
                 Bergabung ke Kelas
               </Button>
@@ -78,8 +70,8 @@ export const EmptyStatePages: React.FC = () => {
           </div>
         </div>
       </div>
-      {popUpCreate && <CreateClassroom status={handleTogglePopUp} />}
-      {popUpJoin && <JoinClassroom status={handleTogglePopUpJoin} />}
+      <CreateClassroom isOpen={popUpCreate} status={() => setPopUpCreate(false)} />
+      <JoinClassroom isOpen={popUpJoin} status={() => setPopUpJoin(false)} />
     </>
   );
 };

@@ -11,14 +11,6 @@ export interface ISubject {
   date: Date;
 }
 
-export interface IEvent {
-  subjectId: number; // Foreign key yang merujuk ke Subject.id
-  eventId: number; // Primary key
-  title: string;
-  date: string; // Format date dalam string ISO
-  description: string;
-}
-
 export interface IMessage {
   content: string;
   userType: "sender" | "receiver";
@@ -207,4 +199,36 @@ export interface IMsgWS {
   identifyReciver: string;
   message: string;
   idRoom: string;
+}
+
+export interface IResponseJoinClass {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    uid: string;
+    day: number;
+    className: string;
+    description: string;
+    ownerData: {
+      email: string;
+      name: string;
+      imageUrl: string;
+    };
+  };
+}
+
+export interface IEvent {
+  id: number;
+  title: string;
+  description: string;
+  dueDateAt: string; // Format date dalam string ISO
+  maxScore: number;
+}
+
+export interface IResponseEvent {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IEvent[];
 }

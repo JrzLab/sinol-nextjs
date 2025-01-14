@@ -18,7 +18,7 @@ const ProfilePage: React.FC = () => {
   const { user, loading } = useAuth();
   const [isUploadOpen, setIsUploadOpen] = useState<boolean>(false);
   const [isAccountInfoOpen, setIsAccountInfoOpen] = useState<boolean>(false);
-  const [loadingChange, setLoadingChange] = useState<boolean>(false)
+  const [loadingChange, setLoadingChange] = useState<boolean>(false);
   const { data: session, update } = useSession();
 
   const handleUpdateSession = async (firstName?: string, lastName?: string, email?: string) => {
@@ -80,13 +80,13 @@ const ProfilePage: React.FC = () => {
       loading: "Updating your information...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeData;
-        console.log(typedResponse)
+        console.log(typedResponse);
         if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
           if (typedResponse.success && typedResponse.code === 200) {
             await handleUpdateSession(typedResponse.data.firstName, typedResponse.data.lastName, typedResponse.data.email);
             return typedResponse.message;
           }
-        } 
+        }
         throw new Error(typedResponse.message);
       },
       error: (err) => {
@@ -96,9 +96,8 @@ const ProfilePage: React.FC = () => {
       finally: () => {
         setLoadingChange(false);
       },
-    }); 
+    });
   };
-  
 
   return (
     <div className="min-h-screen">
@@ -115,7 +114,8 @@ const ProfilePage: React.FC = () => {
                 variant="ghost"
                 className="absolute inset-0 flex items-center justify-center rounded-full bg-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 onClick={() => setIsUploadOpen(true)}
-                style={{ width: "100%", height: "100%" }}>
+                style={{ width: "100%", height: "100%" }}
+              >
                 <Upload className="h-6 w-6 text-white" />
               </Button>
             </div>
@@ -129,7 +129,7 @@ const ProfilePage: React.FC = () => {
               <Edit className="h-4 w-4" />
             </Button>
           </div>
-          
+
           <div className="mt-2 flex items-center justify-center space-x-2 text-gray-600">
             <Mail className="h-4 w-4" />
             <p>{loading ? "Loading data..." : user?.email || "No email provided"}</p>
@@ -159,6 +159,13 @@ const ProfilePage: React.FC = () => {
                   <p className="font-medium">{user?.joinedAt ? formatDate(user.joinedAt) : "N/A"}</p>
                 </div>
               </div>
+              <div className="flex items-center space-x-3 text-gray-600">
+                <Calendar className="h-4 w-4" />
+                <div>
+                  <p className="text-sm text-gray-500">Session Berakhir Pada</p>
+                  <p className="font-medium">{user?.expiresAt ? formatDate(user.expiresAt) : "N/A"}</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
           <Card className="transform transition-all duration-300 hover:shadow-lg">
@@ -182,18 +189,14 @@ const ProfilePage: React.FC = () => {
             </CardContent>
           </Card>
         </div>
-        <ImageUploadDialog 
-          isOpen={isUploadOpen} 
-          onClose={() => setIsUploadOpen(false)} 
-          onUpload={handleUpload} 
-        />
+        <ImageUploadDialog isOpen={isUploadOpen} onClose={() => setIsUploadOpen(false)} onUpload={handleUpload} />
         <AccountInfoDialog
           loading={loadingChange}
           isOpen={isAccountInfoOpen}
           onClose={() => setIsAccountInfoOpen(false)}
           onUpdate={handleAccountInfoUpdate}
-          currentFirstName={user?.username?.split(" ")[0]} 
-          currentLastName={user?.username?.split(" ")[1]} 
+          currentFirstName={user?.username?.split(" ")[0]}
+          currentLastName={user?.username?.split(" ")[1]}
           currentEmail={user?.email}
         />
       </div>

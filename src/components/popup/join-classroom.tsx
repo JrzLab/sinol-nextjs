@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader } from "../ui/card";
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "../ui/input";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
@@ -15,14 +15,12 @@ import z from "zod";
 import { joinClassroomFormSchema } from "@/lib/form-validation-schema";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 
-const JoinClassroom = ({ status }: { status: () => void }) => {
-  const [isOpen, setIsOpen] = useState(true);
-
-  const togglePopUp = () => {
-    status();
-    setIsOpen(!isOpen);
-  };
-
+import { joinClassByUidClassUser } from "@/app/actions/api-actions";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+const JoinClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void }) => {
+  const uidUser = Cookies.get("uidClassUser");
+  const router = useRouter();
   const joinClassroomForm = useForm<z.infer<typeof joinClassroomFormSchema>>({
     resolver: zodResolver(joinClassroomFormSchema),
     defaultValues: {
@@ -32,19 +30,20 @@ const JoinClassroom = ({ status }: { status: () => void }) => {
 
   const submitHandler = async (values: z.infer<typeof joinClassroomFormSchema>) => {
     joinClassroomFormSchema.parse(values);
-    // fetch('', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ code: classroomCode }),
-    // }).then(res => res.json()).then(res => res.status == 200 ?
-    //   router.push(`/classroom/${res.data.id}`) :
-    //   toast({
-    //     title: "Failed to join classroom",
-    //     description: "Kode kelas tidak valid",
-    //   })
-    // )
+    try {
+      const data = await joinClassByUidClassUser({
+        uidClass: values.classroomCode,
+        uidClassUser: uidUser!,
+      });
+      if (data?.success && data?.code === 200) {
+        router.push(`/classroom/`);
+        status();
+      } else {
+        console.log("error kocak");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -58,7 +57,7 @@ const JoinClassroom = ({ status }: { status: () => void }) => {
                   <h1 className="text-lg font-bold">Bergabung Ke Kelas</h1>
                   <p className="text-sm">Siap belajar? Masukkan kode kelas untuk bergabung.</p>
                 </div>
-                <Button onClick={togglePopUp} variant={"default"} className="hover:bg-secondary">
+                <Button onClick={() => status()} variant={"default"} className="hover:bg-secondary">
                   <X />
                 </Button>
               </div>

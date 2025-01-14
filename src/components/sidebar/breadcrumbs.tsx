@@ -11,7 +11,6 @@ const Breadcrumbs = () => {
   const isNotFound = pathname === "/404";
 
   if (isNotFound) return null;
-  
   return (
     <>
       <Breadcrumb>

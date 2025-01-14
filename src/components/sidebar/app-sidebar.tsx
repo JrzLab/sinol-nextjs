@@ -8,108 +8,39 @@ import { NavProjects } from "@/components/sidebar/nav-projects";
 import { NavUser } from "@/components/sidebar/nav-user";
 import SidebarLogo from "@/components/sidebar/sidebar-logo";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
-// import { subjectStaticData } from "@/lib/staticData";
 import { useAuth } from "@/hooks/context/AuthProvider";
 
-// const getSubject = () => {
-//   const list: { title: string; url: string }[] = [];
-//   const today = new Date().getDay();
-//   console.log(today);
-//   subjectStaticData.forEach((item) => {
-//     if (item.day == today) {
-//       list.push({ title: item.title, url: `/classroom/${item.id}` });
-//     }
-//   });
-//   return list;
-// };
-
-// This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    // {
-    //   name: "Acme Inc",
-    //   logo: GalleryVerticalEnd,
-    //   plan: "Enterprise",
-    // },
-    // {
-    //   name: "Acme Corp.",
-    //   logo: AudioWaveform,
-    //   plan: "Startup",
-    // },
-    // {
-    //   name: "Evil Corp.",
-    //   logo: Command,
-    //   plan: "Free",
-    // },
-  ],
   navMain: [
     {
-      title: "Classroom",
+      title: "Kelas",
       url: "/classroom",
       icon: SquareLibrary,
       isActive: true,
-      // items: getSubject(),
+      items: [
+        {
+          title: "Kelas 1",
+          url: "/classroom/1",
+        },
+        {
+          title: "Kelas 2",
+          url: "/classroom/2",
+        },
+        {
+          title: "Kelas 3",
+          url: "/classroom/3",
+        },
+      ],
     },
-    // {
-    //   title: "Teacher",
-    //   url: "/teacher",
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Get Started",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Changelog",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
   ],
   page: [
     {
-      name: "Dashboard",
+      name: "Halaman Utama",
       url: "/",
       icon: AppWindow,
     },
     {
-      name: "Classroom",
+      name: "Kelas",
       url: "/classroom",
       icon: SquareLibrary,
     },
