@@ -117,6 +117,7 @@ export interface IGroupClassOwner {
 }
 
 export interface IGroupClass {
+  events: any;
   uid: string;
   day: number;
   className: string;

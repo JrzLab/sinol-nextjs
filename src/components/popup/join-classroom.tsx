@@ -16,11 +16,14 @@ import { joinClassroomFormSchema } from "@/lib/form-validation-schema";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 
 import { joinClassByUidClassUser } from "@/app/actions/api-actions";
-import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { toast } from "sonner";
+import { set } from "date-fns";
+
 const JoinClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void }) => {
   const uidUser = Cookies.get("uidClassUser");
-  const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
+
   const joinClassroomForm = useForm<z.infer<typeof joinClassroomFormSchema>>({
     resolver: zodResolver(joinClassroomFormSchema),
     defaultValues: {
@@ -29,19 +32,31 @@ const JoinClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void
   });
 
   const submitHandler = async (values: z.infer<typeof joinClassroomFormSchema>) => {
+    setLoading(true);
     joinClassroomFormSchema.parse(values);
     try {
-      const data = await joinClassByUidClassUser({
+      toast.promise(joinClassByUidClassUser({
         uidClass: values.classroomCode,
         uidClassUser: uidUser!,
-      });
-      if (data?.success && data?.code === 200) {
-        router.push(`/classroom/`);
-        status();
-      } else {
-        console.log("error kocak");
-      }
+      }), {
+        loading: "Joining class...",
+        success: (response) => {
+          if(response.code === 200 && response.success) {
+            window.location.href = `/classroom/${values.classroomCode}`;
+            return response.message
+          } 
+          throw new Error(response.message)
+        },
+        error(data) {
+          setLoading(false);
+          return data.message
+        },
+        finally() {
+          setLoading(false);
+        },
+      })
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -84,6 +99,7 @@ const JoinClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void
                   </div>
                   <Button
                     type="submit"
+                    disabled={loading}
                     className="w-full hover:bg-secondary"
                     onClick={joinClassroomForm.handleSubmit(submitHandler)}
                     variant={"default"}
