@@ -54,7 +54,6 @@ const ClassroomPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          mode: "no-cors",
           body: JSON.stringify({ emailUser1: dataClass?.ownerData.email, emailUser2: user?.email }),
         },
       );

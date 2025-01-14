@@ -224,6 +224,7 @@ export interface IEvent {
   description: string;
   dueDateAt: string; // Format date dalam string ISO
   maxScore: number;
+  status: "OPEN" | "CLOSED";
 }
 
 export interface IResponseEvent {
@@ -242,6 +243,21 @@ export interface IRequestCreateEvent {
 }
 
 export interface IResponseCreateEvent {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IEvent;
+}
+
+export interface IRequestEditEvent {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  maxScore: number;
+}
+
+export interface IResponseEditEvent {
   code: number;
   success: boolean;
   message: string;

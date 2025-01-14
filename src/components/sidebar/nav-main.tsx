@@ -50,7 +50,6 @@ export function NavMain() {
     getSubject().then((data) => {
       data.map(async (item) => {
         const eventData = await getEventByUidClassUser(uidUser!, "fe612ce0");
-        console.log(eventData);
 
         setNavClassData((prev) => [
           ...prev,
@@ -63,7 +62,6 @@ export function NavMain() {
       });
     });
   }, [setSubject, setNavClassData, setEvent, uidUser]);
-  console.log(navClassData);
 
   return (
     <SidebarGroup>

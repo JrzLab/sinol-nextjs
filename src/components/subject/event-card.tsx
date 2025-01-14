@@ -1,11 +1,15 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Card, CardHeader } from "../ui/card";
 import { getDate } from "@/lib/functions";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { IEvent, IGroupClass } from "@/lib/types/Types";
+import EventDetail from "../popup/event-detail";
 
 const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; eventData: IEvent }) => {
+  const [openDetail, setOpenDetail] = useState<boolean>(false);
+
   return (
     <div>
       <Card className="text-foreground">
@@ -15,9 +19,7 @@ const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; event
           </Link>
           <p>{eventData.description}</p>
           <div className="flex w-full justify-end pt-6">
-            <Button className="hover:bg-secondary" variant={"default"}>
-              Detail
-            </Button>
+            <EventDetail event={eventData} subject={subjectData} />
           </div>
         </CardHeader>
         <hr />

@@ -44,24 +44,6 @@ const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: 
       eventDueDate: new Date(),
     },
   });
-
-  // const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = e.target.files;
-  //   if (!files) return;
-  //   const fileArray = Array.from(files);
-  //   const fileNames = fileArray.map((file) => file.name);
-  //   const fileExt = fileArray.map((file) => file.type);
-
-  //   const list: IFile[] = [];
-  //   let i = 0;
-  //   fileArray.map((file) => {
-  //     list.push({ name: file.name, ext: file.type, id: i++ });
-  //   });
-
-  //   setFile(list);
-  //   toast({ title: "File Uploader", description: "file berhasil diupload" });
-  // };
-
   const submitHandler = async (values: z.infer<typeof createEventFormSchema>) => {
     createEventFormSchema.parse(values);
     try {
