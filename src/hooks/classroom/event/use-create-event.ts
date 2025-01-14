@@ -16,8 +16,6 @@ export const UseCreateEvent = async ({
   try {
     const requestBody = { title, dueDate, maxScore, description, uid } as IRequestCreateEvent;
 
-    console.log("reere", requestBody);
-
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/classroom/${uid}/create`, {
       method: "POST",
       headers: {

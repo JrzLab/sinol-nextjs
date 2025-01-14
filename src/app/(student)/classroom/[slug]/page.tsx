@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/context/AuthProvider";
 import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass } from "@/lib/types/Types";
 import CreateEventPopUp from "@/components/popup/create-event";
 import { getSocket } from "@/lib/socket";
+import EditClassroomDetail from "@/components/popup/edit-classroom-detail";
 
 const ClassroomPage = () => {
   const { user } = useAuth();
@@ -33,6 +34,7 @@ const ClassroomPage = () => {
       setIsListenerAdded(true);
     }
   }, [isListenerAdded]);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,10 +101,12 @@ const ClassroomPage = () => {
           <p>{dataClass?.description}</p>
           {true ? (
             <div className="flex gap-2 pt-8">
-              <Link href={`/classroom/${dataClass?.uid}/join`}>
-                <Button>Ubah Kelas</Button>
-              </Link>
-              <Button variant={"outline"}>Lihat</Button>
+              {dataClass?.ownerData.email === user?.email ? (
+                <Button onClick={() => setOpenEdit(true)} variant={"default"} className="hover:bg-secondary">
+                  Ubah Kelas
+                </Button>
+              ) : null}
+              <Button variant={"outline"}>Lihat Anggota</Button>
             </div>
           ) : null}
         </CardHeader>
@@ -129,6 +133,7 @@ const ClassroomPage = () => {
           </div>
         </div>
       </div>
+      {openEdit && <EditClassroomDetail data={dataClass!} dialogHandler={() => setOpenEdit(!openEdit)} open={openEdit} />}
     </>
   );
 };

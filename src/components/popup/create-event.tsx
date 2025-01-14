@@ -42,7 +42,6 @@ const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: 
       eventDueDate: new Date(),
     },
   });
-
   const submitHandler = async (values: z.infer<typeof createEventFormSchema>) => {
     setLoading(true);
     createEventFormSchema.parse(values);

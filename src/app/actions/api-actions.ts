@@ -3,9 +3,13 @@ import { IClassRoomCreate } from "../api/classroom/create/route";
 import { UseCreateClass } from "@/hooks/classroom/use-create-class";
 import { UseGetUser } from "@/hooks/user/use-get-user";
 import { IJoinRequestProps, UseJoinClass } from "@/hooks/classroom/use-join-class";
-import { IEvent, IResponseJoinClass } from "@/lib/types/Types";
+import { IEvent, IRequestEditClass, IResponseJoinClass, IViewsUser } from "@/lib/types/Types";
 import { UseGetEvent } from "@/hooks/classroom/event/use-get-event";
 import { UseCreateEvent } from "@/hooks/classroom/event/use-create-event";
+import { UseEditEvent } from "@/hooks/classroom/event/use-edit-event";
+import { UseDeleteEvent } from "@/hooks/classroom/event/use-delete-event";
+import { UseUpdateClass } from "@/hooks/classroom/use-update-class";
+import { UseGetUsersClass } from "@/hooks/classroom/use-get-users-class";
 
 const getClassByUidClassUser = async (uid: string) => {
   const data = await UseGetSubjects(uid);
@@ -14,6 +18,11 @@ const getClassByUidClassUser = async (uid: string) => {
 
 const createClassByUidClassUser = async ({ email, uid, className, description, day }: IClassRoomCreate) => {
   const data = await UseCreateClass({ email, uid, className, description, day });
+  return data;
+};
+
+const editEventByUidClassUser = async (id: string, title: string, description: string, dueDate: string, maxScore: number) => {
+  const data = await UseEditEvent({ id, title, description, dueDate, maxScore });
   return data;
 };
 
@@ -39,4 +48,30 @@ const createEventByUidClassUser = async (uid: string, title: string, description
   return data;
 };
 
-export { getClassByUidClassUser, createClassByUidClassUser, getUserData, joinClassByUidClassUser, getEventByUidClassUser, createEventByUidClassUser };
+const deleteEventByUidClassUser = async (uid: string) => {
+  const data = await UseDeleteEvent({ uid });
+  return data;
+};
+
+const updateClassByUidClassUser = async (uid: string, className: string, description: string, email: string, day: string) => {
+  const data = await UseUpdateClass({ uid, className, description, email, day });
+  return data;
+};
+
+const getUsersClassByUidClass = async (uid: string) => {
+  const data = await UseGetUsersClass(uid);
+  return data as IViewsUser[];
+};
+
+export {
+  getUsersClassByUidClass,
+  updateClassByUidClassUser,
+  deleteEventByUidClassUser,
+  getClassByUidClassUser,
+  createClassByUidClassUser,
+  getUserData,
+  joinClassByUidClassUser,
+  getEventByUidClassUser,
+  createEventByUidClassUser,
+  editEventByUidClassUser,
+};

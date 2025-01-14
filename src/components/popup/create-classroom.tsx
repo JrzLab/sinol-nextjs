@@ -129,34 +129,36 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
                     <FormField
                       control={createClassroomForm.control}
                       name="classroomDay"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel htmlFor="classroomDay">Jadwal Kelas</FormLabel>
-                          <br />
-                          <FormControl>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="outline">Pilih Jadwal Kelas</Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent className="w-56" align={"start"}>
-                                <DropdownMenuLabel>Pilih Jadwal Kelas</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuRadioGroup value={field.value} onValueChange={(e) => field.onChange(e)}>
-                                  <DropdownMenuRadioItem value="1">Senin</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="2">Selasa</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="3">Rabu</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="4">Kamis</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="5">Jumat</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="6">Sabtu</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="7">Minggu</DropdownMenuRadioItem>
-                                </DropdownMenuRadioGroup>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </FormControl>
-                          <FormDescription className="text-xs">Pilih Jadwal Kelas</FormDescription>
-                          <FormMessage className="text-xs" />
-                        </FormItem>
-                      )}
+                      render={({ field }) => {
+                        return (
+                          <FormItem>
+                            <FormLabel htmlFor="classroomDay">Jadwal Kelas</FormLabel>
+                            <br />
+                            <FormControl>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="outline">{field.value}</Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-56" align={"start"}>
+                                  <DropdownMenuLabel>Pilih Jadwal Kelas</DropdownMenuLabel>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuRadioGroup value={field.value} onValueChange={(e) => field.onChange(e)}>
+                                    <DropdownMenuRadioItem value="1">Senin</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="2">Selasa</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="3">Rabu</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="4">Kamis</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="5">Jumat</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="6">Sabtu</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="7">Minggu</DropdownMenuRadioItem>
+                                  </DropdownMenuRadioGroup>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </FormControl>
+                            <FormDescription className="text-xs">Pilih Jadwal Kelas</FormDescription>
+                            <FormMessage className="text-xs" />
+                          </FormItem>
+                        );
+                      }}
                     />
                   </div>
                   <Button

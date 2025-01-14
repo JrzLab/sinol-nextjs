@@ -159,13 +159,12 @@ export interface IResponseTaskUpload {
   success: boolean;
   message: string;
   data: {
-      id: number;
-      fileName: string;
-      url: string;
-      userTaskId: number;
+    id: number;
+    fileName: string;
+    url: string;
+    userTaskId: number;
   }[];
 }
-
 
 export interface IAccountInfoDialogProps {
   isOpen: boolean;
@@ -262,6 +261,36 @@ export interface IResponseCreateEvent {
   data: IEvent;
 }
 
+export interface IRequestEditClass {
+  uid: string;
+  className: string;
+  description: string;
+  email: string;
+  day: string;
+}
+
+export interface IResponseEditClass {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IGroupClass;
+}
+
+export interface IRequestEditEvent {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  maxScore: number;
+}
+
+export interface IResponseEditEvent {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IEvent;
+}
+
 export interface IUserDataProps {
   id: number;
   email: string;
@@ -277,7 +306,6 @@ export interface IUserProps {
   data: IUserDataProps;
 }
 
-
 interface IEventDataProps {
   id: number;
   title: string;
@@ -288,4 +316,18 @@ export interface IClassNavbarData {
   classUid: string;
   title: string;
   events: IEventDataProps[];
+}
+
+export interface IResponseViewUsers {
+  code: number;
+  success: boolean;
+  message: string;
+  data: IViewsUser[];
+}
+
+export interface IViewsUser {
+  email: string;
+  name: string;
+  imageUrl: string;
+  createdAt: string;
 }

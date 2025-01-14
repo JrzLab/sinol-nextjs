@@ -38,6 +38,18 @@ export const createClassroomFormSchema = z.object({
     .refine((value) => ["1", "2", "3", "4", "5", "6", "7"].includes(value), { message: "Hari kelas tidak valid." }),
 });
 
+export const editClassroomFormSchema = z.object({
+  classroomName: z
+    .string()
+    .nonempty({ message: "Nama kelas wajib diisi." })
+    .refine((value) => value.split(/\s/).filter((word) => word.length > 0).length <= 20, { message: "Nama kelas maksimal 20 kata." }),
+  description: z.string().nonempty({ message: "Deskripsi kelas wajib diisi." }).max(255, { message: "Deskripsi kelas maksimal 255 karakter." }),
+  classroomDay: z
+    .string()
+    .nonempty({ message: "Hari kelas wajib diisi." })
+    .refine((value) => ["1", "2", "3", "4", "5", "6", "7"].includes(value), { message: "Hari kelas tidak valid." }),
+});
+
 export const joinClassroomFormSchema = z.object({
   classroomCode: z
     .string()

@@ -9,7 +9,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Calendar } from "../ui/calendar";
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
 import { ScrollBar, ScrollArea } from "../ui/scroll-area";
-import { Card } from "../ui/card";
+import { Card, CardContent, CardHeader } from "../ui/card";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,197 +17,173 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 //IMPORT CLASSROOM FORM SCHEMA
-import { classroomFormSchema } from "@/lib/form-validation-schema";
+import { classroomFormSchema, editClassroomFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT INTERFACE
-import { ISubject } from "@/lib/types/Types";
+import { IGroupClass } from "@/lib/types/Types";
 
 //IMPORT LUCIDE ICON
-import { CalendarIcon, Clock } from "lucide-react";
+import { X } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { toast } from "sonner";
+import { updateClassByUidClassUser } from "@/app/actions/api-actions";
+import { useState } from "react";
 
-interface IDeleteClassroomAlert {
+interface IEditClassroomAlert {
   open: boolean;
-  data: ISubject;
+  data: IGroupClass;
   dialogHandler: () => void;
 }
 
-const EditClassroomDetail = ({ open, data, dialogHandler }: IDeleteClassroomAlert) => {
-  const getTimes: Date = new Date(data.date);
-
-  const editClassroomForm = useForm<z.infer<typeof classroomFormSchema>>({
-    resolver: zodResolver(classroomFormSchema),
+const EditClassroomDetail = ({ open, data, dialogHandler }: IEditClassroomAlert) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const editClassroomForm = useForm<z.infer<typeof editClassroomFormSchema>>({
+    resolver: zodResolver(editClassroomFormSchema),
     defaultValues: {
-      classroomName: data.title,
-      date: data.date,
-      time: getTimes,
+      classroomName: data?.className,
+      description: data?.description,
+      classroomDay: data?.day.toString(),
     },
   });
 
-  const handleTimeChange = (type: "hour" | "minute", value: string) => {
-    const currentDate = editClassroomForm.getValues("date");
-    const newDate = new Date(currentDate);
-
-    if (type == "hour") {
-      const hour = parseInt(value, 10);
-      newDate.setHours(hour);
-    } else if (type == "minute") {
-      newDate.setMinutes(parseInt(value, 10));
-    }
-    editClassroomForm.setValue("time", newDate);
-  };
-
-  const submitHandler = (values: z.infer<typeof classroomFormSchema>) => {
+  const submitHandler = (values: z.infer<typeof editClassroomFormSchema>) => {
     try {
-      classroomFormSchema.parse(values);
-      console.log({ message: "Form is valid", value: values });
-    } catch (err) {
-      console.error(err);
+      toast.promise(updateClassByUidClassUser(data.uid, values.classroomName, values.description, data?.ownerData.email, values.classroomDay), {
+        loading: "Mengubah Kelas...",
+        success: async (response) => {
+          if (response?.code === 200 && response?.success) {
+            return response.message;
+          }
+          throw new Error(response?.message);
+        },
+        error: (err) => {
+          return err.message;
+        },
+        finally: () => {
+          setLoading(false);
+          window.location.reload();
+        },
+      });
+    } catch (e) {
+      console.error(e);
     }
   };
   return (
     <>
-      <Dialog onOpenChange={() => dialogHandler()} open={open}>
-        <Form {...editClassroomForm}>
-          <form action="">
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle className="text-lg font-semibold">Ubah Detail Jadwal</DialogTitle>
-                <DialogDescription className="text-sm">Buat perubahan pada jadwal Anda di sini. Klik simpan setelah Anda selesai.</DialogDescription>
-              </DialogHeader>
-              <div className="grid grid-rows-2 gap-1 py-4">
-                <FormField
-                  control={editClassroomForm.control}
-                  name="classroomName"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormLabel htmlFor="classroomName">Nama Jadwal</FormLabel>
-                        <FormControl>
-                          <Input
-                            id="classroomName"
-                            type="text"
-                            value={field.value}
-                            onChange={(e) => editClassroomForm.setValue("classroomName", e.target.value)}
-                          />
-                        </FormControl>
-                        <FormDescription className="text-xs">Ubah nama jadwal.</FormDescription>
-                        <FormMessage className="text-xs" />
-                      </FormItem>
-                    );
-                  }}
-                />
-                <div className="grid grid-cols-2 gap-2">
-                  <FormField
-                    control={editClassroomForm.control}
-                    name="date"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor="date">Tanggal Jadwal</FormLabel>
-                        <br />
-                        <FormControl>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button variant={"outline"} className="w-full justify-start text-left font-normal">
-                                <CalendarIcon />
-                                {field.value ? format(field.value, "dd MMMM yyyy") : <span>Pilih tanggal jadwal</span>}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                              <Card className="">
-                                <div className="w-64 sm:flex">
-                                  <Calendar
-                                    mode="single"
-                                    selected={field.value}
-                                    onSelect={(date) => {
-                                      editClassroomForm.setValue("date", date?.getDay() ? date : new Date());
-                                    }}
-                                    initialFocus
-                                  />
-                                </div>
-                              </Card>
-                            </PopoverContent>
-                          </Popover>
-                        </FormControl>
-                        <FormDescription>Silahkan pilih tanggal jadwal yang baru.</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={editClassroomForm.control}
-                    name="time"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor="date">Jam Jadwal</FormLabel>
-                        <br />
-                        <FormControl>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button variant={"outline"} className="w-full justify-start text-left font-normal">
-                                <Clock />
-                                {field.value ? format(field.value, "HH:mm") : <span>Pilih tanggal jadwal</span>}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                              <Card className="sm:flex">
-                                <div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
-                                  <ScrollArea className="w-64 sm:w-auto">
-                                    <div className="flex p-2 sm:flex-col">
-                                      {Array.from({ length: 24 }, (_, i) => i)
-                                        .reverse()
-                                        .map((hour) => {
-                                          return (
-                                            <Button
-                                              key={hour}
-                                              size="icon"
-                                              variant={"ghost"}
-                                              className="aspect-square shrink-0 sm:w-full"
-                                              onClick={() => handleTimeChange("hour", hour.toString())}
-                                            >
-                                              {hour}
-                                            </Button>
-                                          );
-                                        })}
-                                    </div>
-                                    <ScrollBar orientation="horizontal" className="sm:hidden" />
-                                  </ScrollArea>
-                                  <ScrollArea className="w-64 sm:w-auto">
-                                    <div className="flex p-2 sm:flex-col">
-                                      {Array.from({ length: 12 }, (_, i) => i * 5).map((minute) => (
-                                        <Button
-                                          key={minute}
-                                          size="icon"
-                                          variant={"ghost"}
-                                          className="aspect-square shrink-0 sm:w-full"
-                                          onClick={() => handleTimeChange("minute", minute.toString())}
-                                        >
-                                          {minute.toString().padStart(2, "0")}
-                                        </Button>
-                                      ))}
-                                    </div>
-                                    <ScrollBar orientation="horizontal" className="sm:hidden" />
-                                  </ScrollArea>
-                                </div>
-                              </Card>
-                            </PopoverContent>
-                          </Popover>
-                        </FormControl>
-                        <FormDescription>Silahkan pilih jam jadwal.</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+      {open && (
+        <div className="fixed left-0 top-0 z-40 flex h-screen w-full items-center justify-center bg-foreground/50 px-6">
+          <Card className="w-full max-w-xl">
+            <CardHeader>
+              <div className="flex justify-between gap-1">
+                <div>
+                  <h1 className="text-lg font-bold">Ubah Detail Kelas</h1>
+                  <p className="text-sm">Ubah detail kelas yang telah dibuat</p>
                 </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit" onClick={editClassroomForm.handleSubmit(submitHandler)}>
-                  Simpan Perubahan
+                <Button onClick={() => dialogHandler()} variant={"default"} className="hover:bg-secondary">
+                  <X />
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </form>
-        </Form>
-      </Dialog>
+              </div>
+            </CardHeader>
+            <hr />
+            <CardContent>
+              <Form {...editClassroomForm}>
+                <form className="flex w-full flex-col gap-6 pt-4">
+                  <div className="flex w-full flex-col gap-2">
+                    <FormField
+                      control={editClassroomForm.control}
+                      name="classroomName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor="classroomName">Nama Kelas</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="classroomName"
+                              type="text"
+                              placeholder="Masukan Nama Kelas"
+                              value={field.value}
+                              onChange={(e) => editClassroomForm.setValue("classroomName", e.target.value)}
+                            />
+                          </FormControl>
+                          <FormDescription className="text-xs">Masukan Nama Kelas.</FormDescription>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={editClassroomForm.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor="classroomDescription">Deskripsi Kelas</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="classroomDescription"
+                              type="text"
+                              placeholder="Masukan Deskripsi"
+                              value={field.value}
+                              onChange={(e) => editClassroomForm.setValue("description", e.target.value)}
+                            />
+                          </FormControl>
+                          <FormDescription className="text-xs">Masukan Deskripsi Kelas</FormDescription>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={editClassroomForm.control}
+                      name="classroomDay"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel htmlFor="classroomDay">Jadwal Kelas</FormLabel>
+                          <br />
+                          <FormControl>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="outline">Pilih Jadwal Kelas</Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="w-56" align={"start"}>
+                                <DropdownMenuLabel>Pilih Jadwal Kelas</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuRadioGroup value={field.value} onValueChange={(e) => field.onChange(e)}>
+                                  <DropdownMenuRadioItem value="1">Senin</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="2">Selasa</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="3">Rabu</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="4">Kamis</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="5">Jumat</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="6">Sabtu</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="7">Minggu</DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </FormControl>
+                          <FormDescription className="text-xs">Pilih Jadwal Kelas</FormDescription>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="w-full hover:bg-secondary"
+                    onClick={editClassroomForm.handleSubmit(submitHandler)}
+                    variant={"default"}
+                  >
+                    Ubah Detail Kelas
+                  </Button>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </>
   );
 };

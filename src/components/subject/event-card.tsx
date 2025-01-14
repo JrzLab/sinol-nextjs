@@ -1,10 +1,11 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Card, CardHeader } from "../ui/card";
 import { getDate } from "@/lib/functions";
-import { Button } from "../ui/button";
 import Link from "next/link";
 import { IEvent, IGroupClass } from "@/lib/types/Types";
 import { truncateText } from "@/lib/functions";
+import EventDetail from "../popup/event-detail";
 
 const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; eventData: IEvent }) => {
   return (
@@ -24,10 +25,8 @@ const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; event
             </p>
           </div>
           <p>{eventData.description}</p>
-          <div className="flex w-full items-center justify-end pt-6">
-            <Button className="hover:bg-secondary" variant={"default"}>
-              Detail
-            </Button>
+          <div className="flex w-full justify-end pt-6">
+            <EventDetail event={eventData} subject={subjectData} />
           </div>
         </CardHeader>
         <hr />
