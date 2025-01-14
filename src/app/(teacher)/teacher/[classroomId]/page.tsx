@@ -16,6 +16,8 @@ import { getSocket } from "@/lib/socket";
 import EditClassroomDetail from "@/components/popup/edit-classroom-detail";
 import { LogOut, MessageCircleQuestion } from "lucide-react";
 import { useRouter } from "next/navigation";
+
+
 const TeacherClassroom = () => {
   const router = useRouter();
   const { user } = useAuth();
@@ -58,7 +60,7 @@ const TeacherClassroom = () => {
               <p>{dataClass?.description}</p>
             </div>
             <div className="flex flex-row gap-2">
-              {dataClass?.ownerData.email !== user?.email ? (
+              {dataClass?.ownerData.email ===  user?.email ? (
                 <Button size={"icon"} variant={"outline"} onClick={() => router.push(`/teacher/${slug}/chat`)}>
                   <MessageCircleQuestion />
                 </Button>
