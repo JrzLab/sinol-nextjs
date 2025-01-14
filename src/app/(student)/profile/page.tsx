@@ -151,7 +151,7 @@ const ProfilePage: React.FC = () => {
                 <Calendar className="h-4 w-4" />
                 <div>
                   <p className="text-sm text-gray-500">Session Berakhir Pada</p>
-                  <p className="font-medium">{formatDate(user?.expiresAt!)}</p>
+                  <p className="font-medium">{user?.expiresAt ? formatDate(user.expiresAt) : "N/A"}</p>
                 </div>
               </div>
             </CardContent>

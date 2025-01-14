@@ -23,9 +23,11 @@ const ClassroomPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getClassByUidClassUser(user?.uidClassUser!);
-      const dataClas = data!.find((data) => data.uid == slug);
-      setDataClass(dataClas);
+      if (user?.uidClassUser) {
+        const data = await getClassByUidClassUser(user.uidClassUser);
+        const dataClas = data!.find((data) => data.uid == slug);
+        setDataClass(dataClas);
+      }
     };
 
     fetchData();
@@ -59,7 +61,7 @@ const ClassroomPage = () => {
       {dataClass && dataClass?.ownerData.email !== user?.email ? (
         <div className="relative">
           <StudentChat
-            classDataWs={{ idRoom: roomId.current, emailUser: user?.email!, teacherData: dataClass.ownerData }}
+            classDataWs={{ idRoom: roomId.current, emailUser: user?.email ?? '', teacherData: dataClass?.ownerData || {} }}
             buttonGetChat={buttonChatHandler}
             addChatHandler={addChatHandler}
           >

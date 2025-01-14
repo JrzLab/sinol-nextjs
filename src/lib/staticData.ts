@@ -12,7 +12,6 @@ export const subjectStaticData: ISubject[] = [
     event: 5, //tugas
     person: 20, //
     day: 7,
-    status: "active",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -25,7 +24,6 @@ export const subjectStaticData: ISubject[] = [
     event: 3,
     person: 15,
     day: 2,
-    status: "active",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -38,7 +36,6 @@ export const subjectStaticData: ISubject[] = [
     event: 4,
     person: 18,
     day: 2,
-    status: "active",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -51,7 +48,6 @@ export const subjectStaticData: ISubject[] = [
     event: 6,
     person: 25,
     day: 2,
-    status: "active",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -64,7 +60,6 @@ export const subjectStaticData: ISubject[] = [
     event: 7,
     person: 30,
     day: 1,
-    status: "active",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -76,7 +71,6 @@ export const subjectStaticData: ISubject[] = [
     event: 2,
     person: 12,
     day: 1,
-    status: "idle",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -88,7 +82,6 @@ export const subjectStaticData: ISubject[] = [
     event: 8,
     person: 28,
     day: 7,
-    status: "idle",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -101,7 +94,6 @@ export const subjectStaticData: ISubject[] = [
     event: 6,
     person: 22,
     day: 3,
-    status: "idle",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -113,7 +105,6 @@ export const subjectStaticData: ISubject[] = [
     event: 4,
     person: 17,
     day: 2,
-    status: "idle",
     date: new Date("2024-12-22 08:14:30"),
   },
   {
@@ -125,7 +116,6 @@ export const subjectStaticData: ISubject[] = [
     event: 5,
     person: 19,
     day: 4,
-    status: "idle",
     date: new Date("2024-12-22 08:14:30"),
   },
 ];

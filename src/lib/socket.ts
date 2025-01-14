@@ -65,7 +65,7 @@ export const sendDataMessage = (emit: string, data: IMsgWS): Promise<ChatMessage
         resolve(data);
       });
 
-      socket.on("error", (error: any) => {
+      socket.on("error", (error) => {
         reject(error);
       });
     }

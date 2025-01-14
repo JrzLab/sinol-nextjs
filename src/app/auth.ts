@@ -170,4 +170,5 @@ export const { handlers, signIn, auth } = NextAuth({
     newUser: "/auth/sign-up",
   },
   secret: process.env.AUTH_SECRET!,
+  trustHost: true,
 });

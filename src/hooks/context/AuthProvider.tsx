@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IUserData, IAuthContextProps } from "@/lib/types/Types";
-import { useWebSocket } from "@/hooks/websocket/use-websocket";
+import { UseWebSocket } from "@/hooks/websocket/use-websocket";
 import { disconnectSocket } from "@/lib/socket";
 import Cookies from "js-cookie";
 
@@ -18,7 +18,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isUnauthenticated = status === "unauthenticated";
   const loading = status === "loading";
 
-  useWebSocket(session?.user.email!);
+  useEffect(() => {
+    if (session?.user.email) {
+      UseWebSocket(session.user.email);
+    }
+  }, [session]);
 
   useEffect(() => {
     const publicRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password"];

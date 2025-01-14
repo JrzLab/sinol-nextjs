@@ -1,7 +1,7 @@
 import { IGroupClass, IMessage } from "./types/Types";
 
 export const getSubjectDataEachDay = ({ subjects }: { subjects: IGroupClass[] }) => {
-  const list = Array.from(new Set(subjects.map((item) => item.day)))
+  const list = Array.from(new Set(subjects && subjects.map((item) => item.day)))
     .sort((a, b) => a - b)
     .map((day) => ({
       day: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"][day - 1],

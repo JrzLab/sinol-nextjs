@@ -9,7 +9,7 @@ import { Input } from "../../ui/input";
 import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
 import { Button } from "../../ui/button";
 import { ChatMessage, IGroupClassOwner } from "@/lib/types/Types";
-import { useWebSocketChat } from "@/hooks/websocket/use-websocket-chat";
+import { UseWebSocketChat } from "@/hooks/websocket/use-websocket-chat";
 
 interface IClassDataWS {
   idRoom: number;
@@ -40,7 +40,7 @@ const StudentChat = ({
     const form = e.currentTarget;
     const message = (new FormData(form)).get("text") as string;
 
-    const sendBackServer = await useWebSocketChat(classDataWs.teacherData.email, classDataWs.emailUser, message, classDataWs.idRoom);
+    const sendBackServer = await UseWebSocketChat(classDataWs.teacherData.email, classDataWs.emailUser, message, classDataWs.idRoom);
     addChatHandler(sendBackServer!);
   };
 

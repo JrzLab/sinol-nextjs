@@ -1,6 +1,6 @@
 import { sendDataMessage } from "@/lib/socket";
 
-export const useWebSocketChat = (emailOwnerClass: string, emailUserClass: string, messages: string, idRoom: number) => {
+export const UseWebSocketChat = (emailOwnerClass: string, emailUserClass: string, messages: string, idRoom: number) => {
   if (emailOwnerClass && emailUserClass && messages) {
     const message = {
       identifySender: emailUserClass,
