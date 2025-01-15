@@ -23,12 +23,17 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdateSession = async (firstName?: string, lastName?: string, email?: string) => {
     try {
-      if (session?.user) {
-        await update({
-          name: `${firstName} ${lastName}`,
-          email: email,
-        });
-      }
+      session?.user && await update({
+        name: `${firstName} ${lastName}`,
+        email: email,
+      })
+      .then(() => {
+        console.log("Session updated successfully");
+      })
+      .catch((error) => {
+        toast.error("Error updating data");
+        console.error("Error updating data:", error);
+      });
     } catch (error) {
       console.error("Error updating session:", error);
     }
@@ -36,11 +41,16 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdateImage = async (image: string) => {
     try {
-      if (session?.user) {
-        await update({
-          image,
-        });
-      }
+      session?.user && await update({
+        image: image,
+      })
+      .then(() => {
+        console.log("Session updated successfully");
+      })
+      .catch((error) => {
+        toast.error("Error updating data");
+        console.error("Error updating data:", error);
+      });
     } catch (error) {
       console.error("Error updating session:", error);
     }
@@ -80,7 +90,6 @@ const ProfilePage: React.FC = () => {
       loading: "Updating your information...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeData;
-        console.log(typedResponse);
         if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
           if (typedResponse.success && typedResponse.code === 200) {
             await handleUpdateSession(typedResponse.data.firstName, typedResponse.data.lastName, typedResponse.data.email);

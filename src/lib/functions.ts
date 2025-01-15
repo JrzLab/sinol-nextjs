@@ -120,3 +120,20 @@ export function getInitials(fullName: string): string {
 
   return firstInitial + lastInitial;
 }
+
+export function getDayByNumber(dayNumber: number): string {
+  if (dayNumber < 1 || dayNumber > 7) {
+    throw new Error("Day number must be between 1 and 7.");
+  }
+
+  const daysOfWeek = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+
+  const today = new Date();
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(today);
+    date.setDate(today.getDate() - (6 - i));
+    return daysOfWeek[date.getDay() === 0 ? 6 : date.getDay() - 1];
+  });
+
+  return last7Days[dayNumber - 1];
+}

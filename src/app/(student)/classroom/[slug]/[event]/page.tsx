@@ -131,9 +131,8 @@ const Event = () => {
                         href={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${task.url}`}
                         className="text-blue-600 underline hover:text-blue-800"
                         target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {task.fileName}
+                        rel="noopener noreferrer">
+                        {task.fileName.toLowerCase()}
                       </a>
                     </li>
                   ))

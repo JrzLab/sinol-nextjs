@@ -36,12 +36,10 @@ export function NavMain() {
       try {
         const classData = await getClassByUidClassUser(uidUser!);
 
-        // Initializing variables for owner and non-owner classes
         const ownerClasses: IGroupClass[] = [];
         const nonOwnerClasses: IGroupClass[] = [];
         const events: Record<string, IEventDataProps[]> = {};
 
-        // Group classes by owner and non-owner, and fetch events in parallel
         if (classData) {
           const eventPromises = classData.map(async (cls) => {
             if (cls.ownerData.email === userEmail) {
@@ -56,8 +54,7 @@ export function NavMain() {
               url: `/classroom/${cls.uid}/${event.id}`,
             })) || [];
           });
-
-          await Promise.all(eventPromises); // Run all event fetching in parallel
+          await Promise.all(eventPromises);
         }
 
         setOwnerClasses(ownerClasses);

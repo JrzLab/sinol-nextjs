@@ -17,6 +17,7 @@ import { Loader2, LogOut, MessageCircleQuestion } from "lucide-react";
 import GeneralAlert from "@/components/popup/general-alert";
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { getDayByNumber } from "@/lib/functions";
 
 const ClassroomPage = () => {
   const { user } = useAuth();
@@ -218,7 +219,7 @@ const ClassroomPage = () => {
           ) : null}
         </CardHeader>
         <hr />
-        <CardFooter className="grid grid-cols-3">
+        <CardFooter className="grid grid-cols-4">
           <div className="w-full pt-6">
             <h1 className="font-bold">Teacher</h1>
             <p>{dataClass?.ownerData.name}</p>
@@ -230,6 +231,10 @@ const ClassroomPage = () => {
           <div className="w-full pt-6">
             <h1 className="font-bold">Kode Kelas</h1>
             <p>{dataClass.uid}</p>
+          </div>
+          <div className="w-full pt-6">
+            <h1 className="font-bold">Kelas setiap hari</h1>
+            <p>{getDayByNumber(dataClass.day)}</p>
           </div>
         </CardFooter>
       </Card>
