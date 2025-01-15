@@ -13,7 +13,7 @@ import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass } from "@/lib/typ
 import CreateEventPopUp from "@/components/popup/create-event";
 import { getSocket } from "@/lib/socket";
 import EditClassroomDetail from "@/components/popup/edit-classroom-detail";
-import { LogOut, MessageCircleQuestion } from "lucide-react";
+import { Loader2, LogOut, MessageCircleQuestion } from "lucide-react";
 import GeneralAlert from "@/components/popup/general-alert";
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
@@ -81,6 +81,7 @@ const ClassroomPage = () => {
       setMessageData(response.data.messages);
     }
   };
+
   const leaveClassHandler = async () => {
     try {
       toast.promise(leaveClassByUidClassUser(dataClass?.uid!, user?.uidClassUser!), {
@@ -104,7 +105,23 @@ const ClassroomPage = () => {
       console.error(e);
     }
   };
+
+  const copyClassCode = () => {
+    navigator.clipboard.writeText(dataClass?.uid || "").then(() => {
+      toast.success("Kode kelas berhasil disalin!");
+    });
+  };
+
   const getEventLength = dataEvent?.length;
+
+  if (loading || !dataClass || !dataEvent) {
+    return (
+      <div className="flex items-center justify-center h-[80vh]">
+        <Loader2 width={50} height={50} className="animate-spin" />;
+      </div>
+    );
+  }
+
   return (
     <>
       {dataClass && dataClass?.ownerData.email !== user?.email ? (
@@ -129,7 +146,7 @@ const ClassroomPage = () => {
           <div className="flex flex-row items-start justify-between">
             <div className="flex flex-col">
               <h1 className="font-bold">{dataClass?.className}</h1>
-              <p>{dataClass?.description}</p>
+              <p className="mt-4">{dataClass?.description}</p>
             </div>
             <div className="flex flex-row gap-2">
               {dataClass?.ownerData.email !== user?.email ? (
@@ -137,6 +154,9 @@ const ClassroomPage = () => {
                   <MessageCircleQuestion />
                 </Button>
               ) : null}
+                <Button variant={"outline"} onClick={copyClassCode}>
+                  Salin Kode Kelas
+                </Button>
               <Button size={"icon"} variant={"outline"} onClick={() => setIsLeaveAlertOpen(true)}>
                 <LogOut />
               </Button>
@@ -164,6 +184,10 @@ const ClassroomPage = () => {
           <div className="w-full pt-6">
             <h1 className="font-bold">Tugas</h1>
             <p>{getEventLength}</p>
+          </div>
+          <div className="w-full pt-6">
+            <h1 className="font-bold">Kode Kelas</h1>
+            <p>{dataClass.uid}</p>
           </div>
         </CardFooter>
       </Card>

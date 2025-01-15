@@ -13,15 +13,16 @@ import { Button } from "../ui/button";
 import GeneralAlert from "../popup/general-alert";
 import { AlertDialogAction, AlertDialogCancel } from "../ui/alert-dialog";
 import { useState } from "react";
-import Cookies from "js-cookie";
 import { useAuth } from "@/hooks/context/AuthProvider";
 import EditEventDetail from "./edit-event";
 import { deleteEventByUidClassUser } from "@/app/actions/api-actions";
+import { useRouter } from "next/navigation";
 
 const EventDetail = ({ event, subject }: { event: IEvent; subject: IGroupClass }) => {
   const { user } = useAuth();
   const [isOutOpen, setIsOutOpen] = useState<boolean>(false);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const deleteHandler = async () => {
     await deleteEventByUidClassUser(event.id.toString()).then(() => {
@@ -39,7 +40,7 @@ const EventDetail = ({ event, subject }: { event: IEvent; subject: IGroupClass }
         <DropdownMenuContent>
           <DropdownMenuLabel>Detail Tugas</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => console.log(event)}>Lihat Tugas</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push(`/classroom/${subject.uid}/${event.id}`)}>Lihat Tugas</DropdownMenuItem>
           {subject && subject.ownerData.email === user?.email ? (
             <>
               <DropdownMenuItem onClick={() => setIsEditOpen(true)}>Edit Tugas</DropdownMenuItem>

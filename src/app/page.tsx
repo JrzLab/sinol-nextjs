@@ -60,15 +60,7 @@ const DashboardPage: React.FC = () => {
     };
     fetchDashboardData();
   }, [uidCookies, userEmail]);
-
-  if (!eventData || eventData.length === 0) {
-    return (
-      <>
-        <EmptyStatePages />
-      </>
-    );
-  }
-
+  
   if (loading) {
     return (
       <div className="flex h-[80vh] items-center justify-center">
@@ -76,10 +68,10 @@ const DashboardPage: React.FC = () => {
       </div>
     );
   }
-
+  
   const modeNoData: boolean = !subjectData || subjectData.length === 0 || !userData;
 
-  if (modeNoData || !eventData || !subjectData || subjectData.length === 0) {
+  if (loading || modeNoData || !eventData || !subjectData || subjectData.length === 0) {
     return <EmptyStatePages />;
   }
 

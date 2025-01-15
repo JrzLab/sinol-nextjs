@@ -3,7 +3,7 @@ import { IClassRoomCreate } from "../api/classroom/create/route";
 import { UseCreateClass } from "@/hooks/classroom/use-create-class";
 import { UseGetUser } from "@/hooks/user/use-get-user";
 import { IJoinRequestProps, UseJoinClass } from "@/hooks/classroom/use-join-class";
-import { IEvent, IRequestClassroomLeave, IRequestEditClass, IResponseJoinClass, IViewsUser } from "@/lib/types/Types";
+import { IEvent, IResponseJoinClass, ITaskResponse, IViewsUser } from "@/lib/types/Types";
 import { UseGetEvent } from "@/hooks/classroom/event/use-get-event";
 import { UseCreateEvent } from "@/hooks/classroom/event/use-create-event";
 import { UseEditEvent } from "@/hooks/classroom/event/use-edit-event";
@@ -11,6 +11,7 @@ import { UseDeleteEvent } from "@/hooks/classroom/event/use-delete-event";
 import { UseUpdateClass } from "@/hooks/classroom/use-update-class";
 import { UseGetUsersClass } from "@/hooks/classroom/use-get-users-class";
 import { UseLeaveClass } from "@/hooks/classroom/use-leave-class";
+import { UseGetTask } from "@/hooks/classroom/event/use-get-task";
 
 const getClassByUidClassUser = async (uid: string) => {
   const data = await UseGetSubjects(uid);
@@ -69,6 +70,11 @@ const getUsersClassByUidClass = async (uid: string) => {
   return data as IViewsUser[];
 };
 
+const getTaskUserByUidAndEmail = async (uid: string, email: string) => {
+  const data = await UseGetTask(uid, email);
+  return data as ITaskResponse
+};
+
 export {
   leaveClassByUidClassUser,
   getUsersClassByUidClass,
@@ -81,4 +87,5 @@ export {
   getEventByUidClassUser,
   createEventByUidClassUser,
   editEventByUidClassUser,
+  getTaskUserByUidAndEmail
 };

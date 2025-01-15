@@ -366,3 +366,22 @@ export interface IResponseClassroomLeave {
     };
   };
 }
+
+export interface IFileTask {
+  id: number;
+  fileName: string;
+  url: string;
+  userTaskId: number;
+}
+
+export interface ITaskData {
+  status: "NOT_COLLECTING" | "PENDING" | "COMPLETED";
+  fileTask: IFileTask[];
+}
+
+export interface ITaskResponse {
+  code: number;
+  success: boolean;
+  message: string;
+  data: ITaskData;
+}
