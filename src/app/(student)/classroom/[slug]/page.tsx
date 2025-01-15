@@ -114,16 +114,51 @@ const ClassroomPage = () => {
   };
 
   const copyClassCode = () => {
-    navigator.clipboard.writeText(dataClass?.uid || "").then(() => {
-      toast.success("Kode kelas berhasil disalin!");
-    });
+    if (!dataClass?.uid) {
+      toast.error("Kode kelas tidak tersedia.");
+      return;
+    }
+
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      navigator.clipboard
+        .writeText(dataClass.uid)
+        .then(() => {
+          toast.success("Kode kelas berhasil disalin!");
+        })
+        .catch(() => {
+          toast.error("Gagal menyalin kode kelas. Coba lagi nanti.");
+        });
+    } else {
+      fallbackCopyText(dataClass.uid);
+    }
+  };
+
+  const fallbackCopyText = (text: string) => {
+    const textarea = document.createElement("textarea");
+    try {
+      textarea.value = text;
+
+      document.body.appendChild(textarea);
+      textarea.select();
+
+      const successful = document.execCommand("copy");
+      if (successful) {
+        toast.success("Kode kelas berhasil disalin!");
+      } else {
+        toast.error("Gagal menyalin kode kelas.");
+      }
+    } catch {
+      toast.error("Gagal menyalin kode kelas.");
+    } finally {
+      document.body.removeChild(textarea);
+    }
   };
 
   const getEventLength = dataEvent?.length;
 
   if (loading || !dataClass || !dataEvent) {
     return (
-      <div className="flex items-center justify-center h-[80vh]">
+      <div className="flex h-[80vh] items-center justify-center">
         <Loader2 width={50} height={50} className="animate-spin" />;
       </div>
     );
@@ -161,9 +196,9 @@ const ClassroomPage = () => {
                   <MessageCircleQuestion />
                 </Button>
               ) : null}
-                <Button variant={"outline"} onClick={copyClassCode}>
-                  Salin Kode Kelas
-                </Button>
+              <Button variant={"outline"} onClick={copyClassCode}>
+                Salin Kode Kelas
+              </Button>
               <Button size={"icon"} variant={"outline"} onClick={() => setIsLeaveAlertOpen(true)}>
                 <LogOut />
               </Button>
