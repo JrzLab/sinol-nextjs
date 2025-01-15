@@ -8,16 +8,15 @@ import { EmptyStatePages } from "@/components/empety/empety";
 import SubjectCard from "@/components/subject/subject-card";
 import Link from "next/link";
 import { getToday } from "@/lib/functions";
-import { getClassByUidClassUser, getEventByUidClassUser, getUserData } from "./actions/api-actions";
-import { IUserDataProps, IGroupClass, IEvent } from "@/lib/types/Types";
+import { getClassByUidClassUser, getEventByUidClassUser } from "./actions/api-actions";
+import { IGroupClass, IEvent } from "@/lib/types/Types";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "@/hooks/context/AuthProvider";
 
 const DashboardPage: React.FC = () => {
-  const uidCookies = Cookies.get("uidClassUser");
-  const userEmail = Cookies.get("userId");
+  const { user } = useAuth()
   const [subjectData, setSubjectData] = useState<IGroupClass[] | undefined>(undefined);
   const [eventData, setEventData] = useState<IEvent[] | undefined>(undefined);
-  const [userData, setUserData] = useState<IUserDataProps | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const [cardData, setCardData] = useState([
     {
@@ -34,13 +33,11 @@ const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     const fetchDashboardData = async () => {
-      if (uidCookies && userEmail) {
-        const subjectData = await getClassByUidClassUser(uidCookies);
-        const eventData = subjectData && subjectData.length > 0 ? await getEventByUidClassUser(uidCookies, subjectData[0].uid) : [];
-        const userData = await getUserData(userEmail);
+      if (user?.uidClassUser) {
+        const subjectData = await getClassByUidClassUser(user?.uidClassUser);
+        const eventData = subjectData && subjectData.length > 0 ? await getEventByUidClassUser(user?.uidClassUser, subjectData[0].uid) : [];
 
         setSubjectData(subjectData);
-        setUserData(userData);
         setEventData(eventData);
 
         setCardData([
@@ -59,7 +56,7 @@ const DashboardPage: React.FC = () => {
       setLoading(false);
     };
     fetchDashboardData();
-  }, [uidCookies, userEmail]);
+  }, [user?.uidClassUser, user?.email]);
   
   if (loading) {
     return (
@@ -69,7 +66,7 @@ const DashboardPage: React.FC = () => {
     );
   }
   
-  const modeNoData: boolean = !subjectData || subjectData.length === 0 || !userData;
+  const modeNoData: boolean = !subjectData || subjectData.length === 0 || !user;
 
   if (loading || modeNoData || !eventData || !subjectData || subjectData.length === 0) {
     return <EmptyStatePages />;
@@ -79,7 +76,7 @@ const DashboardPage: React.FC = () => {
     <div className="flex flex-1 flex-col gap-4 pt-0">
       <Card className="flex w-full flex-col rounded-xl">
         <CardHeader>
-          <h1 className="text-xl font-bold">{`Halo ${userData?.firstName} ${userData?.lastName || ""}`}</h1>
+          <h1 className="text-xl font-bold">{`Halo ${user?.username}`}</h1>
           <p className="-mt-1">hari yang indah untuk mengerjakan tugasmu, hehe</p>
         </CardHeader>
         <CardFooter>

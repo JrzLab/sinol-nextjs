@@ -21,7 +21,6 @@ export function NavMain() {
   const uidUser = Cookies.get("uidClassUser");
   const userEmail = Cookies.get("userId");
   const hasFetched = useRef(false);
-  const [subject, setSubject] = useState<IGroupClass[]>([]);
   const [eventData, setEventData] = useState<Record<string, IEventDataProps[]>>({});
   const [ownerClasses, setOwnerClasses] = useState<IGroupClass[]>([]);
   const [nonOwnerClasses, setNonOwnerClasses] = useState<IGroupClass[]>([]);
@@ -36,14 +35,11 @@ export function NavMain() {
 
       try {
         const classData = await getClassByUidClassUser(uidUser!);
-        setSubject(classData || []);
 
-        // Initializing variables for owner and non-owner classes
         const ownerClasses: IGroupClass[] = [];
         const nonOwnerClasses: IGroupClass[] = [];
         const events: Record<string, IEventDataProps[]> = {};
 
-        // Group classes by owner and non-owner, and fetch events in parallel
         if (classData) {
           const eventPromises = classData.map(async (cls) => {
             if (cls.ownerData.email === userEmail) {
@@ -58,8 +54,7 @@ export function NavMain() {
               url: `/classroom/${cls.uid}/${event.id}`,
             })) || [];
           });
-
-          await Promise.all(eventPromises); // Run all event fetching in parallel
+          await Promise.all(eventPromises);
         }
 
         setOwnerClasses(ownerClasses);
@@ -74,8 +69,6 @@ export function NavMain() {
 
     fetchData();
   }, [uidUser, userEmail]);
-
-  console.log(subject)
 
   if (isLoading) {
     return (
