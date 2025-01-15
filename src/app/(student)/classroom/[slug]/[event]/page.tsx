@@ -79,7 +79,7 @@ const Event = () => {
       },
       error: (error) => {
         console.error("Error uploading assignment:", error);
-        throw error;
+        return error;
       },
       finally() {
         setLoading(false);

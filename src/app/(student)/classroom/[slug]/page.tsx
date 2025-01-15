@@ -83,6 +83,9 @@ const ClassroomPage = () => {
   };
 
   const leaveClassHandler = async () => {
+    if (!dataClass?.uid || !user?.uidClassUser) {
+      return;
+    }
     try {
       if (!dataClass?.uid || !user?.uidClassUser) {
         toast.error("Failed to leave class. Missing class or user information.");

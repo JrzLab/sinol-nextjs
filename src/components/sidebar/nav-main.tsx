@@ -73,6 +73,8 @@ export function NavMain() {
     fetchData();
   }, [uidUser, userEmail]);
 
+  console.log(subject)
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center p-4">

@@ -33,6 +33,7 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
   // const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [jadwalDataTable, setJadwalDataTable] = useState<IJadwalKelasTable[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

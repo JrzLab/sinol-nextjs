@@ -66,7 +66,9 @@ const EditClassroomDetail = ({ open, data, dialogHandler }: IEditClassroomAlert)
       console.error(e);
     }
   };
-  
+
+  if (loading) return null
+
   return (
     <>
       {open && (

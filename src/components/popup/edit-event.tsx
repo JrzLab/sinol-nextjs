@@ -73,6 +73,9 @@ const EditEventDetail = ({ eventId, open, eventData, dialogHandler }: IEditEvent
       console.error(e);
     }
   };
+
+  if (loading) return null
+
   return (
     <>
       <Dialog onOpenChange={() => dialogHandler()} open={open}>
