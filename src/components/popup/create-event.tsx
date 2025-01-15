@@ -22,12 +22,10 @@ import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 import { format } from "date-fns";
 import { createEventByUidClassUser } from "@/app/actions/api-actions";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: string }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const togglePopUp = () => {
     status();

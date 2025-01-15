@@ -30,8 +30,22 @@ const Event = () => {
   useEffect(() => {
     const fetchData = async () => {
       const eventData = await getEventByUidClassUser(event, slug);
-      const classData = await getClassByUidClassUser(user?.uidClassUser!);
-      const taskResponse: ITaskResponse = await getTaskUserByUidAndEmail(event, user?.email!);
+      if (!user?.uidClassUser) {
+        notFound();
+        return;
+      }
+      const classData = await getClassByUidClassUser(user.uidClassUser);
+      const taskResponse: ITaskResponse = user?.email
+        ? await getTaskUserByUidAndEmail(event, user.email)
+        : {
+            code: 400,
+            success: false,
+            message: "User email is not available",
+            data: {
+              status: "NOT_COLLECTING",
+              fileTask: [],
+            },
+          };
 
       const filteredEvent = eventData?.find((data) => data.id === parseInt(event));
       const filteredData = classData?.find((data) => data.uid === slug);
@@ -45,11 +59,15 @@ const Event = () => {
       }
     };
     fetchData();
-  }, [slug, event]);
+  }, [slug, event, user?.email, user?.uidClassUser]);
 
   const handleFileUpload = async (file: File) => {
     setLoading(true);
-    toast.promise(uploadAssignment(user?.email!, event, file), {
+    if (!user?.email) {
+      toast.error("User email is not available");
+      return;
+    }
+    toast.promise(uploadAssignment(user.email, event, file), {
       loading: "Uploading assignment...",
       success: async (response) => {
         const typedResponse = response as IResponseTaskUpload;

@@ -6,7 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
-import { IEvent, IGroupClass } from "@/lib/types/Types";
+import { IGroupClass } from "@/lib/types/Types";
 import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
 import { truncateText } from "@/lib/functions";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,6 @@ export function NavMain() {
   const uidUser = Cookies.get("uidClassUser");
   const userEmail = Cookies.get("userId");
   const hasFetched = useRef(false);
-  const [subject, setSubject] = useState<IGroupClass[]>([]);
   const [eventData, setEventData] = useState<Record<string, IEventDataProps[]>>({});
   const [ownerClasses, setOwnerClasses] = useState<IGroupClass[]>([]);
   const [nonOwnerClasses, setNonOwnerClasses] = useState<IGroupClass[]>([]);
@@ -36,7 +35,6 @@ export function NavMain() {
 
       try {
         const classData = await getClassByUidClassUser(uidUser!);
-        setSubject(classData || []);
 
         // Initializing variables for owner and non-owner classes
         const ownerClasses: IGroupClass[] = [];

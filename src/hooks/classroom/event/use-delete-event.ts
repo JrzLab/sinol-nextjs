@@ -1,4 +1,4 @@
-import { IRequestCreateEvent, IResponseCreateEvent } from "@/lib/types/Types";
+import { IResponseCreateEvent } from "@/lib/types/Types";
 
 export const UseDeleteEvent = async ({ uid }: { uid: string }) => {
   try {

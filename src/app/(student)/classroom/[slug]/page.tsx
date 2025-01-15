@@ -84,7 +84,11 @@ const ClassroomPage = () => {
 
   const leaveClassHandler = async () => {
     try {
-      toast.promise(leaveClassByUidClassUser(dataClass?.uid!, user?.uidClassUser!), {
+      if (!dataClass?.uid || !user?.uidClassUser) {
+        toast.error("Failed to leave class. Missing class or user information.");
+        return;
+      }
+      toast.promise(leaveClassByUidClassUser(dataClass.uid, user.uidClassUser), {
         loading: "Keluar Kelas...",
         success: async (response) => {
           if (response?.code === 200 && response?.success) {

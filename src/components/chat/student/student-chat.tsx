@@ -3,14 +3,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
 import { ChevronUp, ChevronDown, Send } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import { Separator } from "../../ui/separator";
 import { Input } from "../../ui/input";
 import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
 import { Button } from "../../ui/button";
-import { ChatMessage, IGroupClassOwner } from "@/lib/types/Types";
+import { IGroupClassOwner } from "@/lib/types/Types";
 import { UseWebSocketChat } from "@/hooks/websocket/use-websocket-chat";
-import { getSocket } from "@/lib/socket";
 
 interface IClassDataWS {
   idRoom: number;

@@ -1,4 +1,3 @@
-import { IRequestCreateEvent } from "@/lib/types/Types";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function DELETE(req: NextRequest) {

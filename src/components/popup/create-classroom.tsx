@@ -6,7 +6,6 @@ import { Input } from "../ui/input";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import { useRouter } from "next/navigation";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,7 +31,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void }) => {
-  const router = useRouter();
   const { user } = useAuth();
 
   const createClassroomForm = useForm<z.infer<typeof createClassroomFormSchema>>({

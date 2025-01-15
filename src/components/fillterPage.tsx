@@ -33,7 +33,7 @@ function ActivityTest({ children }: Readonly<{ children: React.ReactNode }>) {
     } catch (error) {
       console.error("Error updating session:", error);
     }
-  }, [isEventRecorded]);
+  }, [isEventRecorded, session?.user, update]);
 
   return <>{children}</>;
 }

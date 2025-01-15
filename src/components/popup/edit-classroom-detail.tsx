@@ -1,9 +1,5 @@
-//IMPORT REACT/NEXT JS
-import { format } from "date-fns";
-
 //IMPORT SHADCN COMPONENTS
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardHeader } from "../ui/card";
@@ -14,10 +10,10 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 //IMPORT CLASSROOM FORM SCHEMA
-import { classroomFormSchema, editClassroomFormSchema } from "@/lib/form-validation-schema";
+import { editClassroomFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT INTERFACE
-import { IGroupClass, IJadwalKelasTable } from "@/lib/types/Types";
+import { IGroupClass } from "@/lib/types/Types";
 
 //IMPORT LUCIDE ICON
 import { X } from "lucide-react";
@@ -32,7 +28,6 @@ import {
 } from "../ui/dropdown-menu";
 import { toast } from "sonner";
 import { updateClassByUidClassUser } from "@/app/actions/api-actions";
-import { useState } from "react";
 
 interface IEditClassroomAlert {
   open: boolean;
@@ -41,7 +36,6 @@ interface IEditClassroomAlert {
 }
 
 const EditClassroomDetail = ({ open, data, dialogHandler }: IEditClassroomAlert) => {
-  const [loading, setLoading] = useState<boolean>(false);
   const editClassroomForm = useForm<z.infer<typeof editClassroomFormSchema>>({
     resolver: zodResolver(editClassroomFormSchema),
     defaultValues: {
@@ -65,7 +59,6 @@ const EditClassroomDetail = ({ open, data, dialogHandler }: IEditClassroomAlert)
           return err.message;
         },
         finally: () => {
-          setLoading(false);
           window.location.reload();
         },
       });
