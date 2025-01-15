@@ -1,4 +1,4 @@
-import { IResponseEditEvent, IRequestEditEvent } from "@/lib/types/Types";
+import { IRequestEditEvent } from "@/lib/types/Types";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function PUT(req: NextRequest) {

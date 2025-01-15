@@ -1,4 +1,4 @@
-import { IClassResponse, IResponseViewUsers } from "@/lib/types/Types";
+import { IResponseViewUsers } from "@/lib/types/Types";
 
 export const UseGetUsersClass = async (uid: string) => {
   try {

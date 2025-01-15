@@ -8,8 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Calendar } from "../ui/calendar";
 import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
-import { ScrollBar, ScrollArea } from "../ui/scroll-area";
-import { Card } from "../ui/card";
 
 //IMPORT VALIDATION DEPEDENCIES
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,16 +15,16 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 //IMPORT CLASSROOM FORM SCHEMA
-import { classroomFormSchema, createEventFormSchema } from "@/lib/form-validation-schema";
+import { createEventFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT INTERFACE
-import { IEvent, ISubject } from "@/lib/types/Types";
+import { IEvent} from "@/lib/types/Types";
 
 //IMPORT LUCIDE ICON
-import { CalendarIcon, Clock } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 import { cn } from "@/lib/utils";
-import { createEventByUidClassUser, editEventByUidClassUser } from "@/app/actions/api-actions";
+import {editEventByUidClassUser } from "@/app/actions/api-actions";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -79,6 +77,9 @@ const EditEventDetail = ({ eventId, open, eventData, dialogHandler }: IEditEvent
       console.error(e);
     }
   };
+
+  if (loading) return null
+
   return (
     <>
       <Dialog onOpenChange={() => dialogHandler()} open={open}>

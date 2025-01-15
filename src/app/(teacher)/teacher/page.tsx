@@ -1,14 +1,13 @@
-import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
+import { getClassByUidClassUser } from "@/app/actions/api-actions";
 import ClassroomSchedule from "@/components/table/classroom-schedule";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { subjectStaticData } from "@/lib/staticData";
 import React from "react";
 import { cookies } from "next/headers";
 
 const TeacherPage = async () => {
   const cookie = await cookies();
   const uidCookies = cookie.get("uidClassUser");
-  const getSubjectData = await getClassByUidClassUser(uidCookies?.value!);
+  const getSubjectData = uidCookies ? await getClassByUidClassUser(uidCookies.value) : null;
 
   const cardData = [
     {

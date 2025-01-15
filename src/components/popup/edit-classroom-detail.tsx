@@ -1,9 +1,5 @@
-//IMPORT REACT/NEXT JS
-import { format } from "date-fns";
-
 //IMPORT SHADCN COMPONENTS
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardHeader } from "../ui/card";
@@ -14,10 +10,10 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 //IMPORT CLASSROOM FORM SCHEMA
-import { classroomFormSchema, editClassroomFormSchema } from "@/lib/form-validation-schema";
+import { editClassroomFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT INTERFACE
-import { IGroupClass, IJadwalKelasTable } from "@/lib/types/Types";
+import { IGroupClass } from "@/lib/types/Types";
 
 //IMPORT LUCIDE ICON
 import { X } from "lucide-react";
@@ -73,7 +69,9 @@ const EditClassroomDetail = ({ open, data, dialogHandler }: IEditClassroomAlert)
       console.error(e);
     }
   };
-  
+
+  if (loading) return null
+
   return (
     <>
       {open && (

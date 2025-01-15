@@ -1,4 +1,4 @@
-import { IClassResponse, IResponseViewUsers } from "@/lib/types/Types";
+import {  IResponseViewUsers } from "@/lib/types/Types";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {

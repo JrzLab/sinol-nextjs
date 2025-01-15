@@ -29,7 +29,7 @@ export const useRecordEvents = (isAuthenticated: boolean) => {
 
     // Reset state setelah 500ms
     setTimeout(() => setIsEventOccurred(false), 500);
-  }, [isAuthenticated]);
+  }, [isAuthenticated, pathname]);
 
   useEffect(() => {
     if (!isAuthenticated) return;

@@ -1,4 +1,4 @@
-import { IClassResponse, IRequestClassroomLeave, IResponseClassroomLeave } from "@/lib/types/Types";
+import { IRequestClassroomLeave, IResponseClassroomLeave } from "@/lib/types/Types";
 
 export const UseLeaveClass = async ({ uidClass, uidClassUser }: IRequestClassroomLeave) => {
   try {

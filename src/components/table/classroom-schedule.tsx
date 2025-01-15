@@ -2,7 +2,7 @@
 //IMPORT NEXTJS
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 //IMPORT SHADCN COMPONENTS
 import { ColumnDef } from "@tanstack/react-table";
@@ -18,13 +18,12 @@ import { Button } from "../ui/button";
 
 //IMPORT INTERFACE & FUNCTION
 import { IGroupClass, IJadwalKelasTable } from "@/lib/types/Types";
-import { getDate, truncateText } from "@/lib/functions";
+import {  truncateText } from "@/lib/functions";
 
 //IMPORT LUCIDE ICON
 import { ArrowUpDown, MoreHorizontal, Trash2, PanelLeftOpen, Pencil } from "lucide-react";
 import DeleteClassroomAlert from "../popup/delete-classroom-alert";
 import DataTable from "./data-table";
-import EditClassroomDetail from "../popup/edit-classroom-detail";
 
 import Cookies from "js-cookie";
 import { getEventByUidClassUser, getUsersClassByUidClass } from "@/app/actions/api-actions";
@@ -34,6 +33,9 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [jadwalDataTable, setJadwalDataTable] = useState<IJadwalKelasTable[]>([]);
+
+  console.log(openEdit)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -197,7 +199,6 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
       id: "actions",
       header: () => <div className="text-center">Pilihan</div>,
       cell: ({ row }) => {
-        const data = row.original;
         return (
           <>
             <DropdownMenu defaultOpen={false} modal={false}>

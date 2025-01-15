@@ -2,17 +2,13 @@
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { useParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import EventCard from "@/components/subject/event-card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
-import StudentChat from "@/components/chat/student/student-chat";
-import BubbleChat from "@/components/chat/bubble-chat";
 import { useAuth } from "@/hooks/context/AuthProvider";
-import { ChatHistoryResponse, ChatMessage, IEvent, IGroupClass } from "@/lib/types/Types";
+import { IEvent, IGroupClass } from "@/lib/types/Types";
 import CreateEventPopUp from "@/components/popup/create-event";
-import { getSocket } from "@/lib/socket";
 import EditClassroomDetail from "@/components/popup/edit-classroom-detail";
 import { LogOut, MessageCircleQuestion } from "lucide-react";
 import { useRouter } from "next/navigation";

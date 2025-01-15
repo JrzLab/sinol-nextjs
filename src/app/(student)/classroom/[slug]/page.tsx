@@ -83,8 +83,11 @@ const ClassroomPage = () => {
   };
 
   const leaveClassHandler = async () => {
+    if (!dataClass?.uid || !user?.uidClassUser) {
+      return;
+    }
     try {
-      toast.promise(leaveClassByUidClassUser(dataClass?.uid!, user?.uidClassUser!), {
+      toast.promise(leaveClassByUidClassUser(dataClass.uid, user.uidClassUser), {
         loading: "Keluar Kelas...",
         success: async (response) => {
           if (response?.code === 200 && response?.success) {

@@ -6,7 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
-import { IEvent, IGroupClass } from "@/lib/types/Types";
+import { IGroupClass } from "@/lib/types/Types";
 import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
 import { truncateText } from "@/lib/functions";
 import { useRouter } from "next/navigation";
@@ -74,6 +74,8 @@ export function NavMain() {
 
     fetchData();
   }, [uidUser, userEmail]);
+
+  console.log(subject)
 
   if (isLoading) {
     return (

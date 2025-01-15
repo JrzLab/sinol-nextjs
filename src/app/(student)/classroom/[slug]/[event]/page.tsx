@@ -30,8 +30,8 @@ const Event = () => {
   useEffect(() => {
     const fetchData = async () => {
       const eventData = await getEventByUidClassUser(event, slug);
-      const classData = await getClassByUidClassUser(user?.uidClassUser!);
-      const taskResponse: ITaskResponse = await getTaskUserByUidAndEmail(event, user?.email!);
+      const classData = user?.uidClassUser ? await getClassByUidClassUser(user.uidClassUser) : undefined;
+      const taskResponse: ITaskResponse = await getTaskUserByUidAndEmail(event, user?.email ?? '');
 
       const filteredEvent = eventData?.find((data) => data.id === parseInt(event));
       const filteredData = classData?.find((data) => data.uid === slug);
@@ -45,11 +45,16 @@ const Event = () => {
       }
     };
     fetchData();
-  }, [slug, event]);
+  }, [slug, event, user?.email, user?.uidClassUser]);
 
   const handleFileUpload = async (file: File) => {
     setLoading(true);
-    toast.promise(uploadAssignment(user?.email!, event, file), {
+    if (!user?.email) {
+      toast.error("User email is not available.");
+      setLoading(false);
+      return;
+    }
+    toast.promise(uploadAssignment(user.email, event, file), {
       loading: "Uploading assignment...",
       success: async (response) => {
         const typedResponse = response as IResponseTaskUpload;
@@ -61,7 +66,7 @@ const Event = () => {
       },
       error: (error) => {
         console.error("Error uploading assignment:", error);
-        throw error;
+        return error;
       },
       finally() {
         setLoading(false);

@@ -24,13 +24,9 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
   const [eventsData, setEventsData] = useState<IEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [confirmationPopup, setConfirmationPopup] = useState<boolean>();
-  const [itemDelete, setItemDelete] = useState<string>();
   const hasFetched = useRef(false);
 
-  const Confirmation = (uid: string) => {
-    setItemDelete(uid);
-    setConfirmationPopup(!confirmationPopup);
-  };
+  console.log(eventsData)
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -46,7 +42,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
 
         if (subjectUids.length > 0) {
           const allEvents = await Promise.all(
-            subjectUids.map((uid) => getEventByUidClassUser(user?.uidClassUser!, uid))
+            subjectUids.map((uid) => user?.uidClassUser ? getEventByUidClassUser(user.uidClassUser, uid) : Promise.resolve(null))
           );
 
           const resolvedSubjects = (data || []).map((subject, index) => ({
@@ -149,7 +145,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
             ))}
         </div>
       )}
-      {confirmationPopup && itemDelete ? (
+      {confirmationPopup ? (
         <GeneralAlert open title="Apakah Anda Yakin?" description="Tindakan ini tidak dapat diurungkan">
           <AlertDialogCancel onClick={() => outConfirmation(false)}>Batal</AlertDialogCancel>
           <AlertDialogAction onClick={() => outConfirmation(true)}>Keluar</AlertDialogAction>
