@@ -55,6 +55,8 @@ export const { handlers, signIn, auth } = NextAuth({
 
           return {
             uidClassUser: data.data.uid,
+            firstName: data.data.firstName,
+            lastName: data.data.lastName!,
             email: data.data.email,
             name: `${data.data.firstName} ${data.data.lastName || ""}`.trim(),
             image: `${process.env.BACKEND_URL}${data.data.imageUrl}`.trim(),
@@ -70,7 +72,6 @@ export const { handlers, signIn, auth } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user, account, trigger, session }) {
-      
       if (!token.expires) {
         const expirationDate = new Date();
         expirationDate.setMinutes(expirationDate.getMinutes() + 20);
@@ -79,9 +80,11 @@ export const { handlers, signIn, auth } = NextAuth({
 
       if (user && account?.provider === "credentials") {
         token.uid = user.uidClassUser;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
         token.email = user.email;
         token.name = user.name;
-        token.image = user.image;
+        token.image = user.image!;
         token.joinedAt = user.joinedAt;
         token.loginAt = user.loginAt;
       }
@@ -117,6 +120,8 @@ export const { handlers, signIn, auth } = NextAuth({
           if (data.code === 200 && data.success) {
             token.uid = data.data.uid;
             token.email = data.data.email;
+            token.firstName = data.data.firstName;
+            token.lastName = data.data.lastName!;
             token.name = `${data.data.firstName} ${data.data.lastName || ""}`.trim();
             token.image = `${process.env.BACKEND_URL}${data.data.imageUrl}`.trim();
             token.joinedAt = new Date(data.data.joinedAt);
@@ -141,6 +146,8 @@ export const { handlers, signIn, auth } = NextAuth({
       if (token) {
         session.user.uidClassUser = token.uid as string;
         session.user.email = token.email as string;
+        session.user.firstName = token.firstName as string;
+        session.user.lastName = token.lastName as string;
         session.user.name = token.name as string;
         session.user.image = token.image as string;
         session.user.joinedAt = token.joinedAt as Date;
