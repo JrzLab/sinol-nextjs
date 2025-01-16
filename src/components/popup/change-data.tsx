@@ -7,16 +7,10 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "../ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "../ui/form";
 import { changeDataFormSchema } from "@/lib/form-validation-schema";
 import { IAccountInfoDialogProps } from "@/lib/types/Types";
+import Link from "next/link";
 
 type ChangeDataFormSchema = z.infer<typeof changeDataFormSchema>;
 
@@ -104,19 +98,26 @@ const AccountInfoDialog: React.FC<IAccountInfoDialogProps> = ({
                 </FormItem>
               )}
             />
-            <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="Enter current password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div>
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="Enter current password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormDescription className="text-xs">
+                <Link href="/auth/forgot-password" className="hover:text-black hover:underline">
+                  Lupa kata sandi?
+                </Link>
+              </FormDescription>
+            </div>
             <DialogFooter className="flex justify-end space-x-2">
               <Button variant="outline" type="button" onClick={onClose}>
                 Cancel

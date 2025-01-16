@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { EmptyStatePages } from "@/components/empety/empety";
@@ -89,7 +88,7 @@ const DashboardPage: React.FC = () => {
     <div className="flex flex-1 flex-col gap-4 pt-0">
       <Card className="flex w-full flex-col rounded-xl">
         <CardHeader>
-          <h1 className="text-xl font-bold">{`Halo ${user?.username}`}</h1>
+          <h1 className="text-xl font-bold">{`Halo ${user?.firstName} ${user?.lastName}`}</h1>
           <p className="-mt-1">{motivasi[Math.floor(Math.random() * motivasi.length)]}</p>
         </CardHeader>
         <CardFooter>

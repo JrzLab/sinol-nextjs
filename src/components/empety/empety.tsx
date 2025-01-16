@@ -37,7 +37,7 @@ export const EmptyStatePages: React.FC = () => {
           <div className="flex flex-col items-center space-y-8 p-12">
             <div className="space-y-3 text-center">
               <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
-                {loading ? "Loading data..." : `${getGreeting()}, ${user?.username}!`}
+                {loading ? "Loading data..." : `${getGreeting()}, ${user?.firstName} ${user?.lastName}!`}
               </h2>
               <p className="text-lg text-muted-foreground">Mulailah perjalanan belajar Anda dengan membuat atau bergabung dengan kelas. </p>
             </div>

@@ -49,21 +49,6 @@ export interface ISignInResponse {
   };
 }
 
-export interface ISignInGoogleResponse {
-  code: number;
-  success: boolean;
-  message: string;
-  data: {
-    uid: string;
-    firstName: string;
-    lastName: string | null;
-    email: string;
-    imageUrl: string | null;
-    joinedAt: string;
-    loginAt: number;
-  };
-}
-
 export interface IRequestResetPass {
   success: boolean;
   code: number;
@@ -93,7 +78,8 @@ export interface ISignUpResponse {
 
 export interface IUserData {
   uidClassUser?: string;
-  username?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   imageUrl?: string;
   joinedAt?: Date;

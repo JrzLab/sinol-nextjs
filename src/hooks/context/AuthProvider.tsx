@@ -31,7 +31,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (status === "authenticated" && session?.user) {
       setUser({
         uidClassUser: session.user.uidClassUser!,
-        username: session.user.name!,
+        firstName: session.user.firstName!,
+        lastName: session.user.lastName!,
         email: session.user.email!,
         imageUrl: session.user.image!,
         joinedAt: session.user.joinedAt!,

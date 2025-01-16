@@ -23,17 +23,19 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdateSession = async (firstName?: string, lastName?: string, email?: string) => {
     try {
-      session?.user && await update({
-        name: `${firstName} ${lastName}`,
-        email: email,
-      })
-      .then(() => {
-        console.log("Session updated successfully");
-      })
-      .catch((error) => {
-        toast.error("Error updating data");
-        console.error("Error updating data:", error);
-      });
+      if (session?.user && firstName && lastName && email)
+        await update({
+          firstName,
+          lastName,
+          email,
+        })
+          .then(() => {
+            console.log("Session updated successfully");
+          })
+          .catch((error) => {
+            toast.error("Error updating data");
+            console.error("Error updating data:", error);
+          });
     } catch (error) {
       console.error("Error updating session:", error);
     }
@@ -41,16 +43,17 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdateImage = async (image: string) => {
     try {
-      session?.user && await update({
-        image: image,
-      })
-      .then(() => {
-        console.log("Session updated successfully");
-      })
-      .catch((error) => {
-        toast.error("Error updating data");
-        console.error("Error updating data:", error);
-      });
+      if (session?.user)
+        await update({
+          image: image,
+        })
+          .then(() => {
+            console.log("Session updated successfully");
+          })
+          .catch((error) => {
+            toast.error("Error updating data");
+            console.error("Error updating data:", error);
+          });
     } catch (error) {
       console.error("Error updating session:", error);
     }
@@ -66,7 +69,10 @@ const ProfilePage: React.FC = () => {
       success: async (response) => {
         const typedResponse = response as IResponseChangeProfile;
         if (typedResponse.success && typedResponse.code === 200) {
-          await handleUpdateImage(`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${typedResponse.data.linkProfile}`);
+          const url = process.env.NEXT_PUBLIC_WS_URL;
+          await handleUpdateImage(
+            `${url?.includes("localhost") ? url.replace("3001", "3002") : url?.replace("10073", "10059")}${typedResponse.data.linkProfile}`,
+          );
           return typedResponse.message;
         } else {
           throw new Error(typedResponse.message);
@@ -99,7 +105,6 @@ const ProfilePage: React.FC = () => {
         throw new Error(typedResponse.message);
       },
       error: (err) => {
-        console.error("Error:", err);
         return err.message;
       },
       finally: () => {
@@ -117,7 +122,9 @@ const ProfilePage: React.FC = () => {
             <div className="group relative">
               <Avatar className="h-32 w-32 rounded-full border-4 border-white shadow-lg">
                 <AvatarImage src={user?.imageUrl} alt="Profile Image" className="rounded-full" />
-                <AvatarFallback className="bg-gray-300 text-2xl font-bold">{user?.username ? getInitials(user.username) : "?"}</AvatarFallback>
+                <AvatarFallback className="bg-gray-300 text-2xl font-bold">
+                  {user?.firstName && user?.lastName ? getInitials(`${user.firstName} ${user.lastName}`) : "?"}
+                </AvatarFallback>
               </Avatar>
               <Button
                 variant="ghost"
@@ -133,7 +140,9 @@ const ProfilePage: React.FC = () => {
 
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center space-x-2">
-            <h1 className="text-2xl font-bold text-gray-900">{loading ? "Loading data..." : user?.username || "Unknown User"}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {loading ? "Loading data..." : `${user?.firstName} ${user?.lastName}` || "Unknown User"}
+            </h1>
             <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setIsAccountInfoOpen(true)}>
               <Edit className="h-4 w-4" />
             </Button>
@@ -197,8 +206,8 @@ const ProfilePage: React.FC = () => {
           isOpen={isAccountInfoOpen}
           onClose={() => setIsAccountInfoOpen(false)}
           onUpdate={handleAccountInfoUpdate}
-          currentFirstName={user?.username?.split(" ")[0]}
-          currentLastName={user?.username?.split(" ")[1]}
+          currentFirstName={user?.firstName}
+          currentLastName={user?.lastName}
           currentEmail={user?.email}
         />
       </div>

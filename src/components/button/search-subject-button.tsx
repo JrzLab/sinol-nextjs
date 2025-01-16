@@ -23,12 +23,12 @@ const motivasi = [
 const SearchSubjectButton = ({ subjectData }: { subjectData: IGroupClass[] }) => {
   const { loading, user } = useAuth();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  
+
   return (
     <>
       <Card className="flex w-full flex-col rounded-xl text-foreground">
         <CardHeader>
-          <h1 className="text-2xl font-bold">{loading ? "loading data..." : `Halo ${user?.username}`}</h1>
+          <h1 className="text-2xl font-bold">{loading ? "loading data..." : `Halo ${user?.firstName} ${user?.lastName}`}</h1>
           <p className="mt-1">{motivasi[Math.floor(Math.random() * motivasi.length)]}</p>
         </CardHeader>
         <CardFooter>

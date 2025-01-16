@@ -33,7 +33,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useAuth();
   const userData = {
-    name: user?.username ?? "",
+    name: `${user?.firstName} ${user?.lastName}` || "",
     email: user?.email ?? "",
     avatar: user?.imageUrl ?? "",
   };
