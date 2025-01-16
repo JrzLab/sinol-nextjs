@@ -82,7 +82,7 @@ export const { handlers, signIn, auth } = NextAuth({
         token.email = user.email;
         token.firstName = user.firstName;
         token.lastName = user.lastName;
-        token.image = user.image;
+        token.image = user.image!;
         token.joinedAt = user.joinedAt;
         token.loginAt = user.loginAt;
       }
