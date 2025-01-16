@@ -15,14 +15,13 @@ export const UseLeaveClass = async ({ uidClass, uidClassUser }: IRequestClassroo
     const data: IResponseClassroomLeave = await res.json();
 
     if (res.ok && data.success && data.code === 200) {
-      console.log("Class created successfully:", data.data);
       return data;
     } else {
       console.warn(`API responded with an error. Code: ${data.code}, Message: ${data.message}`);
       return null;
     }
   } catch (error) {
-    console.error("An error occurred while creating a class:", error);
+    console.error("An error occurred while leaving a class:", error);
     return null;
   }
 };

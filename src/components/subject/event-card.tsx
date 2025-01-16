@@ -6,6 +6,7 @@ import Link from "next/link";
 import { IEvent, IGroupClass } from "@/lib/types/Types";
 import { truncateText } from "@/lib/functions";
 import EventDetail from "../popup/event-detail";
+import { Badge } from "../ui/badge";
 
 const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; eventData: IEvent }) => {
   return (
@@ -13,16 +14,16 @@ const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; event
       <Card className="text-foreground">
         <CardHeader>
           <div className="flex justify-between">
-            <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="hover:underline font-bold">
+            <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="font-bold hover:underline">
               {truncateText(eventData.title, 20)}
             </Link>
-            <p>
-              {eventData.status === "OPEN" ? (
-                <span className="rounded-md text-xs bg-green-200 p-2">Tersedia</span>
-              ) : (
-                <span className="rounded-md text-xs bg-red-200 p-2">Tidak Tersedia</span>
-              )}
-            </p>
+            {eventData.status === "OPEN" ? (
+              <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">Tersedia</Badge>
+            ) : (
+              <Badge variant={"destructive"} className="bg-gray-100 text-gray-700 hover:bg-gray-100">
+                Kadaluarsa
+              </Badge>
+            )}
           </div>
           <p>{eventData.description}</p>
           <div className="flex w-full justify-end pt-6">

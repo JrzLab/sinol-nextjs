@@ -27,7 +27,7 @@ import { signUpFormSchema } from "@/lib/form-validation-schema";
 
 //IMPORT ICONS
 import { Eye, EyeOff } from "lucide-react";
-import Link from "next/link";;
+import Link from "next/link";
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -76,7 +76,7 @@ const SignUpForm = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <>
       <Form {...signUpForm}>
@@ -93,7 +93,7 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <FormControl>
-                    <Input id="email" type="email" placeholder="example@gmail.com" {...field} />
+                    <Input id="email" type="email" placeholder="contoh@gmail.com" {...field} />
                   </FormControl>
                   <FormDescription className="text-xs">Masukan alamat email yang valid.</FormDescription>
                   <FormMessage className="text-xs" />
@@ -135,7 +135,7 @@ const SignUpForm = () => {
               )}
             />
             <div className="mt-2 grid gap-2">
-              <Button disabled={loading} type="submit"  className="w-full" onClick={signUpForm.handleSubmit(submitHandler)}>
+              <Button disabled={loading} type="submit" className="w-full" onClick={signUpForm.handleSubmit(submitHandler)}>
                 Daftar
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

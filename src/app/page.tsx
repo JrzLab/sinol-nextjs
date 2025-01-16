@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { EmptyStatePages } from "@/components/empety/empety";
@@ -33,13 +32,13 @@ const DashboardPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [cardData, setCardData] = useState([
     {
-      title: "Jadwal Pelajaran",
-      description: "Total Jadwal Pelajaran yang Anda Dapatkan",
+      title: "Jadwal Kelas",
+      description: "Total Jadwal Kelas yang Anda Dapatkan",
       total: 0,
     },
     {
-      title: "Tugas",
-      description: "Tugas yang tersedia",
+      title: "Tugas Kelas",
+      description: "Total Tugas Kelas yang harus dikerjakan",
       total: 0,
     },
   ]);
@@ -56,12 +55,12 @@ const DashboardPage: React.FC = () => {
         setCardData([
           {
             title: "Jadwal Pelajaran",
-            description: "Total Jadwal Pelajaran yang Anda Dapatkan",
+            description: "Total Jadwal Kelas yang Anda Dapatkan",
             total: subjectData ? subjectData.length : 0,
           },
           {
-            title: "Tugas",
-            description: "Tugas yang tersedia",
+            title: "Tugas Kelas",
+            description: "Total Tugas Kelas yang harus dikerjakan",
             total: eventData ? eventData.length : 0,
           },
         ]);
@@ -87,7 +86,7 @@ const DashboardPage: React.FC = () => {
 
   return (
     <div className="flex flex-1 flex-col gap-4 pt-0">
-      <Card className="flex w-full flex-col rounded-xl">
+      <Card className="flex w-full flex-col rounded-xl text-foreground">
         <CardHeader>
           <h1 className="text-xl font-bold">{`Halo ${user?.username}`}</h1>
           <p className="-mt-1">{motivasi[Math.floor(Math.random() * motivasi.length)]}</p>

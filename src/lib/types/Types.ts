@@ -328,6 +328,7 @@ export interface IResponseViewUsers {
 
 export interface IViewsUser {
   email: string;
+  uid: string;
   name: string;
   imageUrl: string;
   createdAt: string;
@@ -342,6 +343,15 @@ export interface IJadwalKelasTable {
   classEvent: number | null;
   classMember: number | null;
   classStatus: "active" | "inactive";
+}
+
+export interface IClassroomUsersTable {
+  id: number;
+  userId: string;
+  userImageURL: string;
+  userName: string;
+  userEmail: string;
+  userJoinedAt: string;
 }
 
 export interface IRequestClassroomLeave {

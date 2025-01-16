@@ -103,9 +103,12 @@ const Event = () => {
           <div className="flex items-start justify-between">
             <div className="space-y-1">
               <h2 className="text-2xl font-semibold tracking-tight">{dataEvent.title}</h2>
-              <p className="text-sm text-muted-foreground">Posted by {userData?.ownerData.name}</p>
               <p className="text-sm text-muted-foreground">
-                Deadline: <span className="font-medium">{formatDate(dataEvent.dueDateAt)}</span>
+                <span className="font-medium">Tugas Dibuat Oleh : </span>
+                {userData?.ownerData.name}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                <span className="font-medium">Tenggat Waktu Pengumpulan :</span> {formatDate(dataEvent.dueDateAt)}
               </p>
             </div>
             {dataEvent.status === "OPEN" ? (
@@ -131,7 +134,8 @@ const Event = () => {
                         href={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${task.url}`}
                         className="text-blue-600 underline hover:text-blue-800"
                         target="_blank"
-                        rel="noopener noreferrer">
+                        rel="noopener noreferrer"
+                      >
                         {task.fileName.toLowerCase()}
                       </a>
                     </li>
@@ -168,7 +172,7 @@ const Event = () => {
           {dataEvent.status === "OPEN" ? (
             user?.email === userData?.ownerData.email ? (
               <Link href={`/teacher`} className="w-full rounded-md bg-secondary px-4 py-2 text-center text-white">
-                View In Teacher Dashboard
+                Buka Halaman Pengajar
               </Link>
             ) : (
               <Button

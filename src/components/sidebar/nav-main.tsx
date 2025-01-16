@@ -48,11 +48,12 @@ export function NavMain() {
               nonOwnerClasses.push(cls);
             }
             const eventList = await getEventByUidClassUser(uidUser!, cls.uid);
-            events[cls.uid] = eventList?.map((event) => ({
-              id: event.id,
-              title: event.title,
-              url: `/classroom/${cls.uid}/${event.id}`,
-            })) || [];
+            events[cls.uid] =
+              eventList?.map((event) => ({
+                id: event.id,
+                title: event.title,
+                url: `/classroom/${cls.uid}/${event.id}`,
+              })) || [];
           });
           await Promise.all(eventPromises);
         }
@@ -72,7 +73,7 @@ export function NavMain() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center p-4">
+      <div className="flex items-center justify-center p-4">
         <span className="text-sm text-gray-500">Loading...</span>
       </div>
     );
@@ -110,7 +111,7 @@ export function NavMain() {
         ))}
         {ownerClasses.length > 0 && (
           <>
-            <SidebarGroupLabel>Teacher</SidebarGroupLabel>
+            <SidebarGroupLabel>Mengajar</SidebarGroupLabel>
             {ownerClasses.map((item) => (
               <Collapsible key={item.uid} className="group">
                 <CollapsibleTrigger asChild>

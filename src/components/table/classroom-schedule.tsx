@@ -21,19 +21,22 @@ import { IGroupClass, IJadwalKelasTable } from "@/lib/types/Types";
 import { truncateText } from "@/lib/functions";
 
 //IMPORT LUCIDE ICON
-import { ArrowUpDown, MoreHorizontal, Trash2, PanelLeftOpen } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Trash2, PanelLeftOpen, CalendarIcon } from "lucide-react";
 import DeleteClassroomAlert from "../popup/delete-classroom-alert";
 import DataTable from "./data-table";
 
 import Cookies from "js-cookie";
 import { getEventByUidClassUser, getUsersClassByUidClass } from "@/app/actions/api-actions";
+import ActionsAlert from "../popup/actions-alert";
+import { toast } from "sonner";
+
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+
 const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
   const cookies = Cookies.get("uidClassUser");
   const router = useRouter();
-  // const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
+  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
   const [jadwalDataTable, setJadwalDataTable] = useState<IJadwalKelasTable[]>([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,6 +68,15 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
     }
   }, [subjectData, cookies, setJadwalDataTable]);
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Kode kelas berhasil disalin");
+  };
+
+  const deleteClassroom = async (uid: string) => {
+    console.log(uid);
+  };
+
   const classroomScheduleColumns: ColumnDef<IJadwalKelasTable>[] = [
     {
       accessorKey: "id",
@@ -82,7 +94,12 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
       cell: ({ row }) => {
         return (
           <div>
-            <h1 className="underline hover:font-semibold hover:text-black">{row.getValue("classUid")}</h1>
+            <h1
+              className="underline hover:cursor-pointer hover:font-semibold hover:text-black"
+              onClick={() => copyToClipboard(row.getValue("classUid"))}
+            >
+              {row.getValue("classUid")}
+            </h1>
           </div>
         );
       },
@@ -95,9 +112,21 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
       cell: ({ row }) => {
         return (
           <div>
-            <Link className="underline hover:font-semibold hover:text-black" href={`/teacher/${row.getValue("classUid")}`}>
-              {row.getValue("className")}
-            </Link>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Link className="underline hover:font-semibold hover:text-black" href={`/teacher/${row.getValue("classUid")}`}>
+                  {row.getValue("className")}
+                </Link>
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80 bg-[#FFFDF6]" align="start">
+                <div className="flex justify-between space-x-4">
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-semibold">{row.getValue("className")}</h4>
+                    <p className="text-sm">{truncateText(row.getValue("classDescription"), 30)}</p>
+                  </div>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           </div>
         );
       },
@@ -206,7 +235,7 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
                   <MoreHorizontal />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="bg-[#FFFDF6]">
                 <DropdownMenuLabel>Pilihan</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => router.push(`/teacher/${row.getValue("classUid")}`)}>
                   <PanelLeftOpen />
@@ -221,20 +250,21 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
                   <Pencil />
                   Ubah Kelas
                 </DropdownMenuItem> */}
-                <DropdownMenuItem onClick={() => setOpenDelete(true)}>
+                <DropdownMenuItem onClick={() => setOpenDeleteAlert(true)}>
                   <Trash2 />
                   Hapus Kelas
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <DeleteClassroomAlert open={openDelete} dialogHandler={() => setOpenDelete(false)} />
+            <ActionsAlert alertStatus={openDeleteAlert} onClose={() => setOpenDeleteAlert(false)} />
+            {/* <DeleteClassroomAlert open={openDelete} dialogHandler={() => deleteClassroom(row.getValue("classUid"))} /> */}
             {/* <EditClassroomDetail data={data} open={openEdit} dialogHandler={() => setOpenEdit(false)} /> */}
           </>
         );
       },
     },
   ];
-  return <DataTable columns={classroomScheduleColumns} data={jadwalDataTable} />;
+  return <DataTable columns={classroomScheduleColumns} data={jadwalDataTable} filterKey="className" />;
 };
 
 export default ClassroomSchedule;
