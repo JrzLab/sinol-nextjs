@@ -47,7 +47,31 @@ const EditClassroomDetail = ({ open, data, dialogHandler }: IEditClassroomAlert)
 
   const submitHandler = (values: z.infer<typeof editClassroomFormSchema>) => {
     try {
-      toast.promise(updateClassByUidClassUser(data.uid, values.classroomName, values.description, data?.ownerData.email, values.classroomDay), {
+      let classroomDay;
+      switch (values.classroomDay) {
+        case "Senin":
+          classroomDay = "1";
+          break;
+        case "Selasa":
+          classroomDay = "2";
+          break;
+        case "Rabu":
+          classroomDay = "3";
+          break;
+        case "Kamis":
+          classroomDay = "4";
+          break;
+        case "Jumat":
+          classroomDay = "5";
+          break;
+        case "Sabtu":
+          classroomDay = "6";
+          break;
+        case "Minggu":
+          classroomDay = "7";
+          break;
+      }
+      toast.promise(updateClassByUidClassUser(data.uid, values.classroomName, values.description, data?.ownerData.email, classroomDay!), {
         loading: "Mengubah Kelas...",
         success: async (response) => {
           if (response?.code === 200 && response?.success) {

@@ -78,7 +78,7 @@ const SignInForm = () => {
                   <FormItem>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <FormControl>
-                      <Input id="email" type="email" placeholder="contoh@gmail.com" {...field} />
+                      <Input id="email" type="email" placeholder="contoh@gmail.com" {...field} className="text-xs md:text-sm" />
                     </FormControl>
                     <FormDescription className="text-xs">Masukan alamat email yang valid.</FormDescription>
                     <FormMessage className="text-xs" />
@@ -93,7 +93,13 @@ const SignInForm = () => {
                     <FormLabel htmlFor="password">Kata Sandi</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input id="password" placeholder="Masukan Password Anda" type={showPassword ? "text" : "password"} {...field} />
+                        <Input
+                          className="text-xs md:text-sm"
+                          id="password"
+                          placeholder="Masukan Password Anda"
+                          type={showPassword ? "text" : "password"}
+                          {...field}
+                        />
                         <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                           <button type="button" onClick={togglePassword} className="p-1">
                             {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}

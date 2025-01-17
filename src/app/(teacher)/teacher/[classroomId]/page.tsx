@@ -1,8 +1,8 @@
 "use client";
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { notFound, useParams } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
 import EventCard from "@/components/subject/event-card";
 import { Button } from "@/components/ui/button";
 import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
@@ -34,7 +34,7 @@ const TeacherClassroom = () => {
         return dataClas;
       }
     };
-    
+
     fetchData().then(async (data) => {
       if (user?.uidClassUser && data?.uid) {
         const getEventData = await getEventByUidClassUser(user.uidClassUser, data.uid);
@@ -48,7 +48,7 @@ const TeacherClassroom = () => {
         }
       }
     });
-  }, [user, setDataClass, slug, setDataEvent]);
+  }, [setDataClass, setDataEvent]);
 
   const getEventLength = dataEvent?.length;
   return (
@@ -111,7 +111,7 @@ const TeacherClassroom = () => {
           {true ? (
             <div className="flex gap-2 pt-8">
               <Button variant={"outline"} onClick={() => router.push(`/teacher/${slug}/users`)}>
-                Lihat Murid
+                Lihat Pelajar
               </Button>
             </div>
           ) : null}

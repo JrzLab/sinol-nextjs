@@ -39,7 +39,7 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
     const fetchData = async () => {
       try {
         const data: IClassroomUsersTable[] = classUsersData.map((doc, index) => {
-          const role = doc.email === getEmail ? "Pengajar" : "Murid";
+          const role = doc.email === getEmail ? "Pengajar" : "Pelajar";
           return {
             id: index + 1,
             userId: doc.uid.slice(0, 8),

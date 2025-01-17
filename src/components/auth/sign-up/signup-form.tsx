@@ -97,7 +97,7 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <FormControl>
-                    <Input id="email" type="email" placeholder="contoh@gmail.com" {...field} />
+                    <Input className="text-xs md:text-sm" id="email" type="email" placeholder="contoh@gmail.com" {...field} />
                   </FormControl>
                   <FormDescription className="text-xs">Masukan alamat email yang valid.</FormDescription>
                   <FormMessage className="text-xs" />
@@ -112,7 +112,13 @@ const SignUpForm = () => {
                   <FormLabel htmlFor="password">Kata Sandi</FormLabel>
                   <FormControl>
                     <div className="relative">
-                      <Input placeholder="Masukan Password Anda" id="password" type={showPassword ? "text" : "password"} {...field} />
+                      <Input
+                        className="text-xs md:text-sm"
+                        placeholder="Masukan Password Anda"
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
                       <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                         <button type="button" onClick={togglePassword} className="p-1">
                           {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -132,14 +138,20 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel htmlFor="confirmPassword">Konfirmasi Kata Sandi</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukan Konfirmasi Password Anda" id="confirmPassword" type="password" {...field} />
+                    <Input
+                      className="text-xs md:text-sm"
+                      placeholder="Masukan Konfirmasi Password Anda"
+                      id="confirmPassword"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
             <div className="mt-2 grid gap-2">
-              <Button disabled={loading} type="submit" className="w-full" onClick={signUpForm.handleSubmit(submitHandler)}>
+              <Button disabled={loading} type="submit" className="w-full hover:bg-secondary" onClick={signUpForm.handleSubmit(submitHandler)}>
                 Daftar
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

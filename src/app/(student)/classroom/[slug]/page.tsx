@@ -144,7 +144,8 @@ const ClassroomPage = () => {
       document.body.appendChild(textarea);
       textarea.select();
 
-      navigator.clipboard.writeText(text)
+      navigator.clipboard
+        .writeText(text)
         .then(() => {
           toast.success("Kode kelas berhasil disalin!");
         })
@@ -224,7 +225,7 @@ const ClassroomPage = () => {
           ) : null}
         </CardHeader>
         <hr />
-        <CardFooter className="grid grid-cols-4">
+        <CardFooter className="grid grid-cols-2 md:grid-cols-4">
           <div className="w-full pt-6">
             <h1 className="font-bold">Pengajar</h1>
             <p>{dataClass?.ownerData.name}</p>
