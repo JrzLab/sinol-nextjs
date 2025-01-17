@@ -48,7 +48,7 @@ export function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-background"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -70,7 +70,7 @@ export function NavUser({
               <DropdownMenuItem>
                 <Link href="/profile" className="flex items-center">
                   <CircleUserRound className="mr-2 h-4 w-4" />
-                  Account
+                  Profil Pengguna
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

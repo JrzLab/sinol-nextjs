@@ -13,7 +13,7 @@ export default function SignOutButton() {
   return (
     <button id="signout" onClick={HandleSignOut} className="flex items-center">
       <LogOut className="mr-2 h-4 w-4" />
-      Sign Out
+      Keluar
     </button>
   );
 }

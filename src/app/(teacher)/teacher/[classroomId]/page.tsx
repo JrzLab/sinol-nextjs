@@ -5,14 +5,14 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import EventCard from "@/components/subject/event-card";
 import { Button } from "@/components/ui/button";
-import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
+import { getClassByUidClassUser, getEventByUidClassUser, getUsersClassByUidClass } from "@/app/actions/api-actions";
 import { useAuth } from "@/hooks/context/AuthProvider";
-import { IEvent, IGroupClass } from "@/lib/types/Types";
+import { IEvent, IGroupClass, IViewsUser } from "@/lib/types/Types";
 import CreateEventPopUp from "@/components/popup/create-event";
 import EditClassroomDetail from "@/components/popup/edit-classroom-detail";
-import { LogOut, MessageCircleQuestion } from "lucide-react";
+import { LogOut, MessageCircleQuestion, SquarePen } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const TeacherClassroom = () => {
   const router = useRouter();
@@ -21,6 +21,7 @@ const TeacherClassroom = () => {
   const slug = params.classroomId as string;
   const [dataClass, setDataClass] = useState<IGroupClass>();
   const [dataEvent, setDataEvent] = useState<IEvent[]>();
+  const [dataClassUsers, setDataClassUsers] = useState<IViewsUser[]>();
   const [openEvent, setOpenEvent] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
 
@@ -36,16 +37,20 @@ const TeacherClassroom = () => {
     fetchData().then(async (data) => {
       if (user?.uidClassUser && data?.uid) {
         const getEventData = await getEventByUidClassUser(user.uidClassUser, data.uid);
+        const getClassUsers = await getUsersClassByUidClass(data.uid);
         if (getEventData !== null) {
           setDataEvent(getEventData);
+          setDataClassUsers(getClassUsers);
         } else {
           setDataEvent([]);
+          setDataClassUsers([]);
         }
       }
     });
-  }, [user, setDataClass, slug, setDataEvent]);
+  }, [user, setDataClass, slug, setDataEvent, setDataClassUsers]);
 
   const getEventLength = dataEvent?.length;
+  const getUsersData = () => {};
   return (
     <>
       <Card className="text-foreground">
@@ -57,30 +62,64 @@ const TeacherClassroom = () => {
             </div>
             <div className="flex flex-row gap-2">
               {dataClass?.ownerData.email === user?.email ? (
-                <Button size={"icon"} variant={"outline"} onClick={() => router.push(`/teacher/${slug}/chat`)}>
-                  <MessageCircleQuestion />
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        className="bg-green-400 hover:bg-green-300"
+                        size={"icon"}
+                        variant={"outline"}
+                        onClick={() => router.push(`/teacher/${slug}/chat`)}
+                      >
+                        <MessageCircleQuestion />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-[#FFFDF6] text-foreground">
+                      <p>Buka Diskusi</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               ) : null}
-              <Button size={"icon"} variant={"outline"}>
-                <LogOut />
-              </Button>
+              {dataClass?.ownerData.email === user?.email ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={() => setOpenEdit(true)} size={"icon"} variant={"default"} className="hover:bg-secondary">
+                        <SquarePen />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-[#FFFDF6] text-foreground">
+                      <p>Ubah Detail Kelas</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : null}
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button size={"icon"} variant={"destructive"}>
+                      <LogOut />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-[#FFFDF6] text-foreground">
+                    <p>Keluar Kelas</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
           {true ? (
             <div className="flex gap-2 pt-8">
-              {dataClass?.ownerData.email === user?.email ? (
-                <Button onClick={() => setOpenEdit(true)} variant={"default"} className="hover:bg-secondary">
-                  Ubah Kelas
-                </Button>
-              ) : null}
-              <Button variant={"outline"}>Lihat Anggota</Button>
+              <Button variant={"outline"} onClick={() => router.push(`/teacher/${slug}/users`)}>
+                Lihat Murid
+              </Button>
             </div>
           ) : null}
         </CardHeader>
         <hr />
         <CardFooter className="grid grid-cols-3">
           <div className="w-full pt-6">
-            <h1 className="font-bold">Teacher</h1>
+            <h1 className="font-bold">Pengajar</h1>
             <p>{dataClass?.ownerData.name}</p>
           </div>
           <div className="w-full pt-6">

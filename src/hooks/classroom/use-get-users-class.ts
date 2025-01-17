@@ -15,6 +15,6 @@ export const UseGetUsersClass = async (uid: string) => {
       console.warn(`API responded with an error. Code: ${data.code}, Message: ${data.message}`);
     }
   } catch (error) {
-    console.error(`An error occurred while fetching subjects:`, error);
+    console.error(`An error occurred while fetching users class :`, error);
   }
 };

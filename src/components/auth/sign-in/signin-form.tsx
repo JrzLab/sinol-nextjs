@@ -43,7 +43,7 @@ const SignInForm = () => {
     setLoading(true);
     signInFormSchema.parse(values);
     toast.promise(handleCredentialsSignin(values), {
-      loading: "Checking credentials...",
+      loading: "Memeriksa Kredensial...",
       success: (response) => {
         if (response.success) {
           window.location.reload();
@@ -78,7 +78,7 @@ const SignInForm = () => {
                   <FormItem>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <FormControl>
-                      <Input id="email" type="email" placeholder="example@gmail.com" {...field} />
+                      <Input id="email" type="email" placeholder="contoh@gmail.com" {...field} />
                     </FormControl>
                     <FormDescription className="text-xs">Masukan alamat email yang valid.</FormDescription>
                     <FormMessage className="text-xs" />

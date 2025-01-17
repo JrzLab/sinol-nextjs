@@ -65,7 +65,7 @@ const ProfilePage: React.FC = () => {
       return;
     }
     toast.promise(changeProfilePicture(user.email, file), {
-      loading: "Uploading your profile picture...",
+      loading: "Mengunggah foto profil Anda...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeProfile;
         if (typedResponse.success && typedResponse.code === 200) {
@@ -79,7 +79,7 @@ const ProfilePage: React.FC = () => {
         }
       },
       error: (error) => {
-        console.error("Error uploading profile picture:", error);
+        console.error("Kesalahan saat mengunggah foto profil:", error);
         throw error;
       },
     });
@@ -93,7 +93,7 @@ const ProfilePage: React.FC = () => {
       return;
     }
     toast.promise(changeEmailOrUsername(user.email, password, email, firstName, lastName), {
-      loading: "Updating your information...",
+      loading: "Memperbarui informasi Anda...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeData;
         if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {

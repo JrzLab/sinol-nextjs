@@ -21,7 +21,7 @@ const DeleteClassroomAlert = ({ open, dialogHandler }: IDeleteClassroomAlert) =>
           <AlertDialogHeader>
             <AlertDialogTitle>Apakah Anda benar-benar yakin?</AlertDialogTitle>
             <AlertDialogDescription>
-              Tindakan ini tidak dapat dibatalkan. Tindakan ini akan menghapus jadwal Anda secara permanen.
+              Tindakan ini tidak dapat dibatalkan. Tindakan ini akan menghapus kelas Anda secara permanen.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

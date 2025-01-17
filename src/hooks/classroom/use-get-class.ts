@@ -6,7 +6,7 @@ export const UseGetSubjects = async (uid: string) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
     });
     const data: IClassResponse = await res.json();
     if (data.success && data.code === 200) {

@@ -86,19 +86,19 @@ const ForgotPasswordForm = () => {
     formData.append("email", values.email);
 
     toast.promise(handleRequestResetPassword(formData), {
-      loading: "Requesting reset password...",
+      loading: "Meminta Perubahan Kata Sandi...",
       success: (response) => {
         const typedResponse = response as IRequestResetPass;
         if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
           if (typedResponse.success) {
-            return "Successfully sent link reset password to your email.";
+            return "Berhasil mengirimkan email perubahan kata sandi";
           }
         }
         throw new Error(typedResponse.message);
       },
       error: (err) => {
         if (err.message === "User not found") {
-          return "User Email Ini Tidak Ditemukan";
+          return "Email Ini Tidak Ditemukan";
         }
       },
       finally: () => {
@@ -137,7 +137,7 @@ const ForgotPasswordForm = () => {
                         <FormItem>
                           <FormLabel htmlFor="email">Email</FormLabel>
                           <FormControl>
-                            <Input id="email" type="email" placeholder="example@gmail.com" {...field} />
+                            <Input id="email" type="email" placeholder="contoh@gmail.com" {...field} />
                           </FormControl>
                           <FormDescription className="text-xs">Masukan alamat email yang valid.</FormDescription>
                           <FormMessage className="text-xs" />
@@ -150,8 +150,9 @@ const ForgotPasswordForm = () => {
                     type="submit"
                     variant={"default"}
                     className="w-full hover:bg-accent"
-                    onClick={forgotPasswordForm.handleSubmit(submitHandler)}>
-                    Submit
+                    onClick={forgotPasswordForm.handleSubmit(submitHandler)}
+                  >
+                    Kirim
                   </Button>
                 </div>
               </div>

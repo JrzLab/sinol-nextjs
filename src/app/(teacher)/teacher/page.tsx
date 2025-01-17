@@ -7,8 +7,9 @@ import { cookies } from "next/headers";
 const TeacherPage = async () => {
   const cookie = await cookies();
   const uidCookies = cookie.get("uidClassUser");
+  const userEmailCookies = cookie.get("userId");
   const getSubjectData = uidCookies ? await getClassByUidClassUser(uidCookies.value) : null;
-
+  const filteredSubjectData = uidCookies ? getSubjectData?.filter((doc) => doc.ownerData.email === userEmailCookies?.value) : null;
   const cardData = [
     {
       title: "Jadwal Pelajaran",
@@ -47,7 +48,7 @@ const TeacherPage = async () => {
           <CardDescription>Temukan informasi jadwal terbaru Anda di sini dengan mudah dan cepat!</CardDescription>
         </CardHeader>
         <CardContent>
-          <ClassroomSchedule subjectData={getSubjectData!} />
+          <ClassroomSchedule subjectData={filteredSubjectData!} />
         </CardContent>
       </Card>
     </>

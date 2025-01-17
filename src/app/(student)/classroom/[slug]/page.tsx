@@ -18,8 +18,10 @@ import GeneralAlert from "@/components/popup/general-alert";
 import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { getDayByNumber } from "@/lib/functions";
+import { useRouter } from "next/navigation";
 
 const ClassroomPage = () => {
+  const router = useRouter();
   const { user } = useAuth();
   const params = useParams();
   const slug = params.slug as string;
@@ -212,7 +214,9 @@ const ClassroomPage = () => {
                   <Button onClick={() => setOpenEdit(true)} variant={"default"} className="hover:bg-secondary">
                     Ubah Kelas
                   </Button>
-                  <Button variant={"outline"}>Lihat Anggota</Button>
+                  <Button variant={"outline"} onClick={() => router.push(`/teacher/${dataClass.uid}`)}>
+                    Lihat Anggota
+                  </Button>
                 </>
               ) : null}
             </div>
@@ -221,7 +225,7 @@ const ClassroomPage = () => {
         <hr />
         <CardFooter className="grid grid-cols-4">
           <div className="w-full pt-6">
-            <h1 className="font-bold">Teacher</h1>
+            <h1 className="font-bold">Pengajar</h1>
             <p>{dataClass?.ownerData.name}</p>
           </div>
           <div className="w-full pt-6">

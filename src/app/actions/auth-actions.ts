@@ -25,7 +25,7 @@ export async function handleCredentialsSignin({
     }
     return {
       success: true,
-      message: "Login successful!",
+      message: "Berhasil masuk!",
     };
   } catch (error) {
     if (error instanceof AuthError) {
@@ -33,19 +33,19 @@ export async function handleCredentialsSignin({
         case "CallbackRouteError":
           return {
             success: false,
-            message: "Invalid credentials. Please check your email and password.",
+            message: "Kredensial tidak valid. Silakan periksa email dan kata sandi Anda.",
           };
         default:
           return {
             success: false,
-            message: "An unknown authentication error occurred.",
+            message: "Terjadi kesalahan autentikasi yang tidak diketahui.",
           };
       }
     }
     console.error("Unexpected error during sign-in:", error);
     return {
       success: false,
-      message: "An unexpected error occurred. Please try again later.",
+      message: "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti.",
     };
   }
 }
@@ -164,7 +164,7 @@ export async function changeEmailOrUsername(email: string, password: string, new
       throw new Error("Email current & password is required");
     }
     const validationUser = await handleCredentialsSignin({ email, password });
-    if(!validationUser.success) {
+    if (!validationUser.success) {
       throw new Error(validationUser.message);
     }
     const payload = {
