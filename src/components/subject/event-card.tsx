@@ -14,7 +14,7 @@ const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; event
       <Card className="text-foreground">
         <CardHeader>
           <div className="flex justify-between">
-            <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="font-bold hover:underline">
+            <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="text-lg font-bold hover:underline">
               {truncateText(eventData.title, 20)}
             </Link>
             {eventData.status === "OPEN" ? (
@@ -25,14 +25,14 @@ const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; event
               </Badge>
             )}
           </div>
-          <p>{eventData.description}</p>
+          <p className="text-sm">{eventData.description}</p>
           <div className="flex w-full justify-end pt-6">
             <EventDetail event={eventData} subject={subjectData} />
           </div>
         </CardHeader>
         <hr />
         <CardHeader className="flex flex-col items-end">
-          <span className="text-xs">Deadline: {getDate({ children: eventData.dueDateAt })}</span>
+          <span className="text-xs">Deadline: {getDate({ children: eventData.dueDateAt })} WIB</span>
         </CardHeader>
       </Card>
     </div>

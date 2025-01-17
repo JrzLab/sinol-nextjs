@@ -10,7 +10,7 @@ export const UseGetUsersClass = async (uid: string) => {
     });
     const data: IResponseViewUsers = await res.json();
     if (data.success && data.code === 200) {
-      return data.data;
+      return data.data.uClassData;
     } else {
       console.warn(`API responded with an error. Code: ${data.code}, Message: ${data.message}`);
     }

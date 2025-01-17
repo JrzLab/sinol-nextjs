@@ -1,4 +1,4 @@
-import { getClassByUidClassUser } from "@/app/actions/api-actions";
+import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
 import ClassroomSchedule from "@/components/table/classroom-schedule";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import React from "react";
@@ -9,17 +9,19 @@ const TeacherPage = async () => {
   const uidCookies = cookie.get("uidClassUser");
   const userEmailCookies = cookie.get("userId");
   const getSubjectData = uidCookies ? await getClassByUidClassUser(uidCookies.value) : null;
+  const getEventData = getSubjectData && getSubjectData.length > 0 ? await getEventByUidClassUser(uidCookies?.value!, getSubjectData[0].uid) : [];
+
   const filteredSubjectData = uidCookies ? getSubjectData?.filter((doc) => doc.ownerData.email === userEmailCookies?.value) : null;
   const cardData = [
     {
       title: "Jadwal Pelajaran",
       description: "Total jadwal pelajaran yang anda kelola",
-      total: 20,
+      total: filteredSubjectData?.length,
     },
     {
       title: "Tugas",
       description: "Tugas yang Sudah Dikirim",
-      total: 20,
+      total: getEventData?.length,
     },
   ];
 

@@ -1,5 +1,6 @@
 import { getClassByUidClassUser, getUsersClassByUidClass } from "@/app/actions/api-actions";
 import ClassroomUsers from "@/components/table/classroom-users";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -16,7 +17,15 @@ const ClassroomUsersPage = async ({ params }: { params: Promise<{ classroomId: s
   return (
     <>
       <div>
-        <ClassroomUsers classUsersData={classUserData} classData={classData} />
+        <Card className="mx-auto w-full text-foreground">
+          <CardHeader className="pb-0">
+            <CardTitle className="text-2xl font-bold tracking-tight">List Pelajar</CardTitle>
+            <CardDescription>List Pelajar yang ada didalam kelas {classData.className}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ClassroomUsers classUsersData={classUserData} classData={classData} />
+          </CardContent>
+        </Card>
       </div>
     </>
   );

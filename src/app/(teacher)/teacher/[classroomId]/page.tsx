@@ -51,7 +51,6 @@ const TeacherClassroom = () => {
   }, [user, setDataClass, slug, setDataEvent]);
 
   const getEventLength = dataEvent?.length;
-
   return (
     <>
       <Card className="text-foreground">

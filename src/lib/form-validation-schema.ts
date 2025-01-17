@@ -35,7 +35,7 @@ export const createClassroomFormSchema = z.object({
   classroomDay: z
     .string()
     .nonempty({ message: "Hari kelas wajib diisi." })
-    .refine((value) => ["1", "2", "3", "4", "5", "6", "7"].includes(value), { message: "Hari kelas tidak valid." }),
+    .refine((value) => ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"].includes(value), { message: "Hari kelas tidak valid." }),
 });
 
 export const editClassroomFormSchema = z.object({
