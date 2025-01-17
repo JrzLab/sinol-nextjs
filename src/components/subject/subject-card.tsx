@@ -18,18 +18,13 @@ interface Day {
 
 const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] }): React.ReactNode => {
   const { user } = useAuth();
-  
+
   const [subjects, setSubjects] = useState<IGroupClass[]>([]);
   const [subjectDataByDay, setSubjectDataByDay] = useState<Day[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [confirmationPopup, setConfirmationPopup] = useState<boolean>();
   // const [itemDelete, setItemDelete] = useState<string>();
   const hasFetched = useRef(false);
-
-  // const Confirmation = (uid: string) => {
-  //   setItemDelete(uid);
-  //   setConfirmationPopup(!confirmationPopup);
-  // };
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -45,7 +40,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
 
         if (subjectUids.length > 0) {
           const allEvents = await Promise.all(
-            subjectUids.map((uid) => user?.uidClassUser ? getEventByUidClassUser(user.uidClassUser, uid) : Promise.resolve(null))
+            subjectUids.map((uid) => (user?.uidClassUser ? getEventByUidClassUser(user.uidClassUser, uid) : Promise.resolve(null))),
           );
 
           const resolvedSubjects = (data || []).map((subject, index) => ({
@@ -82,7 +77,7 @@ const SubjectCard = ({ format, data }: { format?: boolean; data?: IGroupClass[] 
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-[80vh]">
+      <div className="flex h-[80vh] items-center justify-center">
         <Icon icon="tabler:loader" style={{ fontSize: "48px" }} className="animate-spin" />
       </div>
     );

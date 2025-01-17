@@ -2,7 +2,7 @@
 //IMPORT NEXTJS
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 //IMPORT SHADCN COMPONENTS
 import { ColumnDef } from "@tanstack/react-table";
@@ -47,16 +47,19 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
         const eventsData = await Promise.all(eventPromises);
 
         const getToday = new Date().getDay();
-        const data: IJadwalKelasTable[] = subjectData.map((doc, index) => ({
-          id: index + 1,
-          classUid: doc.uid,
-          className: doc.className,
-          classDay: doc.day,
-          classDescription: doc.description,
-          classMember: usersData[index]?.length || 0,
-          classEvent: eventsData[index]?.length || 0,
-          classStatus: getToday === doc.day ? "active" : "inactive",
-        }));
+
+        const data: IJadwalKelasTable[] = subjectData.map((doc, index) => {
+          return {
+            id: index + 1,
+            classUid: doc.uid,
+            className: doc.className,
+            classDay: doc.day,
+            classDescription: doc.description,
+            classMember: usersData[index]?.length || 0,
+            classEvent: eventsData[index]?.length || 0,
+            classStatus: getToday === doc.day ? "active" : "inactive",
+          };
+        });
         setJadwalDataTable(data);
       } catch (error) {
         console.error("Error fetching class data:", error);

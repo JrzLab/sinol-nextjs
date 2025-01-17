@@ -309,7 +309,9 @@ export interface IResponseViewUsers {
   code: number;
   success: boolean;
   message: string;
-  data: IViewsUser[];
+  data: {
+    uClassData: IViewsUser[];
+  };
 }
 
 export interface IViewsUser {
