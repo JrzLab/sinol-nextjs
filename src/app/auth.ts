@@ -42,15 +42,17 @@ export const { handlers, signIn, auth } = NextAuth({
             body: JSON.stringify({ email, password }),
           });
 
-          if (!response.ok) {
-            throw new Error("Invalid credentials");
-          }
-
           const data: ISignInResponse = await response.json();
 
           if (!data.success) {
-            console.error("Authentication failed:", data.message);
-            throw new Error("Authentication failed");
+            if (data.message.toLowerCase() === "password not set") {
+              throw new Error("Password not set");
+            } else if (data.message.toLowerCase() === "invalid passowrd") {
+              throw new Error("Invalid credentials");
+            } else {
+              console.error("Authentication failed:", data.message);
+              throw new Error("Authentication failed");
+            }
           }
 
           return {
