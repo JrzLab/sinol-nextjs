@@ -178,7 +178,7 @@ const EditEventDetail = ({ eventId, open, eventData, dialogHandler }: IEditEvent
                                 variant={"outline"}
                                 className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
                               >
-                                {field.value ? format(field.value, "MM/dd/yyyy HH:mm") : <span>MM/DD/YYYY HH:mm</span>}
+                                {field.value ? format(field.value, "MM/dd/yyyy HH:mm") : <span> MM/DD/YYYY HH:mm</span>}
                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                               </Button>
                             </FormControl>
