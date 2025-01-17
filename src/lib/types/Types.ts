@@ -12,24 +12,44 @@ export interface ISubject {
 }
 
 export interface IMessage {
+  user: string;
+  imageUrl: string;
+  userEmail: string;
   content: string;
-  userType: "sender" | "receiver";
-  time: string;
+  messageTemp: string;
+}
+
+export interface IHistoryMessage {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    historyData: IMessage[];
+  }
 }
 
 export interface IStudent {
   id: number;
-  name: string;
   email: string;
-  kelas: string;
-  messages: IMessage[];
+  imageUrl: string;
+  user: string;
+  messages: IMessage;
+}
+
+export interface IStudentResponse {
+  code: number;
+  success: boolean;
+  message: string;
+  data: {
+    messageData: [IStudent];
+  };
 }
 
 export interface IConversation {
   id: number;
-  name: string;
+  user: string;
   email: string;
-  kelas: string;
+  imageUrl: string;
   messages: string;
   lastMessageTime: string;
 }

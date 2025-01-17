@@ -34,6 +34,7 @@ const TeacherClassroom = () => {
         return dataClas;
       }
     };
+    
     fetchData().then(async (data) => {
       if (user?.uidClassUser && data?.uid) {
         const getEventData = await getEventByUidClassUser(user.uidClassUser, data.uid);
@@ -50,7 +51,7 @@ const TeacherClassroom = () => {
   }, [user, setDataClass, slug, setDataEvent, setDataClassUsers]);
 
   const getEventLength = dataEvent?.length;
-  const getUsersData = () => {};
+
   return (
     <>
       <Card className="text-foreground">

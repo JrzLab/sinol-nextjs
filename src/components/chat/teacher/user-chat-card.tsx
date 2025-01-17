@@ -20,7 +20,7 @@ interface UserChatCardProps {
 const UserChatCard = ({ student, classroomId }: UserChatCardProps) => {
   const router = useRouter();
   const cardHandler = (classroomId: string, studentId: string) => {
-    router.push(`/teacher/classroom/${classroomId}/chat/${studentId}`);
+    router.push(`/teacher/${classroomId}/chat/${studentId}`);
   };
   return (
     <Card
@@ -32,11 +32,11 @@ const UserChatCard = ({ student, classroomId }: UserChatCardProps) => {
     >
       <CardHeader className="flex flex-row items-center justify-start pb-2">
         <Avatar className="mr-2">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src={`${student.imageUrl}`} alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div className="flex flex-col items-start">
-          <CardTitle>{student.name}</CardTitle>
+          <CardTitle>{student.user}</CardTitle>
           <CardDescription className="text-xs">{student.email}</CardDescription>
         </div>
       </CardHeader>
