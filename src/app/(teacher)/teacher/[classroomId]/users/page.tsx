@@ -2,7 +2,8 @@ import { getClassByUidClassUser, getUsersClassByUidClass } from "@/app/actions/a
 import ClassroomUsers from "@/components/table/classroom-users";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-const ClassroomUsersPage = async ({ params }: { params: { classroomId: string } }) => {
+
+const ClassroomUsersPage = async ({ params }: { params: Promise<{ classroomId: string }> }) => {
   const { classroomId } = await params;
   const cookie = await cookies();
   const uidCookies = cookie.get("uidClassUser")?.value;

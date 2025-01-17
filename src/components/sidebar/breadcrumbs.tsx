@@ -4,13 +4,10 @@ import { usePathname } from "next/navigation";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { toPascalCase } from "@/lib/functions";
 import Link from "next/link";
-import Cookies from "js-cookie";
 
 const Breadcrumbs = () => {
-  const cookie = Cookies.get("uidClassUser");
   const pathname = usePathname();
   const getPathname = pathname.split("/").filter((path) => path);
-  const getClassUid = pathname.split("/")[2];
   const isNotFound = pathname === "/404";
 
   if (isNotFound) return null;

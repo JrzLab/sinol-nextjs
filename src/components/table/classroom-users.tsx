@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { LogOut, MoreHorizontal, PanelLeftOpen, Trash2 } from "lucide-react";
+import { LogOut, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getDate } from "@/lib/functions";
 import ActionsAlert from "../popup/actions-alert";
@@ -33,7 +33,7 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
   const getEmail = Cookies.get("userId");
   const [usersDataTable, setUsersDataTable] = useState<IClassroomUsersTable[]>([]);
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +59,7 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
     if (classUsersData.length > 0) {
       fetchData();
     }
-  }, [classUsersData, setUsersDataTable]);
+  }, [classUsersData, getEmail, setUsersDataTable]);
 
   const kickUserFromClass = async (userName: string, userId: string) => {
     toast.promise(leaveClassByUidClassUser(classData.uid, userId), {
@@ -75,7 +75,7 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
       },
       finally: () => {
         setOpenDeleteAlert(!openDeleteAlert);
-        setLoading(false);
+        // setLoading(false);
         router.push(`/teacher/${classData.uid}/users`);
       },
     });

@@ -144,12 +144,13 @@ const ClassroomPage = () => {
       document.body.appendChild(textarea);
       textarea.select();
 
-      const successful = document.execCommand("copy");
-      if (successful) {
-        toast.success("Kode kelas berhasil disalin!");
-      } else {
-        toast.error("Gagal menyalin kode kelas.");
-      }
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          toast.success("Kode kelas berhasil disalin!");
+        })
+        .catch(() => {
+          toast.error("Gagal menyalin kode kelas.");
+        });
     } catch {
       toast.error("Gagal menyalin kode kelas.");
     } finally {
@@ -236,10 +237,12 @@ const ClassroomPage = () => {
             <h1 className="font-bold">Kode Kelas</h1>
             <p>{dataClass.uid}</p>
           </div>
-          <div className="w-full pt-6">
-            <h1 className="font-bold">Kelas setiap hari</h1>
-            <p>{getDayByNumber(dataClass.day)}</p>
-          </div>
+          {!!dataClass?.day && (
+            <div className="w-full pt-6">
+              <h1 className="font-bold">Jadwal</h1>
+              <p>{getDayByNumber(dataClass.day)}</p>
+            </div>
+          )}
         </CardFooter>
       </Card>
       <div className="mt-4 flex flex-col gap-4">

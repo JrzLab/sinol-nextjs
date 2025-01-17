@@ -2,9 +2,6 @@
 import SignInWithGoogleButton from "@/components/auth/button/sign-in";
 import { useRouter } from "next/navigation";
 
-//IMPORT ACTION
-import { signUpCredentials } from "@/app/actions/auth-actions";
-
 //IMPORT TYPES
 import { ISignUpResponse } from "@/lib/types/Types";
 
@@ -49,21 +46,28 @@ const SignUpForm = () => {
     try {
       signUpFormSchema.parse(values);
 
-      const formData = new FormData();
-      formData.append("email", values.email);
-      formData.append("password", values.confirmPassword);
+      const payload = {
+        email: values.email,
+        password: values.password,
+      };
 
-      toast.promise(signUpCredentials(formData), {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/sign-up`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      toast.promise(response.json(), {
         loading: "Membuat Akun SiNol...",
         success: (response) => {
           const typedResponse = response as ISignUpResponse;
-          if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
-            if (typedResponse.success && typedResponse.code === 201) {
-              setTimeout(() => {
-                router.push("/auth/sign-in");
-              }, 1000);
-              return typedResponse.message;
-            }
+          if (typedResponse.success && typedResponse.code === 201) {
+            setTimeout(() => {
+              router.push("/auth/sign-in");
+            }, 1000);
+            return typedResponse.message;
           }
           throw new Error(typedResponse.message);
         },

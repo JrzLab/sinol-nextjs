@@ -3,7 +3,6 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { signInFormSchema } from "@/lib/form-validation-schema";
 import { ISignInResponse } from "@/lib/types/Types";
-import { signOut } from "next-auth/react";
 
 export const { handlers, signIn, auth } = NextAuth({
   providers: [

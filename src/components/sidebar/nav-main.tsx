@@ -81,34 +81,38 @@ export function NavMain() {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Kelas</SidebarGroupLabel>
       <SidebarMenu>
-        {nonOwnerClasses.map((item) => (
-          <Collapsible key={item.uid} className="group">
-            <CollapsibleTrigger asChild>
-              <SidebarMenuItem>
-                <SidebarMenuButton tooltip={item.className}>
-                  <SquareLibrary />
-                  <Navlink href={item.uid}>
-                    <span className="text-xs">{truncateText(item.className, 40)}</span>
-                  </Navlink>
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]:rotate-90" />
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="gap-2 pl-6">
-              {eventData[item.uid]?.map((event) => (
-                <SidebarMenuItem key={event.id}>
-                  <SidebarMenuButton tooltip={event.title}>
-                    <div className="hover:underline" onClick={() => router.push(event.url)}>
-                      <span className="text-xs">{truncateText(event.title, 20)}</span>
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              )) || <p className="text-xs text-gray-500">Tidak Ada Tugas</p>}
-            </CollapsibleContent>
-          </Collapsible>
-        ))}
+        {nonOwnerClasses.length > 0 && (
+          <>
+            <SidebarGroupLabel>Kelas</SidebarGroupLabel>
+            {nonOwnerClasses.map((item) => (
+              <Collapsible key={item.uid} className="group">
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton tooltip={item.className}>
+                      <SquareLibrary />
+                      <Navlink href={item.uid}>
+                        <span className="text-xs">{truncateText(item.className, 40)}</span>
+                      </Navlink>
+                      <ChevronRight className="ml-auto transition-transform group-data-[state=open]:rotate-90" />
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="gap-2 pl-6">
+                  {eventData[item.uid]?.map((event) => (
+                    <SidebarMenuItem key={event.id}>
+                      <SidebarMenuButton tooltip={event.title}>
+                        <div className="hover:underline" onClick={() => router.push(event.url)}>
+                          <span className="text-xs">{truncateText(event.title, 20)}</span>
+                        </div>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )) || <p className="text-xs text-gray-500">Tidak Ada Tugas</p>}
+                </CollapsibleContent>
+              </Collapsible>
+            ))}
+          </>
+        )}
         {ownerClasses.length > 0 && (
           <>
             <SidebarGroupLabel>Mengajar</SidebarGroupLabel>

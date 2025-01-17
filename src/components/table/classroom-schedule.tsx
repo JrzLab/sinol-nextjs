@@ -21,8 +21,7 @@ import { IGroupClass, IJadwalKelasTable } from "@/lib/types/Types";
 import { truncateText } from "@/lib/functions";
 
 //IMPORT LUCIDE ICON
-import { ArrowUpDown, MoreHorizontal, Trash2, PanelLeftOpen, CalendarIcon } from "lucide-react";
-import DeleteClassroomAlert from "../popup/delete-classroom-alert";
+import { ArrowUpDown, MoreHorizontal, Trash2, PanelLeftOpen } from "lucide-react";
 import DataTable from "./data-table";
 
 import Cookies from "js-cookie";
@@ -71,10 +70,6 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast.success("Kode kelas berhasil disalin");
-  };
-
-  const deleteClassroom = async (uid: string) => {
-    console.log(uid);
   };
 
   const classroomScheduleColumns: ColumnDef<IJadwalKelasTable>[] = [

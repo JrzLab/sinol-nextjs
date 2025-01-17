@@ -2,7 +2,7 @@
 
 import { signIn } from "@/app/auth";
 import { AuthError } from "next-auth";
-import { IRequestResetPass, IResetPassword, ISignUpResponse, IResponseChangeData, IResponseChangeProfile } from "@/lib/types/Types";
+import { IRequestResetPass, IResetPassword, IResponseChangeData, IResponseChangeProfile } from "@/lib/types/Types";
 
 export const signInWithGoogle = async () => {
   await signIn("google", { redirect: true, redirectTo: "/" });
@@ -49,38 +49,6 @@ export async function handleCredentialsSignin({
     };
   }
 }
-
-export const signUpCredentials = async (formData: FormData) => {
-  const entries = Object.fromEntries(formData);
-  const { email, password } = entries;
-  try {
-    if (typeof email === "string" ? !email.endsWith("@gmail.com") : false) {
-      throw new Error("Email Invalid");
-    }
-    const firstName = typeof email === "string" ? email.split("@")[0] : "";
-    const response = await fetch(`${process.env.BACKEND_URL}/auth/sign-up`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        firstName,
-      }),
-    });
-
-    const data: ISignUpResponse = await response.json();
-
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Reset password failed");
-    }
-
-    return data as ISignUpResponse;
-  } catch (error) {
-    return error;
-  }
-};
 
 export async function handleRequestResetPassword(formData: FormData) {
   const entries = Object.fromEntries(formData);

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 export { auth as middleware } from "./auth";
 import { auth } from "./auth";
 
-const publicRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password"];
+const publicRoutes = ["/auth/sign-in", "/auth/sign-up"];
 
 export default auth((req) => {
     const { nextUrl } = req;

@@ -91,7 +91,7 @@ const ForgotPasswordForm = () => {
         const typedResponse = response as IRequestResetPass;
         if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
           if (typedResponse.success) {
-            return "Berhasil mengirimkan email perubahan kata sandi";
+            return "Berhasil mengirimkan email perubahan kata sandi, silahkan cek email anda";
           }
         }
         throw new Error(typedResponse.message);

@@ -5,9 +5,9 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import EventCard from "@/components/subject/event-card";
 import { Button } from "@/components/ui/button";
-import { getClassByUidClassUser, getEventByUidClassUser, getUsersClassByUidClass } from "@/app/actions/api-actions";
+import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
 import { useAuth } from "@/hooks/context/AuthProvider";
-import { IEvent, IGroupClass, IViewsUser } from "@/lib/types/Types";
+import { IEvent, IGroupClass } from "@/lib/types/Types";
 import CreateEventPopUp from "@/components/popup/create-event";
 import EditClassroomDetail from "@/components/popup/edit-classroom-detail";
 import { LogOut, MessageCircleQuestion, SquarePen } from "lucide-react";
@@ -21,7 +21,7 @@ const TeacherClassroom = () => {
   const slug = params.classroomId as string;
   const [dataClass, setDataClass] = useState<IGroupClass>();
   const [dataEvent, setDataEvent] = useState<IEvent[]>();
-  const [dataClassUsers, setDataClassUsers] = useState<IViewsUser[]>();
+  // const [dataClassUsers, setDataClassUsers] = useState<IViewsUser[]>();
   const [openEvent, setOpenEvent] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
 
@@ -37,20 +37,20 @@ const TeacherClassroom = () => {
     fetchData().then(async (data) => {
       if (user?.uidClassUser && data?.uid) {
         const getEventData = await getEventByUidClassUser(user.uidClassUser, data.uid);
-        const getClassUsers = await getUsersClassByUidClass(data.uid);
+        // const getClassUsers = await getUsersClassByUidClass(data.uid);
         if (getEventData !== null) {
           setDataEvent(getEventData);
-          setDataClassUsers(getClassUsers);
+          // setDataClassUsers(getClassUsers);
         } else {
           setDataEvent([]);
-          setDataClassUsers([]);
+          // setDataClassUsers([]);
         }
       }
     });
-  }, [user, setDataClass, slug, setDataEvent, setDataClassUsers]);
+  }, [user, setDataClass, slug, setDataEvent]);
 
   const getEventLength = dataEvent?.length;
-  const getUsersData = () => {};
+
   return (
     <>
       <Card className="text-foreground">

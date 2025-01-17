@@ -51,7 +51,7 @@ const ResetPassword = () => {
       success: (response) => {
         const typedResponse = response as IResetPassword;
         if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
-          router.push("/auth/sign-in");
+          router.push("/");
           return typedResponse.message;
         }
         throw new Error(typedResponse.message);
@@ -137,7 +137,8 @@ const ResetPassword = () => {
                 <Button
                   disabled={loading}
                   type="submit"
-                  className="w-full disabled:opacity-50"
+                  variant="default"
+                  className="w-full hover:bg-accent"
                   onClick={resetPasswordForm.handleSubmit(submitHandler)}
                 >
                   Submit
