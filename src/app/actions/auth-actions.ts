@@ -69,10 +69,13 @@ export const signUpCredentials = async (formData: FormData) => {
         firstName,
       }),
     });
+
     const data: ISignUpResponse = await response.json();
+
     if (!response.ok || !data.success) {
       throw new Error(data.message || "Reset password failed");
     }
+
     return data as ISignUpResponse;
   } catch (error) {
     return error;
@@ -82,6 +85,7 @@ export const signUpCredentials = async (formData: FormData) => {
 export async function handleRequestResetPassword(formData: FormData) {
   const entries = Object.fromEntries(formData);
   const { email } = entries;
+
   try {
     const response = await fetch(`${process.env.BACKEND_URL}/auth/request-reset-pass`, {
       method: "POST",
@@ -93,9 +97,11 @@ export async function handleRequestResetPassword(formData: FormData) {
       }),
     });
     const data: IRequestResetPass = await response.json();
+
     if (!response.ok || !data.success) {
       throw new Error(data.message || "Reset password failed");
     }
+
     return data as IRequestResetPass;
   } catch (error) {
     return error;
@@ -116,9 +122,11 @@ export async function handleResetPassword(email: string, password: string, token
       }),
     });
     const data: IResetPassword = await response.json();
+
     if (!response.ok || !data.success) {
       throw new Error(data.message || "Reset password failed");
     }
+
     return data as IResetPassword;
   } catch (error) {
     return error;
@@ -158,7 +166,6 @@ export async function handleVerifTokenResetPass(token: string, email: string) {
 }
 
 export async function changeEmailOrUsername(email: string, password: string, newEmail?: string, firstName?: string, lastName?: string) {
-  console.log({ email, password, newEmail, firstName, lastName });
   try {
     if (!email || !password) {
       throw new Error("Email current & password is required");
@@ -167,12 +174,14 @@ export async function changeEmailOrUsername(email: string, password: string, new
     if (!validationUser.success) {
       throw new Error(validationUser.message);
     }
+
     const payload = {
       email,
       firstName,
       lastName,
       emailChange: newEmail,
     };
+
     const response = await fetch(`${process.env.BACKEND_URL}/user/change-data`, {
       method: "PUT",
       headers: {
@@ -180,10 +189,13 @@ export async function changeEmailOrUsername(email: string, password: string, new
       },
       body: JSON.stringify(payload),
     });
+
     const data: IResponseChangeData = await response.json();
+    
     if (!response.ok || !data.success) {
       throw new Error(data.message || "Change email or username failed");
     }
+
     return data as IResponseChangeData;
   } catch (error) {
     return error;
@@ -195,17 +207,22 @@ export async function changeProfilePicture(email: string, image: File) {
     if (!email) {
       throw new Error("Email is required");
     }
+    
     const formData = new FormData();
     formData.append("email", email);
     formData.append("file", image);
+    
     const response = await fetch(`${process.env.BACKEND_URL}/user/change-profile`, {
       method: "PUT",
       body: formData,
     });
+    
     const data: IResponseChangeProfile = await response.json();
+    
     if (!response.ok || !data.success) {
       throw new Error(data.message || "Change profile picture failed");
     }
+    
     return data as IResponseChangeProfile;
   } catch (error) {
     return error;
@@ -221,14 +238,18 @@ export async function uploadAssignment(email: string, classUid: string, file: Fi
     formData.append("email", email);
     formData.append("classSubjectId", classUid);
     formData.append("file", file);
+    
     const response = await fetch(`${process.env.BACKEND_URL}/class/task/upload`, {
       method: "POST",
       body: formData,
     });
+    
     const data: IResponseChangeProfile = await response.json();
+    
     if (!response.ok || !data.success) {
       throw new Error(data.message || "Change profile picture failed");
     }
+    
     return data as IResponseChangeProfile;
   } catch (error) {
     return error;
