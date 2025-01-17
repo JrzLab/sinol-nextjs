@@ -73,9 +73,10 @@ export const toPascalCase = (str: string): string => {
 };
 
 export const sortStudentsByLastMessage = (messages: IMessage[], sortBy: "latest" | "earliest") => {
-  if (sortBy === "latest") return messages.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()) as IMessage[];
-  if (sortBy === "earliest") return messages.sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()) as IMessage[];
+  if (sortBy === "latest") return messages.sort((a, b) => new Date(b.messageTemp).getTime() - new Date(a.messageTemp).getTime()) as IMessage[];
+  if (sortBy === "earliest") return messages.sort((a, b) => new Date(a.messageTemp).getTime() - new Date(b.messageTemp).getTime()) as IMessage[];
 };
+
 export const dateFormater = (date: string) => {
   const [year, month, day] = date.split("-");
   return `${day}-${month}-${year}`;

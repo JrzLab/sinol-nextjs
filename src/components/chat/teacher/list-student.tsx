@@ -24,23 +24,23 @@ interface ListStudentProps {
 }
 
 const ListStudent = ({ students, classroomId }: ListStudentProps) => {
+  if (!students) return null;
   const [searchQuery, setSearchQuery] = useState("");
 
   const sortedData = students.map((student) => {
-    const sortedMessages = sortStudentsByLastMessage(student.messages, "latest") as IMessage[];
-    const lastMessageTime = sortedMessages.length > 0 ? sortedMessages[0].time : "No message";
     return {
       ...student,
-      messages: sortedMessages.length > 0 ? sortedMessages[0].content : "No message",
-      lastMessageTime,
+      messages: student.messages.content,
+      lastMessageTime: student.messages.messageTemp,
     } as IConversation;
   });
 
-  const searchResult = sortedData.filter((student) => student.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const searchResult = sortedData.filter((student) => student.user.toLowerCase().includes(searchQuery.toLowerCase()));
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
+
   return (
     <>
       <CardContent className="flex flex-row items-center justify-between gap-2 p-4">
@@ -49,7 +49,7 @@ const ListStudent = ({ students, classroomId }: ListStudentProps) => {
       <Separator orientation="horizontal" />
       <ScrollArea scrollHideDelay={500} className="h-[460px]">
         <CardContent className="flex flex-col space-y-2 p-4">
-          {searchResult.length > 0 ? (
+          {searchResult && searchResult.length > 0 ? (
             <>
               {searchResult.map((student) => (
                 <UserChatCard key={student.id} classroomId={classroomId} student={student} />
