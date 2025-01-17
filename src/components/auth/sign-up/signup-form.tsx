@@ -54,7 +54,7 @@ const SignUpForm = () => {
       formData.append("password", values.confirmPassword);
 
       toast.promise(signUpCredentials(formData), {
-        loading: "Creating account...",
+        loading: "Membuat Akun SiNol...",
         success: (response) => {
           const typedResponse = response as ISignUpResponse;
           if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {

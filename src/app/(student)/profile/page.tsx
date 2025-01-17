@@ -23,17 +23,18 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdateSession = async (firstName?: string, lastName?: string, email?: string) => {
     try {
-      session?.user && await update({
-        name: `${firstName} ${lastName}`,
-        email: email,
-      })
-      .then(() => {
-        console.log("Session updated successfully");
-      })
-      .catch((error) => {
-        toast.error("Error updating data");
-        console.error("Error updating data:", error);
-      });
+      session?.user &&
+        (await update({
+          name: `${firstName} ${lastName}`,
+          email: email,
+        })
+          .then(() => {
+            console.log("Session updated successfully");
+          })
+          .catch((error) => {
+            toast.error("Error updating data");
+            console.error("Error updating data:", error);
+          }));
     } catch (error) {
       console.error("Error updating session:", error);
     }
@@ -41,16 +42,17 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdateImage = async (image: string) => {
     try {
-      session?.user && await update({
-        image: image,
-      })
-      .then(() => {
-        console.log("Session updated successfully");
-      })
-      .catch((error) => {
-        toast.error("Error updating data");
-        console.error("Error updating data:", error);
-      });
+      session?.user &&
+        (await update({
+          image: image,
+        })
+          .then(() => {
+            console.log("Session updated successfully");
+          })
+          .catch((error) => {
+            toast.error("Error updating data");
+            console.error("Error updating data:", error);
+          }));
     } catch (error) {
       console.error("Error updating session:", error);
     }
@@ -62,7 +64,7 @@ const ProfilePage: React.FC = () => {
       return;
     }
     toast.promise(changeProfilePicture(user.email, file), {
-      loading: "Uploading your profile picture...",
+      loading: "Mengunggah foto profil Anda...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeProfile;
         if (typedResponse.success && typedResponse.code === 200) {
@@ -73,7 +75,7 @@ const ProfilePage: React.FC = () => {
         }
       },
       error: (error) => {
-        console.error("Error uploading profile picture:", error);
+        console.error("Kesalahan saat mengunggah foto profil:", error);
         throw error;
       },
     });
@@ -87,7 +89,7 @@ const ProfilePage: React.FC = () => {
       return;
     }
     toast.promise(changeEmailOrUsername(user.email, password, email, firstName, lastName), {
-      loading: "Updating your information...",
+      loading: "Memperbarui informasi Anda...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeData;
         if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
@@ -99,7 +101,7 @@ const ProfilePage: React.FC = () => {
         throw new Error(typedResponse.message);
       },
       error: (err) => {
-        console.error("Error:", err);
+        console.error("Kesalahan:", err);
         return err.message;
       },
       finally: () => {

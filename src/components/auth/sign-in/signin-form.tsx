@@ -43,7 +43,7 @@ const SignInForm = () => {
     setLoading(true);
     signInFormSchema.parse(values);
     toast.promise(handleCredentialsSignin(values), {
-      loading: "Checking credentials...",
+      loading: "Memeriksa Kredensial...",
       success: (response) => {
         if (response.success) {
           window.location.reload();
