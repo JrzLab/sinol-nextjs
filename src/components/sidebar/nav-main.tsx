@@ -10,6 +10,7 @@ import { IGroupClass } from "@/lib/types/Types";
 import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
 import { truncateText } from "@/lib/functions";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/context/AuthProvider";
 
 interface IEventDataProps {
   id: number;
@@ -18,8 +19,9 @@ interface IEventDataProps {
 }
 
 export function NavMain() {
-  const uidUser = Cookies.get("uidClassUser");
-  const userEmail = Cookies.get("userId");
+  const { user } = useAuth();
+  const uidUser = user?.uidClassUser;
+  const userEmail = user?.email;
   const hasFetched = useRef(false);
   const [eventData, setEventData] = useState<Record<string, IEventDataProps[]>>({});
   const [ownerClasses, setOwnerClasses] = useState<IGroupClass[]>([]);
