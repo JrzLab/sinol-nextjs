@@ -16,7 +16,7 @@ const TeacherMessage = ({ message }: { message: IConversation }) => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <CardTitle>{message.name}</CardTitle>
+            <CardTitle>{message.user}</CardTitle>
             <CardDescription>Reply To : {message.email}</CardDescription>
           </div>
           <div className="ml-auto flex flex-col">

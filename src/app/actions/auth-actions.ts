@@ -2,7 +2,7 @@
 
 import { signIn } from "@/app/auth";
 import { AuthError } from "next-auth";
-import { IRequestResetPass, IResetPassword, IResponseChangeData, IResponseChangeProfile } from "@/lib/types/Types";
+import { IRequestResetPass, IResetPassword, IResponseChangeProfile } from "@/lib/types/Types";
 
 export const signInWithGoogle = async () => {
   await signIn("google", { redirect: true, redirectTo: "/" });
@@ -130,43 +130,6 @@ export async function handleVerifTokenResetPass(token: string, email: string) {
       success: false,
       error: (error as Error).message,
     };
-  }
-}
-
-export async function changeEmailOrUsername(email: string, password: string, newEmail?: string, firstName?: string, lastName?: string) {
-  try {
-    if (!email || !password) {
-      throw new Error("Email current & password is required");
-    }
-    const validationUser = await handleCredentialsSignin({ email, password });
-    if (!validationUser.success) {
-      throw new Error(validationUser.message);
-    }
-
-    const payload = {
-      email,
-      firstName,
-      lastName,
-      emailChange: newEmail,
-    };
-
-    const response = await fetch(`${process.env.BACKEND_URL}/user/change-data`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const data: IResponseChangeData = await response.json();
-    
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Change email or username failed");
-    }
-
-    return data as IResponseChangeData;
-  } catch (error) {
-    return error;
   }
 }
 

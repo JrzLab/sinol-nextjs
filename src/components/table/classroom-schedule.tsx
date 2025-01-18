@@ -2,7 +2,7 @@
 //IMPORT NEXTJS
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 //IMPORT SHADCN COMPONENTS
 import { ColumnDef } from "@tanstack/react-table";

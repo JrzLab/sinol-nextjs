@@ -1,4 +1,4 @@
-import { IStudent, ISubject } from "./types/Types";
+import {  ISubject } from "./types/Types";
 
 export const subjectStaticData: ISubject[] = [
   {

@@ -32,7 +32,6 @@ const Event = () => {
       const eventData = await getEventByUidClassUser(event, slug);
       if (!user?.uidClassUser) {
         notFound();
-        return;
       }
       const classData = await getClassByUidClassUser(user.uidClassUser);
       const taskResponse: ITaskResponse = user?.email

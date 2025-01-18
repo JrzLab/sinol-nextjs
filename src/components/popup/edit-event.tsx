@@ -81,7 +81,7 @@ const EditEventDetail = ({ eventId, open, eventData, dialogHandler }: IEditEvent
   }
   function handleTimeChange(type: "hour" | "minute", value: string) {
     const currentDate = editEventForm.getValues("eventDueDate") || new Date();
-    let newDate = new Date(currentDate);
+    const newDate = new Date(currentDate);
 
     if (type === "hour") {
       const hour = parseInt(value, 10);

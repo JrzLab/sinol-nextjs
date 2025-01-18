@@ -140,17 +140,14 @@ const ClassroomPage = () => {
     const textarea = document.createElement("textarea");
     try {
       textarea.value = text;
-
       document.body.appendChild(textarea);
       textarea.select();
-
-      navigator.clipboard.writeText(text)
-        .then(() => {
-          toast.success("Kode kelas berhasil disalin!");
-        })
-        .catch(() => {
-          toast.error("Gagal menyalin kode kelas.");
-        });
+      const successful = document.execCommand('copy');
+      if (successful) {
+        toast.success("Kode kelas berhasil disalin!");
+      } else {
+        toast.error("Gagal menyalin kode kelas.");
+      }
     } catch {
       toast.error("Gagal menyalin kode kelas.");
     } finally {

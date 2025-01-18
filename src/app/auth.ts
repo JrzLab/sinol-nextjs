@@ -44,14 +44,8 @@ export const { handlers, signIn, auth } = NextAuth({
           const data: ISignInResponse = await response.json();
 
           if (!data.success) {
-            if (data.message.toLowerCase() === "password not set") {
-              throw new Error("Password not set");
-            } else if (data.message.toLowerCase() === "invalid passowrd") {
-              throw new Error("Invalid credentials");
-            } else {
-              console.error("Authentication failed:", data.message);
-              throw new Error("Authentication failed");
-            }
+            const responseText = await response.text();
+            console.error("Authentication failed:", responseText);
           }
 
           return {
@@ -59,7 +53,7 @@ export const { handlers, signIn, auth } = NextAuth({
             email: data.data.email,
             firstName: data.data.firstName,
             lastName: data.data.lastName || "",
-            image: `${process.env.BACKEND_URL}${data.data.imageUrl}`.trim(),
+            image: data.data.imageUrl ? `${process.env.BACKEND_URL}${data.data.imageUrl}`.trim() : null,
             joinedAt: new Date(data.data.joinedAt),
             loginAt: data.data.loginAt,
           };
@@ -121,7 +115,7 @@ export const { handlers, signIn, auth } = NextAuth({
             token.email = data.data.email;
             token.firstName = data.data.firstName;
             token.lastName = data.data.lastName || "";
-            token.image = `${process.env.BACKEND_URL}${data.data.imageUrl}`.trim();
+            token.image = data.data.imageUrl ? `${process.env.BACKEND_URL}${data.data.imageUrl}`.trim() : null;
             token.joinedAt = new Date(data.data.joinedAt);
             token.loginAt = data.data.loginAt;
           } else {

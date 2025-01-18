@@ -9,7 +9,7 @@ import { Clock, Mail, Calendar, User, Edit, Upload } from "lucide-react";
 import { formatUnixTimestamp, formatDate, getInitials } from "@/lib/functions";
 import ImageUploadDialog from "@/components/popup/upload-avatar";
 import AccountInfoDialog from "@/components/popup/change-data";
-import { changeEmailOrUsername, changeProfilePicture } from "@/app/actions/auth-actions";
+import { changeProfilePicture } from "@/app/actions/auth-actions";
 import { IResponseChangeData, IResponseChangeProfile } from "@/lib/types/Types";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
@@ -92,7 +92,22 @@ const ProfilePage: React.FC = () => {
       setLoadingChange(false);
       return;
     }
-    toast.promise(changeEmailOrUsername(user.email, password, email, firstName, lastName), {
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/change-data`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: user.email,
+        password: btoa(password),
+        newEmail: email,
+        firstName: firstName,
+        lastName: lastName,
+      }),
+    });
+
+    toast.promise(response.json(), {
       loading: "Memperbarui informasi Anda...",
       success: async (response) => {
         const typedResponse = response as IResponseChangeData;
@@ -105,7 +120,13 @@ const ProfilePage: React.FC = () => {
         throw new Error(typedResponse.message);
       },
       error: (err) => {
-        return err.message;
+        if(err instanceof Error) {
+          if(err.message.toLowerCase() === "password not set") {
+            return "password belum diatur, silahkan untuk reset password terlebih dahulu";
+          } else if(err.message.toLowerCase() === "invalid password") {
+            return "password salah, silahkan coba lagi";
+          }
+        }
       },
       finally: () => {
         setLoadingChange(false);
