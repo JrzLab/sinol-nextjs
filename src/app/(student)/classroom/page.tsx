@@ -2,23 +2,23 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Cookies from "js-cookie";
 import EducationNotFound from "../../../../public/education-404.svg";
 import SearchSubjectButton from "@/components/button/search-subject-button";
 import { getClassByUidClassUser } from "@/app/actions/api-actions";
 import { IGroupClass } from "@/lib/types/Types";
 import SubjectCard from "@/components/subject/subject-card";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "@/hooks/context/AuthProvider";
 
 const StudentClassroom = () => {
+  const { user } = useAuth();
   const [subjectData, setSubjectData] = useState<IGroupClass[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const uidClassUser = Cookies.get("uidClassUser");
-      if (uidClassUser) {
-        const data = await getClassByUidClassUser(uidClassUser);
+      if (user?.uidClassUser) {
+        const data = await getClassByUidClassUser(user?.uidClassUser);
         setSubjectData(data!);
       } else {
         setSubjectData([]);
@@ -26,13 +26,13 @@ const StudentClassroom = () => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [user?.uidClassUser]);
 
   const modeNoData: boolean = !loading && subjectData?.length === 0;
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-[80vh]">
+      <div className="flex h-[80vh] items-center justify-center">
         <Loader2 width={50} height={50} className="animate-spin" />;
       </div>
     );

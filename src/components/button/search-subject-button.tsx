@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "../ui/button";
 import FindSubject from "../popup/find-subject";
 import { Card, CardHeader, CardFooter } from "../ui/card";
@@ -24,12 +24,16 @@ const SearchSubjectButton = ({ subjectData }: { subjectData: IGroupClass[] }) =>
   const { loading, user } = useAuth();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const randomMotivasi = useMemo(() => {
+    return motivasi[Math.floor(Math.random() * motivasi.length)];
+  }, []);
+
   return (
     <>
       <Card className="flex w-full flex-col rounded-xl text-foreground">
         <CardHeader>
           <h1 className="text-2xl font-bold">{loading ? "loading data..." : `Halo ${user?.firstName} ${user?.lastName}`}</h1>
-          <p className="mt-1">{motivasi[Math.floor(Math.random() * motivasi.length)]}</p>
+          <p className="mt-1">{randomMotivasi}</p>
         </CardHeader>
         <CardFooter>
           <Button onClick={() => setIsOpen(true)} variant={"default"} className="hover:bg-secondary">
