@@ -77,7 +77,7 @@ const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: 
 
   function handleDateSelect(date: Date | undefined) {
     if (date) {
-      console.log(date.toISOString());
+      createEventForm.setValue("eventDueDate", date);
     }
   }
   function handleTimeChange(type: "hour" | "minute", value: string) {

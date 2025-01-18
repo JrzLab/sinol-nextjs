@@ -162,19 +162,19 @@ const EditClassroomDetail = ({ open, data, dialogHandler }: IEditClassroomAlert)
                           <FormControl>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button variant="outline">Pilih Jadwal Kelas</Button>
+                                <Button variant="outline">{field.value !== undefined ? field.value : "Pilih Jadwal Kelas"}</Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent className="w-56" align={"start"}>
                                 <DropdownMenuLabel>Pilih Jadwal Kelas</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuRadioGroup value={field.value} onValueChange={(e) => field.onChange(e)}>
-                                  <DropdownMenuRadioItem value="1">Senin</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="2">Selasa</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="3">Rabu</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="4">Kamis</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="5">Jumat</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="6">Sabtu</DropdownMenuRadioItem>
-                                  <DropdownMenuRadioItem value="7">Minggu</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="Senin">Senin</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="Selasa">Selasa</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="Rabu">Rabu</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="Kamis">Kamis</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="Jumat">Jumat</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="Sabtu">Sabtu</DropdownMenuRadioItem>
+                                  <DropdownMenuRadioItem value="Minggu">Minggu</DropdownMenuRadioItem>
                                 </DropdownMenuRadioGroup>
                               </DropdownMenuContent>
                             </DropdownMenu>

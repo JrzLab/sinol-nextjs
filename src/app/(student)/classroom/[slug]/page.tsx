@@ -253,7 +253,7 @@ const ClassroomPage = () => {
             {openEvent && dataClass?.uid ? <CreateEventPopUp classUid={dataClass.uid} status={() => setOpenEvent(!openEvent)} /> : null}
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {dataEvent?.map((event) => <EventCard key={event.id} eventData={event} subjectData={dataClass!} />)}
+            {dataEvent?.map((event) => <EventCard key={event.id} eventData={event} subjectData={dataClass!} role="student" />)}
           </div>
         </div>
       </div>
