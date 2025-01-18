@@ -44,7 +44,7 @@ const UserChatCard = ({ student, classroomId }: UserChatCardProps) => {
         <CardDescription className="text-sm">{truncateText(student.messages, 50)}</CardDescription>
       </CardContent>
       <CardFooter className="flex justify-end">
-        <CardDescription className="text-xs">{getDate({ children: student.lastMessageTime })}</CardDescription>
+        <CardDescription className="text-xs">{student.lastMessageTime ? getDate({ children: student.lastMessageTime }) : ""}</CardDescription>
       </CardFooter>
     </Card>
   );

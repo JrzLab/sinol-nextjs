@@ -12,11 +12,8 @@ import { Separator } from "@/components/ui/separator";
 import UserChatCard from "./user-chat-card";
 
 //IMPORT TYPES
-import { IStudent, IConversation, IMessage } from "@/lib/types/Types";
+import { IStudent, IConversation } from "@/lib/types/Types";
 import InputSearch from "@/components/search/input-search";
-
-//IMPORT FUNCTIONS
-import { sortStudentsByLastMessage } from "@/lib/functions";
 
 interface ListStudentProps {
   students: IStudent[];
@@ -24,8 +21,8 @@ interface ListStudentProps {
 }
 
 const ListStudent = ({ students, classroomId }: ListStudentProps) => {
-  if (!students) return null;
   const [searchQuery, setSearchQuery] = useState("");
+  if (!students) return null;
 
   const sortedData = students.map((student) => {
     return {

@@ -25,7 +25,7 @@ export interface IHistoryMessage {
   message: string;
   data: {
     historyData: IMessage[];
-  }
+  };
 }
 
 export interface IStudent {
@@ -196,6 +196,7 @@ export interface ChatHistoryData {
   expiredAt: string; // ISO date string
   userAId: number;
   userBId: number;
+  userB: { email: string; firstName: string; lastName: string; imageUrl: string };
   messages: ChatMessage[];
 }
 

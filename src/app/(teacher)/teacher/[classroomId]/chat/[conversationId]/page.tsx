@@ -1,10 +1,10 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { IHistoryMessage, IMessage } from "@/lib/types/Types";
+import { ChatHistoryData, ChatMessage } from "@/lib/types/Types";
 import ChatRoom from "@/components/chat/teacher/chat-room";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,11 +13,24 @@ import { Textarea } from "@/components/ui/textarea";
 import MobileChatRoom from "@/components/chat/teacher/mobile-chat-room";
 import BubbleChat from "@/components/chat/bubble-chat";
 import { useAuth } from "@/hooks/context/AuthProvider";
+import { UseWebSocketChat } from "@/hooks/websocket/use-websocket-chat";
+import { getSocket } from "@/lib/socket";
 
 const ConversationBox = () => {
   const { user } = useAuth();
+  const isListenerAdded = useRef(false);
   const conversationId = useParams().conversationId as string;
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [dataReciver, setDataReciver] = useState<{ name: string; email: string; imageUrl: string }>();
+
+  useEffect(() => {
+    if (!isListenerAdded.current) {
+      getSocket()?.on("updateMessageClient", (data: ChatMessage) => {
+        setMessages((prev) => [...prev, data]);
+      });
+      isListenerAdded.current = true;
+    }
+  }, [isListenerAdded]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,17 +41,26 @@ const ConversationBox = () => {
           method: "GET",
         },
       );
-      const dataJson: IHistoryMessage = await dataFetch.json();
-      setMessages(dataJson.data.historyData);
+      const dataJson: { code: number; success: boolean; message: string; data: { historyData: ChatHistoryData[] } } = await dataFetch.json();
+      setDataReciver({
+        name: `${dataJson.data.historyData[0].userB.firstName}${dataJson.data.historyData[0].userB.lastName ? ` ${dataJson.data.historyData[0].userB.firstName}` : ""}`,
+        email: dataJson.data.historyData[0].userB.email,
+        imageUrl: dataJson.data.historyData[0].userB.imageUrl,
+      });
+      setMessages(dataJson.data.historyData[0].messages);
     };
 
     fetchData();
-  }, [conversationId, setMessages]);
+  }, [conversationId, setMessages, setDataReciver]);
 
-  const getStudentData = {
-    name: messages.find((message) => message.userEmail !== user?.email)?.user,
-    email: messages.find((message) => message.userEmail !== user?.email)?.userEmail,
-    imageUrl: messages.find((message) => message.userEmail !== user?.email)?.imageUrl,
+  const handleSubmitMessage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const message = new FormData(e.currentTarget).get("message") as string;
+
+    if (dataReciver?.email && user?.email) {
+      UseWebSocketChat(dataReciver.email, user.email, message, Number(conversationId));
+    }
   };
 
   return (
@@ -49,7 +71,7 @@ const ConversationBox = () => {
           {messages.map((message, index) => {
             return (
               <div key={index}>
-                <BubbleChat position={message.userEmail === user?.email ? "sender" : "receiver"} chatRoomType={"student"}>
+                <BubbleChat position={message.sender.email === user?.email ? "sender" : "receiver"} chatRoomType={"student"}>
                   {message.content}
                 </BubbleChat>
               </div>
@@ -68,16 +90,18 @@ const ConversationBox = () => {
           <Separator orientation="horizontal" />
         </div>
         <div>
-          <CardHeader className="flex flex-row items-center justify-start py-[13px]">
-            <Avatar className="mr-2">
-              <AvatarImage src={getStudentData.imageUrl} alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col items-start">
-              <CardTitle>{getStudentData.name}</CardTitle>
-              <CardDescription>{getStudentData.email}</CardDescription>
-            </div>
-          </CardHeader>
+          {dataReciver && (
+            <CardHeader className="flex flex-row items-center justify-start py-[13px]">
+              <Avatar className="mr-2">
+                <AvatarImage src={dataReciver!.imageUrl} alt="@shadcn" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col items-start">
+                <CardTitle>{dataReciver!.name}</CardTitle>
+                <CardDescription>{dataReciver!.email}</CardDescription>
+              </div>
+            </CardHeader>
+          )}
           <Separator orientation="horizontal" />
         </div>
         <div>
@@ -85,7 +109,7 @@ const ConversationBox = () => {
             {messages.map((message, index) => {
               return (
                 <div key={index}>
-                  <BubbleChat position={message.userEmail === user?.email ? "sender" : "receiver"} chatRoomType={"teacher"}>
+                  <BubbleChat position={message.sender.email === user?.email ? "sender" : "receiver"} chatRoomType={"teacher"}>
                     {message.content}
                   </BubbleChat>
                 </div>
@@ -95,12 +119,14 @@ const ConversationBox = () => {
         </div>
         <div className="">
           <Separator orientation="horizontal" />
-          <CardFooter className="flex flex-col space-y-2 py-5">
-            <Textarea placeholder="Tulis Pesan Kamu Disini" className="resize-y" />
-            <Button variant="default" className="w-full justify-items-end hover:bg-secondary" size="default">
-              Kirim
-            </Button>
-          </CardFooter>
+          <form onSubmit={handleSubmitMessage}>
+            <CardFooter className="flex flex-col space-y-2 py-5">
+              <Textarea id="message" name="message" placeholder="Tulis Pesan Kamu Disini" className="resize-y" />
+              <Button type="submit" variant="default" className="w-full justify-items-end hover:bg-secondary" size="default">
+                Kirim
+              </Button>
+            </CardFooter>
+          </form>
         </div>
       </div>
     </>
