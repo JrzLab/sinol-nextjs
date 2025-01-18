@@ -67,7 +67,7 @@ const ConversationBox = () => {
     <>
       {/* MOBILE VIEW */}
       <div className="relative md:hidden">
-        <MobileChatRoom>
+        <MobileChatRoom data={dataReciver!}>
           {messages.map((message, index) => {
             return (
               <div key={index}>
@@ -82,19 +82,19 @@ const ConversationBox = () => {
       {/* DESKTOP VIEW */}
       <div className="hidden flex-col gap-0 md:flex">
         <div>
-          <CardHeader className="flex flex-row items-center justify-end p-2">
-            <Button variant="ghost" size="default">
-              <LogOut />
-            </Button>
-          </CardHeader>
-          <Separator orientation="horizontal" />
-        </div>
-        <div>
           {dataReciver && (
             <CardHeader className="flex flex-row items-center justify-start py-[13px]">
-              <Avatar className="mr-2">
-                <AvatarImage src={dataReciver!.imageUrl} alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+              <Avatar className="mr-3">
+                <AvatarImage
+                  src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${dataReciver?.imageUrl}`}
+                  alt={dataReciver?.imageUrl!}
+                />
+                <AvatarFallback>
+                  {dataReciver?.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start">
                 <CardTitle>{dataReciver!.name}</CardTitle>

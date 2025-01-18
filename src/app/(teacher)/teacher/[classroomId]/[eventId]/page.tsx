@@ -10,7 +10,11 @@ const TeacherEventPage = async ({ params }: { params: { classroomId: string; eve
   const classData = getClassUserData?.find((data) => data.uid === classroomId);
   const getEventData = await getEventByUidClassUser(uidCookies!, classData?.uid!);
   const eventData = getEventData?.find((data) => data.id === parseInt(eventId));
-  return <></>;
+  return (
+    <>
+      <h1>test</h1>
+    </>
+  );
 };
 
 export default TeacherEventPage;

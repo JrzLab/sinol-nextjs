@@ -12,10 +12,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface MobileChatRoomProps {
+  data: { name: string; email: string; imageUrl: string };
   children: React.ReactNode;
 }
 
-const MobileChatRoom = ({ children }: MobileChatRoomProps) => {
+const MobileChatRoom = ({ data, children }: MobileChatRoomProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openChatHandler = () => {
@@ -32,14 +33,18 @@ const MobileChatRoom = ({ children }: MobileChatRoomProps) => {
           <Card className="h-full w-full rounded-b-none">
             <CardHeader className="flex flex-row items-center px-2 py-2" onClick={() => openChatHandler()}>
               <Avatar className="mr-2 h-8 w-8">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${data?.imageUrl}`} alt={data?.imageUrl!} />
+                <AvatarFallback>
+                  {data?.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start">
-                <h1 className="text-black">e</h1>
+                <h1 className="text-black">{data.name}</h1>
                 <div className="inline-flex items-center">
-                  <div className={`mr-1 h-2 w-2 rounded-full`} />
-                  <span className="text-xs">{toPascalCase("online")}</span>
+                  <p className="text-xs text-gray-500">{data.email}</p>
                 </div>
               </div>
               <div className="ml-auto">{isOpen ? <ChevronDown /> : <ChevronUp />}</div>

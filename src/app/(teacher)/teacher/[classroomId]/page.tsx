@@ -20,7 +20,7 @@ const TeacherClassroom = () => {
   const [dataEvent, setDataEvent] = useState<IEvent[]>();
   const [openEvent, setOpenEvent] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       if (user?.uidClassUser) {
@@ -46,8 +46,8 @@ const TeacherClassroom = () => {
     <>
       <div className="mt-4 flex flex-col gap-4">
         <div className="flex flex-col gap-4">
-          <div className="flex justify-between gap-3">
-            <div className="flex flex-col">
+          <div className={`flex ${dataEvent?.length === 0 ? "justify-end" : "justify-between"} gap-3`}>
+            <div className={`flex flex-col ${dataEvent?.length === 0 ? "hidden" : "block"}`}>
               <h1 className="text-lg font-bold md:text-xl">Tugas Kelas</h1>
               <p className="hidden md:block md:text-sm">Daftar tugas yang ada pada kelas {dataClass?.className}</p>
             </div>

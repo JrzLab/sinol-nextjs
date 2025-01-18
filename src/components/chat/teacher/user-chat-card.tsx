@@ -22,6 +22,7 @@ const UserChatCard = ({ student, classroomId }: UserChatCardProps) => {
   const cardHandler = (classroomId: string, studentId: string) => {
     router.push(`/teacher/${classroomId}/chat/${studentId}`);
   };
+
   return (
     <Card
       key={student.id}
@@ -31,9 +32,14 @@ const UserChatCard = ({ student, classroomId }: UserChatCardProps) => {
       }}
     >
       <CardHeader className="flex flex-row items-center justify-start pb-2">
-        <Avatar className="mr-2">
-          <AvatarImage src={`${student.imageUrl}`} alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
+        <Avatar className="mr-3">
+          <AvatarImage src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${student?.imageUrl}`} alt={student?.imageUrl!} />
+          <AvatarFallback>
+            {student?.user
+              .split(" ")
+              .map((n) => n[0])
+              .join("")}
+          </AvatarFallback>
         </Avatar>
         <div className="flex flex-col items-start">
           <CardTitle>{student.user}</CardTitle>
