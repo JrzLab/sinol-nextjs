@@ -142,12 +142,15 @@ const ClassroomPage = () => {
       textarea.value = text;
       document.body.appendChild(textarea);
       textarea.select();
-      const successful = document.execCommand('copy');
-      if (successful) {
-        toast.success("Kode kelas berhasil disalin!");
-      } else {
-        toast.error("Gagal menyalin kode kelas.");
-      }
+
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          toast.success("Kode kelas berhasil disalin!");
+        })
+        .catch(() => {
+          toast.error("Gagal menyalin kode kelas.");
+        });
     } catch {
       toast.error("Gagal menyalin kode kelas.");
     } finally {
@@ -221,7 +224,7 @@ const ClassroomPage = () => {
           ) : null}
         </CardHeader>
         <hr />
-        <CardFooter className="grid grid-cols-4">
+        <CardFooter className="grid grid-cols-2 md:grid-cols-4">
           <div className="w-full pt-6">
             <h1 className="font-bold">Pengajar</h1>
             <p>{dataClass?.ownerData.name}</p>
@@ -249,7 +252,7 @@ const ClassroomPage = () => {
             {openEvent && dataClass?.uid ? <CreateEventPopUp classUid={dataClass.uid} status={() => setOpenEvent(!openEvent)} /> : null}
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {dataEvent?.map((event) => <EventCard key={event.id} eventData={event} subjectData={dataClass!} />)}
+            {dataEvent?.map((event) => <EventCard key={event.id} eventData={event} subjectData={dataClass!} role="student" />)}
           </div>
         </div>
       </div>

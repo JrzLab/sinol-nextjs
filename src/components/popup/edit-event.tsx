@@ -76,7 +76,7 @@ const EditEventDetail = ({ eventId, open, eventData, dialogHandler }: IEditEvent
   };
   function handleDateSelect(date: Date | undefined) {
     if (date) {
-      console.log(date.toISOString());
+      editEventForm.setValue("eventDueDate", date);
     }
   }
   function handleTimeChange(type: "hour" | "minute", value: string) {

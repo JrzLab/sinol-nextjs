@@ -91,7 +91,7 @@ const DataTable = <TData, TValue>({ columns, data, filterKey, noDataText = "Tida
         </div>
       )}
       {/* Tabel */}
-      <Card className="w-screen md:w-full lg:w-full">
+      <Card className="w-[347px] md:w-full lg:w-full">
         <Table className="w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

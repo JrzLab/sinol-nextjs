@@ -8,33 +8,60 @@ import { truncateText } from "@/lib/functions";
 import EventDetail from "../popup/event-detail";
 import { Badge } from "../ui/badge";
 
-const EventCard = ({ subjectData, eventData }: { subjectData: IGroupClass; eventData: IEvent }) => {
+const EventCard = ({ subjectData, eventData, role }: { subjectData: IGroupClass; eventData: IEvent; role: "teacher" | "student" }) => {
   return (
     <div>
-      <Card className="text-foreground">
-        <CardHeader>
-          <div className="flex justify-between">
-            <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="text-lg font-bold hover:underline">
-              {truncateText(eventData.title, 20)}
-            </Link>
-            {eventData.status === "OPEN" ? (
-              <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">Tersedia</Badge>
-            ) : (
-              <Badge variant={"destructive"} className="bg-gray-100 text-gray-700 hover:bg-gray-100">
-                Kadaluarsa
-              </Badge>
-            )}
-          </div>
-          <p className="text-sm">{eventData.description}</p>
-          <div className="flex w-full justify-end pt-6">
-            <EventDetail event={eventData} subject={subjectData} />
-          </div>
-        </CardHeader>
-        <hr />
-        <CardHeader className="flex flex-col items-end">
-          <span className="text-xs">Deadline: {getDate({ children: eventData.dueDateAt })} WIB</span>
-        </CardHeader>
-      </Card>
+      {role === "teacher" ? (
+        <Card className="text-foreground">
+          <CardHeader>
+            <div className="flex justify-between">
+              <Link href={`/teacher/${subjectData.uid}/${eventData.id}`} className="text-lg font-bold hover:underline">
+                {truncateText(eventData.title, 20)}
+              </Link>
+              {eventData.status === "OPEN" ? (
+                <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">Tersedia</Badge>
+              ) : (
+                <Badge variant={"destructive"} className="bg-gray-100 text-gray-700 hover:bg-gray-100">
+                  Kadaluarsa
+                </Badge>
+              )}
+            </div>
+            <p className="text-sm">{eventData.description}</p>
+            <div className="flex w-full justify-end pt-6">
+              <EventDetail event={eventData} subject={subjectData} />
+            </div>
+          </CardHeader>
+          <hr />
+          <CardHeader className="flex flex-col items-end">
+            <span className="text-xs">Deadline: {getDate({ children: eventData.dueDateAt })} WIB</span>
+          </CardHeader>
+        </Card>
+      ) : (
+        <Card className="text-foreground">
+          <CardHeader>
+            <div className="flex justify-between">
+              <Link href={`/classroom/${subjectData.uid}/${eventData.id}`} className="text-lg font-bold hover:underline">
+                {truncateText(eventData.title, 20)}
+              </Link>
+              {eventData.status === "OPEN" ? (
+                <Badge className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50">Tersedia</Badge>
+              ) : (
+                <Badge variant={"destructive"} className="bg-gray-100 text-gray-700 hover:bg-gray-100">
+                  Kadaluarsa
+                </Badge>
+              )}
+            </div>
+            <p className="text-sm">{eventData.description}</p>
+            <div className="flex w-full justify-end pt-6">
+              <EventDetail event={eventData} subject={subjectData} />
+            </div>
+          </CardHeader>
+          <hr />
+          <CardHeader className="flex flex-col items-end">
+            <span className="text-xs">Deadline: {getDate({ children: eventData.dueDateAt })} WIB</span>
+          </CardHeader>
+        </Card>
+      )}
     </div>
   );
 };

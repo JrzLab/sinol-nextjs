@@ -33,13 +33,11 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
   const getEmail = Cookies.get("userId");
   const [usersDataTable, setUsersDataTable] = useState<IClassroomUsersTable[]>([]);
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
-  // const [loading, setLoading] = useState<boolean>(false);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data: IClassroomUsersTable[] = classUsersData.map((doc, index) => {
-          const role = doc.email === getEmail ? "Pengajar" : "Murid";
+          const role = doc.email === getEmail ? "Pengajar" : "Pelajar";
           return {
             id: index + 1,
             userId: doc.uid.slice(0, 8),
@@ -75,7 +73,6 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
       },
       finally: () => {
         setOpenDeleteAlert(!openDeleteAlert);
-        // setLoading(false);
         router.push(`/teacher/${classData.uid}/users`);
       },
     });
@@ -112,7 +109,7 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
     {
       accessorKey: "userName",
       header: () => {
-        return <div className="text-xs md:text-sm">Nama Pelajar</div>;
+        return <div className="text-xs md:text-sm">Nama</div>;
       },
       cell: ({ row }) => {
         return <div className="text-xs md:text-sm">{row.getValue("userName")}</div>;
@@ -121,7 +118,7 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
     {
       accessorKey: "userEmail",
       header: () => {
-        return <div className="text-xs md:text-sm">Email Pelajar</div>;
+        return <div className="text-xs md:text-sm">Alamat Email</div>;
       },
       cell: ({ row }) => {
         return <div className="text-xs md:text-sm">{row.getValue("userEmail")}</div>;
