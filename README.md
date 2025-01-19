@@ -6,7 +6,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 npm run dev - running the development server
 npm run build - running the building website production
 npm run start - running the website after build or dev
-npm run lint - running the lint
+npm run lint - running the lint ea
 ```
 
 ini test
