@@ -40,7 +40,7 @@ const FileUploadDialog: React.FC<IFileUploadDialogProps> = ({ isOpen, onClose, o
     if (!files) return;
     const newFiles = Array.from(files).map(validateFile);
     setSelectedFiles((prev) => [...prev, ...newFiles]);
-  }, []);
+  }, [validateFile]);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     handleFiles(event.target.files);

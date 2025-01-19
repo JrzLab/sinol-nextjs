@@ -1,32 +1,14 @@
 "use client";
-//IMPORT NEXTJS
-import { useEffect, useState } from "react";
 
 //IMPORT SHADCN COMPONENTS
 import { ColumnDef } from "@tanstack/react-table";
 
 //IMPORT INTERFACE & FUNCTION
-import { IClassroomUsersTable, IEvent, IGroupClass, ITaskData, IUserData, IUsersTaskTable, IViewsUser } from "@/lib/types/Types";
+import { IEvent, IUsersTaskTable, IViewsUser } from "@/lib/types/Types";
 
 //IMPORT LUCIDE ICON
 import DataTable from "./data-table";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import Cookies from "js-cookie";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { LogOut, MoreHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { getDate } from "@/lib/functions";
-import ActionsAlert from "../popup/actions-alert";
-import { leaveClassByUidClassUser } from "@/app/actions/api-actions";
-import { toast } from "sonner";
 
 interface IEventTaskTable {
   classUsersData: IViewsUser[];

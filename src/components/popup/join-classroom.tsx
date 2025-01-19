@@ -16,7 +16,6 @@ import { joinClassroomFormSchema } from "@/lib/form-validation-schema";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 
 import { joinClassByUidClassUser } from "@/app/actions/api-actions";
-import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/context/AuthProvider";
 

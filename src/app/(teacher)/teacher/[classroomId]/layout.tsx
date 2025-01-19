@@ -13,7 +13,7 @@ const ClassroomLayout = async ({ params, children }: { params: Promise<{ classro
   const { classroomId } = await params;
   const getClassData = getUidCookie ? await getClassByUidClassUser(getUidCookie.value) : null;
   const filteredClassData = getClassData?.find((data: { uid: string }) => data.uid == classroomId);
-  const getEventData = await getEventByUidClassUser(getUidCookie?.value!, filteredClassData?.uid!);
+  const getEventData = getUidCookie && filteredClassData ? await getEventByUidClassUser(getUidCookie.value, filteredClassData.uid) : null;
   const getEventLength = getEventData?.length;
 
   return (
@@ -29,7 +29,7 @@ const ClassroomLayout = async ({ params, children }: { params: Promise<{ classro
               {filteredClassData?.ownerData.email === getUserEmailCookie?.value ? <OpenClassUsersButton classroomId={classroomId} /> : null}
               <OpenTeacherChatButton classroomId={classroomId} />
               {filteredClassData?.ownerData.email === getUserEmailCookie?.value ? <EditClassButton classData={filteredClassData!} /> : null}
-              {filteredClassData?.ownerData.email === getUserEmailCookie?.value ? <DeleteClassButton open /> : null}
+              {filteredClassData?.ownerData.email === getUserEmailCookie?.value ? <DeleteClassButton /> : null}
             </div>
           </div>
         </CardHeader>
@@ -59,7 +59,7 @@ const ClassroomLayout = async ({ params, children }: { params: Promise<{ classro
           {filteredClassData?.ownerData.email === getUserEmailCookie?.value ? <OpenClassUsersButton classroomId={classroomId} /> : null}
           <OpenTeacherChatButton classroomId={classroomId} />
           {filteredClassData?.ownerData.email === getUserEmailCookie?.value ? <EditClassButton classData={filteredClassData!} /> : null}
-          {filteredClassData?.ownerData.email === getUserEmailCookie?.value ? <DeleteClassButton open /> : null}
+          {filteredClassData?.ownerData.email === getUserEmailCookie?.value ? <DeleteClassButton /> : null}
         </CardFooter>
       </Card>
       {children}

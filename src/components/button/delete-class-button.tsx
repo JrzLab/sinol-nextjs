@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { useState } from "react";
 import DeleteClassroomAlert from "../popup/delete-classroom-alert";
 
-const DeleteClassButton = ({ open }: { open: boolean }) => {
+const DeleteClassButton = () => {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
 
   return (

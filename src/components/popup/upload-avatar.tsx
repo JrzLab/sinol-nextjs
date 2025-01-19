@@ -135,7 +135,7 @@ const ImageUploadDialog: React.FC<ImageUploadDialogProps> = ({ isOpen, onClose, 
                       onChange={(c) => setCrop(c)}
                       aspect={1}
                       circularCrop>
-                      <img
+                      <Image
                         ref={imgRef}
                         src={preview}
                         alt="Preview"

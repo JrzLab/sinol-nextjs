@@ -11,7 +11,6 @@ import { getDate, truncateText } from "@/lib/functions";
 
 //IMPORT TYPES
 import { IConversation } from "@/lib/types/Types";
-import { useAuth } from "@/hooks/context/AuthProvider";
 
 interface UserChatCardProps {
   student: IConversation;
@@ -19,7 +18,6 @@ interface UserChatCardProps {
 }
 
 const UserChatCard = ({ student, classroomId }: UserChatCardProps) => {
-  const { user } = useAuth();
   const router = useRouter();
   const cardHandler = (classroomId: string, studentId: string) => {
     router.push(`/teacher/${classroomId}/chat/${studentId}`);
@@ -35,9 +33,9 @@ const UserChatCard = ({ student, classroomId }: UserChatCardProps) => {
     >
       <CardHeader className="flex flex-row items-center justify-start pb-2">
         <Avatar className="mr-3">
-          <AvatarImage src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${student?.imageUrl}`} alt={student?.imageUrl!} />
+          <AvatarImage src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059") ?? ""}${student?.imageUrl ?? ""}`} alt={student?.imageUrl ?? "Avatar"} />
           <AvatarFallback>
-            {student?.user
+            {(student?.user ?? "")
               .split(" ")
               .map((n) => n[0])
               .join("")}

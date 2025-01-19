@@ -2,7 +2,6 @@
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { getDate } from "@/lib/functions";
-import Link from "next/link";
 import { IEvent, IGroupClass } from "@/lib/types/Types";
 import { truncateText } from "@/lib/functions";
 import EventDetail from "../popup/event-detail";

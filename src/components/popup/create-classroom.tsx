@@ -32,7 +32,6 @@ import {
 
 const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void }) => {
   const { user } = useAuth();
-  const [day, setDay] = React.useState<string>("");
   const createClassroomForm = useForm<z.infer<typeof createClassroomFormSchema>>({
     resolver: zodResolver(createClassroomFormSchema),
     defaultValues: {
@@ -81,7 +80,7 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
           success: async (response) => {
             const typedResponse = response as IClassResponse;
             if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
-              if (typedResponse?.code === 200 && typedResponse.success) {
+              if (typedResponse?.code === 201 && typedResponse.success) {
                 window.location.href = `/classroom/${typedResponse.data.groupClass[0].uid}`;
                 return typedResponse.message;
               }

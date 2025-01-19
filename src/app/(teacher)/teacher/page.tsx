@@ -46,7 +46,7 @@ const TeacherPage = async () => {
       <Card className="mx-auto w-full text-foreground">
         <CardHeader className="flex flex-row items-center justify-start pb-0">
           <Avatar>
-            <AvatarImage src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${userData?.imageUrl}`} alt={userData?.imageUrl!} />
+            <AvatarImage src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${userData?.imageUrl ?? ""}`} alt={userData?.imageUrl ?? "Avatar"} />
             <AvatarFallback>
               {userData?.firstName
                 .split(" ")

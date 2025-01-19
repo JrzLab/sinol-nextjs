@@ -17,7 +17,7 @@ import { useAuth } from "@/hooks/context/AuthProvider";
 import EditEventDetail from "./edit-event";
 import { deleteEventByUidClassUser } from "@/app/actions/api-actions";
 import { useRouter } from "next/navigation";
-import { MoreHorizontal, MoreVertical } from "lucide-react";
+import { MoreVertical } from "lucide-react";
 
 const EventDetail = ({ event, subject, role }: { event: IEvent; subject: IGroupClass; role: "teacher" | "student" }) => {
   const { user } = useAuth();

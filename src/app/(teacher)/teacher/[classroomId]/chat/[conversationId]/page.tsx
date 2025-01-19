@@ -83,10 +83,12 @@ const ConversationBox = () => {
           {dataReciver && (
             <CardHeader className="flex flex-row items-center justify-start py-[13px]">
               <Avatar className="mr-3">
-                <AvatarImage
-                  src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${dataReciver?.imageUrl}`}
-                  alt={dataReciver?.imageUrl!}
-                />
+                {dataReciver?.imageUrl && (
+                  <AvatarImage
+                    src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${dataReciver.imageUrl}`}
+                    alt={dataReciver.imageUrl}
+                  />
+                )}
                 <AvatarFallback>
                   {dataReciver?.name
                     .split(" ")

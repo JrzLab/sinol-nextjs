@@ -16,7 +16,6 @@ import { toast } from "sonner";
 import { useAuth } from "@/hooks/context/AuthProvider";
 import { formatDate } from "@/lib/functions";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 const Event = () => {
