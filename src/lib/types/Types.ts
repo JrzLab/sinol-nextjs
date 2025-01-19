@@ -364,6 +364,15 @@ export interface IClassroomUsersTable {
   userJoinedAt: string;
 }
 
+export interface IUsersTaskTable {
+  id: number;
+  userName: string;
+  userEmail: string;
+  userTaskStatus: string;
+  userSubmittedAt: string;
+  userTaskScore: number;
+}
+
 export interface IRequestClassroomLeave {
   uidClass: string;
   uidClassUser: string;

@@ -17,8 +17,9 @@ import { useAuth } from "@/hooks/context/AuthProvider";
 import EditEventDetail from "./edit-event";
 import { deleteEventByUidClassUser } from "@/app/actions/api-actions";
 import { useRouter } from "next/navigation";
+import { MoreHorizontal, MoreVertical } from "lucide-react";
 
-const EventDetail = ({ event, subject }: { event: IEvent; subject: IGroupClass }) => {
+const EventDetail = ({ event, subject, role }: { event: IEvent; subject: IGroupClass; role: "teacher" | "student" }) => {
   const { user } = useAuth();
   const [isOutOpen, setIsOutOpen] = useState<boolean>(false);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
@@ -31,24 +32,46 @@ const EventDetail = ({ event, subject }: { event: IEvent; subject: IGroupClass }
   };
   return (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button className="hover:bg-secondary" variant={"default"}>
-            Detail
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>Detail Tugas</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => router.push(`/classroom/${subject.uid}/${event.id}`)}>Lihat Tugas</DropdownMenuItem>
-          {subject && subject.ownerData.email === user?.email ? (
-            <>
-              <DropdownMenuItem onClick={() => setIsEditOpen(true)}>Edit Tugas</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setIsOutOpen(true)}>Hapus Tugas</DropdownMenuItem>
-            </>
-          ) : null}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {role === "teacher" ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="" variant={"outline"} size={"icon"}>
+              <MoreVertical />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-background">
+            <DropdownMenuLabel>Detail Tugas</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => router.push(`/teacher/${subject.uid}/${event.id}`)}>Lihat Tugas</DropdownMenuItem>
+            {subject && subject.ownerData.email === user?.email ? (
+              <>
+                <DropdownMenuItem onClick={() => setIsEditOpen(true)}>Edit Tugas</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setIsOutOpen(true)}>Hapus Tugas</DropdownMenuItem>
+              </>
+            ) : null}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="" variant={"outline"} size={"icon"}>
+              <MoreVertical />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-background">
+            <DropdownMenuLabel>Detail Tugas</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => router.push(`/classroom/${subject.uid}/${event.id}`)}>Lihat Tugas</DropdownMenuItem>
+            {subject && subject.ownerData.email === user?.email ? (
+              <>
+                <DropdownMenuItem onClick={() => setIsEditOpen(true)}>Edit Tugas</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setIsOutOpen(true)}>Hapus Tugas</DropdownMenuItem>
+              </>
+            ) : null}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+
       <GeneralAlert open={isOutOpen} title="Apakah Anda Yakin?" description="Tindakan ini tidak dapat diurungkan">
         <AlertDialogCancel onClick={() => setIsOutOpen(false)}>Batal</AlertDialogCancel>
         <AlertDialogAction onClick={() => deleteHandler()}>Hapus</AlertDialogAction>

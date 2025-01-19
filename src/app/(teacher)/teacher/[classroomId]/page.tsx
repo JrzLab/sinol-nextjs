@@ -20,7 +20,7 @@ const TeacherClassroom = () => {
   const [dataEvent, setDataEvent] = useState<IEvent[]>();
   const [openEvent, setOpenEvent] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       if (user?.uidClassUser) {
@@ -46,8 +46,8 @@ const TeacherClassroom = () => {
     <>
       <div className="mt-4 flex flex-col gap-4">
         <div className="flex flex-col gap-4">
-          <div className="flex justify-between gap-3">
-            <div className="flex flex-col">
+          <div className={`flex justify-between gap-3`}>
+            <div className={`flex flex-col`}>
               <h1 className="text-lg font-bold md:text-xl">Tugas Kelas</h1>
               <p className="hidden md:block md:text-sm">Daftar tugas yang ada pada kelas {dataClass?.className}</p>
             </div>
@@ -55,7 +55,13 @@ const TeacherClassroom = () => {
             {openEvent && dataClass?.uid ? <CreateEventPopUp classUid={dataClass.uid} status={() => setOpenEvent(!openEvent)} /> : null}
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {dataEvent?.map((event) => <EventCard key={event.id} eventData={event} subjectData={dataClass!} role="teacher" />)}
+            {dataEvent?.length === 0 ? (
+              <div className="col-span-3 flex flex-col items-center justify-center">
+                <p className="text-center">Belum ada tugas yang diberikan</p>
+              </div>
+            ) : (
+              dataEvent?.map((event) => <EventCard key={event.id} eventData={event} subjectData={dataClass!} role="teacher" />)
+            )}
           </div>
         </div>
       </div>

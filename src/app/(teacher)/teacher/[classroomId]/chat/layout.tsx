@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { ResizablePanel, ResizableHandle, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import ListStudent from "@/components/chat/teacher/list-student";
@@ -54,19 +54,12 @@ const ConversationLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       <Card className="w-full pb-3 text-foreground min-[1920px]:h-[700px]">
         <div className="block md:hidden">
-          <CardHeader className="p-3 px-4">
-            <CardTitle className="text-lg font-bold">{dataClass?.className}</CardTitle>
-          </CardHeader>
-          <Separator orientation="horizontal" />
           <ListStudent classroomId={classroomId} students={userMessage!} />
           {children}
         </div>
         <div className="hidden md:block">
           <ResizablePanelGroup direction="horizontal">
             <ResizablePanel defaultSize={40} minSize={30}>
-              <CardHeader className="p-3 px-4">
-                <CardTitle className="text-lg font-bold">{dataClass?.className}</CardTitle>
-              </CardHeader>
               <Separator orientation="horizontal" />
               <ListStudent classroomId={classroomId} students={userMessage!} />
             </ResizablePanel>

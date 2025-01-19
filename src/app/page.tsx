@@ -103,7 +103,7 @@ const DashboardPage: React.FC = () => {
           <Card className="flex flex-col justify-between text-foreground" key={data.title}>
             <CardHeader>
               <h1 className="font-bold">{data.title}</h1>
-              <p className="text-sm">{data.description}</p>
+              <p className="text-xs md:text-sm">{data.description}</p>
             </CardHeader>
             <CardFooter>
               <h1 className="text-2xl font-bold">{data.total}</h1>

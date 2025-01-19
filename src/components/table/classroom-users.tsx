@@ -38,6 +38,8 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
       try {
         const data: IClassroomUsersTable[] = classUsersData.map((doc, index) => {
           const role = doc.email === getEmail ? "Pengajar" : "Pelajar";
+          console.log(doc);
+
           return {
             id: index + 1,
             userId: doc.uid.slice(0, 8),
@@ -137,8 +139,8 @@ const ClassroomUsers = ({ classUsersData, classData }: { classUsersData: IViewsU
       accessorKey: "userJoinedAt",
       header: () => <div className="text-center text-xs md:text-sm">Hari/Tanggal Masuk</div>,
       cell: ({ row }) => {
-        const date = new Date(`${row.getValue("userJoinedAt")}`);
-        return <div className="text-center text-xs font-medium md:text-sm">{getDate({ children: date.toLocaleDateString(), time: "deactive" })}</div>;
+        const date = new Date(row.getValue("userJoinedAt"));
+        return <div className="text-center text-xs font-medium md:text-sm">{getDate({ children: date.toISOString(), time: "deactive" })}</div>;
       },
     },
     {

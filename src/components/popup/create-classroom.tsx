@@ -32,7 +32,7 @@ import {
 
 const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void }) => {
   const { user } = useAuth();
-
+  const [day, setDay] = React.useState<string>("");
   const createClassroomForm = useForm<z.infer<typeof createClassroomFormSchema>>({
     resolver: zodResolver(createClassroomFormSchema),
     defaultValues: {
@@ -77,12 +77,12 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
           day: classroomDay!,
         }),
         {
-          loading: "Creating Classroom...",
+          loading: "Sedang Membuat Kelas...",
           success: async (response) => {
             const typedResponse = response as IClassResponse;
             if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
               if (typedResponse?.code === 200 && typedResponse.success) {
-                window.location.href = `/classroom/${typedResponse.data.uid}`;
+                window.location.href = `/classroom/${typedResponse.data.groupClass[0].uid}`;
                 return typedResponse.message;
               }
             }
@@ -158,7 +158,7 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
                             <FormControl>
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                  <Button variant="outline">Pilih Jadwal Kelas</Button>
+                                  <Button variant="outline">{field.value !== undefined ? field.value : "Pilih Jadwal Kelas"}</Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56" align={"start"}>
                                   <DropdownMenuLabel>Pilih Jadwal Kelas</DropdownMenuLabel>

@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface MobileChatRoomProps {
+  data: { name: string; email: string; imageUrl: string };
   children: React.ReactNode;
   username?: string;
   email?: string;

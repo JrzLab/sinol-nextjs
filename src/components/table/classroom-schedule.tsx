@@ -57,7 +57,7 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
           classDescription: doc.description,
           classMember: usersData[index]?.length || 0,
           classEvent: eventsData[index]?.length || 0,
-          classStatus: getToday === doc.day ? "active" : "inactive",
+          classStatus: getToday === (doc.day === 7 ? 0 : doc.day) ? "active" : "inactive",
         };
       });
       setJadwalDataTable(data);
@@ -81,20 +81,20 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
         accessorKey: "id",
         enableHiding: false,
         header: () => {
-          return <div className="ml-2">No</div>;
+          return <div className="ml-2 text-xs md:text-sm">No</div>;
         },
-        cell: ({ row }) => <div className="ml-2">{row.getValue("id")}</div>,
+        cell: ({ row }) => <div className="ml-2 text-xs md:text-sm">{row.getValue("id")}</div>,
       },
       {
         accessorKey: "classUid",
         header: () => {
-          return <div>Kode Kelas</div>;
+          return <div className="text-xs md:text-sm">Kode Kelas</div>;
         },
         cell: ({ row }) => {
           return (
             <div>
               <h1
-                className="underline hover:cursor-pointer hover:font-semibold hover:text-black"
+                className="text-xs underline hover:cursor-pointer hover:font-semibold hover:text-black md:text-sm"
                 onClick={() => copyToClipboard(row.getValue("classUid"))}
               >
                 {row.getValue("classUid")}
@@ -106,14 +106,14 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
       {
         accessorKey: "className",
         header: () => {
-          return <div>Nama Kelas</div>;
+          return <div className="text-xs md:text-sm">Nama Kelas</div>;
         },
         cell: ({ row }) => {
           return (
             <div>
               <HoverCard>
                 <HoverCardTrigger asChild>
-                  <Link className="underline hover:font-semibold hover:text-black" href={`/teacher/${row.getValue("classUid")}`}>
+                  <Link className="text-xs underline hover:font-semibold hover:text-black md:text-sm" href={`/teacher/${row.getValue("classUid")}`}>
                     {row.getValue("className")}
                   </Link>
                 </HoverCardTrigger>
@@ -135,7 +135,7 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
         header: ({ column }) => {
           return (
             <div className="flex cursor-pointer gap-2 hover:text-black" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-              <h1>Hari</h1>
+              <h1 className="text-xs md:text-sm">Hari</h1>
               <ArrowUpDown className="my-auto h-7 w-7 md:h-4 md:w-4" />
             </div>
           );
@@ -172,21 +172,21 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
         accessorKey: "classDescription",
         header: () => <div className="text-center">Deskripsi Kelas</div>,
         cell: ({ row }) => {
-          return <div className="text-center font-medium">{truncateText(row.getValue("classDescription"), 20)}</div>;
+          return <div className="text-center text-xs font-medium md:text-sm">{truncateText(row.getValue("classDescription"), 20)}</div>;
         },
       },
       {
         accessorKey: "classEvent",
-        header: () => <div className="text-center">Total Tugas</div>,
+        header: () => <div className="text-center text-xs md:text-sm">Total Tugas</div>,
         cell: ({ row }) => {
-          return <div className="text-center font-medium">{row.getValue("classEvent")}</div>;
+          return <div className="text-center text-xs font-medium md:text-sm">{row.getValue("classEvent")}</div>;
         },
       },
       {
         accessorKey: "classMember",
-        header: () => <div className="text-center">Jumlah Siswa</div>,
+        header: () => <div className="text-center text-xs md:text-sm">Jumlah Siswa</div>,
         cell: ({ row }) => {
-          return <div className="text-center font-medium">{row.getValue("classMember")}</div>;
+          return <div className="text-center text-xs font-medium md:text-sm">{row.getValue("classMember")}</div>;
         },
       },
       {
@@ -197,24 +197,25 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
               className="flex cursor-pointer justify-center gap-2 hover:text-black"
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
-              <h1>Status Kelas</h1>
+              <h1 className="text-xs md:text-sm">Status Kelas</h1>
               <ArrowUpDown className="my-auto h-7 w-7 md:h-4 md:w-4" />
             </div>
           );
         },
         cell: ({ row }) => {
           const status: string = row.getValue("classStatus");
+
           return (
             <div className="flex items-center justify-center gap-2">
               {status === "active" ? (
                 <>
                   <div className="h-2 w-2 rounded-full bg-green-700" />
-                  <h1 className="text-sm">Berjalan</h1>
+                  <h1 className="text-xs md:text-sm">Berjalan</h1>
                 </>
               ) : (
                 <>
                   <div className="h-2 w-2 rounded-full bg-red-700" />
-                  <h1 className="text-sm">Tidak Berjalan</h1>
+                  <h1 className="text-xs md:text-sm">Tidak Berjalan</h1>
                 </>
               )}
             </div>
