@@ -42,9 +42,9 @@ const MobileChatRoom = ({ data, children }: MobileChatRoomProps) => {
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start">
-                <h1 className="text-black">{data.name}</h1>
+                <h1 className="text-black">{data?.name}</h1>
                 <div className="inline-flex items-center">
-                  <p className="text-xs text-gray-500">{data.email}</p>
+                  <p className="text-xs text-gray-500">{data?.email}</p>
                 </div>
               </div>
               <div className="ml-auto">{isOpen ? <ChevronDown /> : <ChevronUp />}</div>

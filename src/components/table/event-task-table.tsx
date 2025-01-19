@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 
 //IMPORT INTERFACE & FUNCTION
-import { IClassroomUsersTable, IGroupClass, IViewsUser } from "@/lib/types/Types";
+import { IClassroomUsersTable, IEvent, IGroupClass, ITaskData, IUserData, IUsersTaskTable, IViewsUser } from "@/lib/types/Types";
 
 //IMPORT LUCIDE ICON
 import DataTable from "./data-table";
@@ -28,57 +28,27 @@ import ActionsAlert from "../popup/actions-alert";
 import { leaveClassByUidClassUser } from "@/app/actions/api-actions";
 import { toast } from "sonner";
 
-const EventTaskTable = ({ classUsersData, classData }: { classUsersData: IViewsUser[]; classData: IGroupClass }) => {
-  const router = useRouter();
-  const getEmail = Cookies.get("userId");
-  const [usersDataTable, setUsersDataTable] = useState<IClassroomUsersTable[]>([]);
-  const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data: IClassroomUsersTable[] = classUsersData.map((doc, index) => {
-          const role = doc.email === getEmail ? "Pengajar" : "Pelajar";
-          return {
-            id: index + 1,
-            userId: doc.uid.slice(0, 8),
-            userImageURL: doc.imageUrl,
-            userName: doc.name,
-            userEmail: doc.email,
-            userJoinedAt: doc.createdAt,
-            userRole: role,
-          };
-        });
-        setUsersDataTable(data);
-      } catch (error) {
-        console.error("Error fetching class data:", error);
-      }
-    };
+interface IEventTaskTable {
+  classUsersData: IViewsUser[];
+  eventData: IEvent;
+}
 
-    if (classUsersData.length > 0) {
-      fetchData();
-    }
-  }, [classUsersData, getEmail, setUsersDataTable]);
+const EventTaskTable = ({ classUsersData, eventData }: IEventTaskTable) => {
+  const data: IUsersTaskTable[] =
+    classUsersData?.map((doc, index) => {
+      return {
+        id: index + 1,
+        userName: doc.name,
+        userEmail: doc.email,
+        userTaskScore: 0,
+        userTaskStatus: "ewewe",
+        userSubmittedAt: "2021-09-09",
+      };
+    }) || [];
 
-  const kickUserFromClass = async (userName: string, userId: string) => {
-    toast.promise(leaveClassByUidClassUser(classData.uid, userId), {
-      loading: `Mengeluarkan ${userName} dari kelas...`,
-      success: async (response) => {
-        if (response?.code === 200 && response?.success) {
-          return response.message;
-        }
-        throw new Error(response?.message);
-      },
-      error: (err) => {
-        return err.message;
-      },
-      finally: () => {
-        setOpenDeleteAlert(!openDeleteAlert);
-        router.push(`/teacher/${classData.uid}/users`);
-      },
-    });
-  };
+  console.log(data);
 
-  const classroomUsersColums: ColumnDef<IClassroomUsersTable>[] = [
+  const userTaskColumns: ColumnDef<IUsersTaskTable>[] = [
     {
       accessorKey: "id",
       enableHiding: false,
@@ -86,25 +56,6 @@ const EventTaskTable = ({ classUsersData, classData }: { classUsersData: IViewsU
         return <div className="text-center text-xs md:text-sm">No</div>;
       },
       cell: ({ row }) => <div className="text-center text-xs md:text-sm">{row.getValue("id")}</div>,
-    },
-    {
-      accessorKey: "userImageURL",
-      header: () => {
-        return <div className="text-xs md:text-sm">Foto Profil</div>;
-      },
-      cell: ({ row }) => {
-        return (
-          <div>
-            <Avatar className="h-8 w-8">
-              <AvatarImage
-                src={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${row.getValue("userImageURL")}`}
-                alt={`${row.getValue("userImageURL")}-alt`}
-              />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </div>
-        );
-      },
     },
     {
       accessorKey: "userName",
@@ -125,57 +76,35 @@ const EventTaskTable = ({ classUsersData, classData }: { classUsersData: IViewsU
       },
     },
     {
-      accessorKey: "userRole",
+      accessorKey: "userTaskScore",
       header: () => {
-        return <div className="text-xs md:text-sm">Peran</div>;
+        return <div className="text-xs md:text-sm">Nilai</div>;
       },
       cell: ({ row }) => {
-        return <div className="text-xs md:text-sm">{row.getValue("userRole")}</div>;
+        const score =
+          row.getValue("userTaskScore") === 0 ? `Belum Dinilai/${eventData?.maxScore}` : `${row.getValue("userTaskScore")}/${eventData?.maxScore}`;
+        return <div className="text-xs md:text-sm">{score}</div>;
       },
     },
     {
-      accessorKey: "userJoinedAt",
-      header: () => <div className="text-center text-xs md:text-sm">Hari/Tanggal Masuk</div>,
+      accessorKey: "userSubmittedAt",
+      header: () => <div className="text-center text-xs md:text-sm">Tanggal Pengumpulan Tugas</div>,
       cell: ({ row }) => {
-        const date = new Date(`${row.getValue("userJoinedAt")}`);
-        return <div className="text-center text-xs font-medium md:text-sm">{getDate({ children: date.toLocaleDateString(), time: "deactive" })}</div>;
+        const date = new Date(row.getValue("userSubmittedAt"));
+        return <div className="text-center text-xs font-medium md:text-sm">{getDate({ children: date.toISOString(), time: "deactive" })}</div>;
       },
     },
     {
-      accessorKey: "userId",
+      accessorKey: "userTaskStatus",
       header: () => {
-        return <div className="text-center text-xs md:text-sm">Pilihan</div>;
+        return <div className="text-center text-xs md:text-sm">Status</div>;
       },
       cell: ({ row }) => {
-        return (
-          <>
-            <DropdownMenu defaultOpen={false} modal={false}>
-              <DropdownMenuTrigger className="mx-auto flex" asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-[#FFFDF6]">
-                <DropdownMenuLabel className="text-center">Pilihan</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setOpenDeleteAlert(true)}>
-                  <LogOut />
-                  Keluarkan Siswa
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <ActionsAlert
-              alertStatus={openDeleteAlert}
-              onClose={() => setOpenDeleteAlert(true)}
-              onConfirm={() => kickUserFromClass(row.getValue("userName"), row.getValue("userId"))}
-            />
-          </>
-        );
+        return <div className="text-xs md:text-sm">{row.getValue("userTaskStatus")}</div>;
       },
     },
   ];
-  return <DataTable columns={classroomUsersColums} data={usersDataTable} filterKey="userName" />;
+  return <DataTable columns={userTaskColumns} data={data} filterKey="userName" />;
 };
 
 export default EventTaskTable;

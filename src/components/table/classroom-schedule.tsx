@@ -57,7 +57,7 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
           classDescription: doc.description,
           classMember: usersData[index]?.length || 0,
           classEvent: eventsData[index]?.length || 0,
-          classStatus: getToday === doc.day ? "active" : "inactive",
+          classStatus: getToday === (doc.day === 7 ? 0 : doc.day) ? "active" : "inactive",
         };
       });
       setJadwalDataTable(data);
@@ -204,6 +204,7 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
         },
         cell: ({ row }) => {
           const status: string = row.getValue("classStatus");
+
           return (
             <div className="flex items-center justify-center gap-2">
               {status === "active" ? (

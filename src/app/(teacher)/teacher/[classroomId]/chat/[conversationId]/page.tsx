@@ -6,7 +6,6 @@ import { CardDescription, CardFooter, CardHeader, CardTitle } from "@/components
 import { Separator } from "@/components/ui/separator";
 import { ChatHistoryData, ChatMessage } from "@/lib/types/Types";
 import ChatRoom from "@/components/chat/teacher/chat-room";
-import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
