@@ -4,7 +4,6 @@ import { ChevronRight, SquareLibrary } from "lucide-react";
 import { Navlink } from "./nav-class-link";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { IGroupClass } from "@/lib/types/Types";
 import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";

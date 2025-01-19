@@ -1,4 +1,4 @@
-import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
+import { getClassByUidClassUser } from "@/app/actions/api-actions";
 import DeleteClassButton from "@/components/button/delete-class-button";
 import EditClassButton from "@/components/button/edit-class-button";
 import { OpenTeacherChatButton } from "@/components/button/open-chat-button";
@@ -9,9 +9,9 @@ const ClassroomLayout = async ({ params, children }: { params: { classroomId: st
   const getUidCookie = (await cookies()).get("uidClassUser");
   const getUserEmailCookie = (await cookies()).get("userId");
   const { classroomId } = await params;
-  const getClassData = await getClassByUidClassUser(getUidCookie?.value!);
+  const getClassData = getUidCookie ? await getClassByUidClassUser(getUidCookie.value) : null;
   const filteredClassData = getClassData?.find((data) => data.uid == classroomId);
-  const getEventData = await getEventByUidClassUser(getUidCookie?.value!, filteredClassData?.uid!);
+
   return (
     <>
       <Card className="text-foreground">

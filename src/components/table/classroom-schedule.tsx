@@ -73,7 +73,7 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
     if (subjectData.length > 0) {
       fetchData();
     }
-  }, [subjectData, cookies]);
+  }, [subjectData, cookies, fetchData]);
 
   const classroomScheduleColumns: ColumnDef<IJadwalKelasTable>[] = useMemo(
     () => [
@@ -253,7 +253,7 @@ const ClassroomSchedule = ({ subjectData }: { subjectData: IGroupClass[] }) => {
         },
       },
     ],
-    [],
+    [openDeleteAlert, router],
   );
 
   const copyToClipboard = (text: string) => {

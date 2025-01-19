@@ -158,7 +158,7 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
                             <FormControl>
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                  <Button variant="outline">"Pilih Jadwal Kelas"</Button>
+                                  <Button variant="outline">Pilih Jadwal Kelas</Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56" align={"start"}>
                                   <DropdownMenuLabel>Pilih Jadwal Kelas</DropdownMenuLabel>
