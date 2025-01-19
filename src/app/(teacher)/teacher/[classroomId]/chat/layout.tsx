@@ -33,7 +33,7 @@ const ConversationLayout = ({ children }: { children: React.ReactNode }) => {
       if (dataClass) {
         const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
         const dataFetch = await fetch(
-          `${wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3002") : wsUrl?.replace("10073", "10059")}/websocket/chat/admin/history`,
+          `${wsUrl?.includes("https") ? wsUrl : wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3002") : wsUrl?.replace("10073", "10059")}/websocket/chat/admin/history`,
           {
             method: "POST",
             headers: {
