@@ -9,7 +9,8 @@ const TeacherPage = async () => {
   const uidCookies = cookie.get("uidClassUser");
   const userEmailCookies = cookie.get("userId");
   const getSubjectData = uidCookies?.value ? await getClassByUidClassUser(uidCookies.value) : null;
-  const getEventData = getSubjectData && getSubjectData.length > 0 && uidCookies?.value ? await getEventByUidClassUser(uidCookies.value, getSubjectData[0].uid) : [];
+  const getEventData =
+    getSubjectData && getSubjectData.length > 0 && uidCookies?.value ? await getEventByUidClassUser(uidCookies.value, getSubjectData[0].uid) : [];
 
   const filteredSubjectData = uidCookies ? getSubjectData?.filter((doc) => doc.ownerData.email === userEmailCookies?.value) : null;
   const cardData = [
