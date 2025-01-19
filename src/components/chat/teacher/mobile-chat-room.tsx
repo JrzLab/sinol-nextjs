@@ -2,7 +2,7 @@
 
 import { CardHeader, CardFooter, Card, CardContent } from "@/components/ui/card";
 import { ScrollBar } from "@/components/ui/scroll-area";
-import { toPascalCase } from "@/lib/functions";
+// import { toPascalCase } from "@/lib/functions";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -13,14 +13,18 @@ import { Button } from "@/components/ui/button";
 
 interface MobileChatRoomProps {
   children: React.ReactNode;
+  username?: string;
+  email?: string;
+  image?: string;
 }
 
-const MobileChatRoom = ({ children }: MobileChatRoomProps) => {
+const MobileChatRoom = ({ children, email, username, image }: MobileChatRoomProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openChatHandler = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <>
       <div className="relative">
@@ -32,14 +36,14 @@ const MobileChatRoom = ({ children }: MobileChatRoomProps) => {
           <Card className="h-full w-full rounded-b-none">
             <CardHeader className="flex flex-row items-center px-2 py-2" onClick={() => openChatHandler()}>
               <Avatar className="mr-2 h-8 w-8">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src={image} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="flex flex-col items-start">
-                <h1 className="text-black">e</h1>
+                <h1 className="text-black">{username ? username : "unknown user"}</h1>
                 <div className="inline-flex items-center">
                   <div className={`mr-1 h-2 w-2 rounded-full`} />
-                  <span className="text-xs">{toPascalCase("online")}</span>
+                  <span className="text-xs">{email ? email : "unknown email"}</span>
                 </div>
               </div>
               <div className="ml-auto">{isOpen ? <ChevronDown /> : <ChevronUp />}</div>

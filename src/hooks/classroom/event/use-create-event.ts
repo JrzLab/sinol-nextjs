@@ -25,14 +25,9 @@ export const UseCreateEvent = async ({
     });
 
     const data: IResponseCreateEvent = await res.json();
-    console.log(data);
 
-    if (res.ok && data.success && data.code === 200) {
-      console.log("Class created successfully:", data.data);
+    if (res.ok && data.success && data.code === 201) {
       return data;
-    } else {
-      console.warn(`API responded with an error. Code: ${data.code}, Message: ${data.message}`);
-      return null;
     }
   } catch (error) {
     console.error("An error occurred while creating a class:", error);

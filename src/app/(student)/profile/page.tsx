@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 
 const ProfilePage: React.FC = () => {
-  const { user, loading } = useAuth();
+  const { user, setUser, loading } = useAuth();
   const [isUploadOpen, setIsUploadOpen] = useState<boolean>(false);
   const [isAccountInfoOpen, setIsAccountInfoOpen] = useState<boolean>(false);
   const [loadingChange, setLoadingChange] = useState<boolean>(false);
@@ -28,14 +28,8 @@ const ProfilePage: React.FC = () => {
           firstName,
           lastName,
           email,
-        })
-          .then(() => {
-            console.log("Session updated successfully");
-          })
-          .catch((error) => {
-            toast.error("Error updating data");
-            console.error("Error updating data:", error);
-          });
+        });
+      setUser((prev) => (prev ? { ...prev, firstName, lastName, email } : null));
     } catch (error) {
       console.error("Error updating session:", error);
     }
@@ -46,14 +40,7 @@ const ProfilePage: React.FC = () => {
       if (session?.user)
         await update({
           image: image,
-        })
-          .then(() => {
-            console.log("Session updated successfully");
-          })
-          .catch((error) => {
-            toast.error("Error updating data");
-            console.error("Error updating data:", error);
-          });
+        });
     } catch (error) {
       console.error("Error updating session:", error);
     }
@@ -70,9 +57,10 @@ const ProfilePage: React.FC = () => {
         const typedResponse = response as IResponseChangeProfile;
         if (typedResponse.success && typedResponse.code === 200) {
           const url = process.env.NEXT_PUBLIC_WS_URL;
-          await handleUpdateImage(
-            `${url?.includes("localhost") ? url.replace("3001", "3002") : url?.replace("10073", "10059")}${typedResponse.data.linkProfile}`,
-          );
+          const newImageBase = `${url?.includes("localhost") ? url.replace("3001", "3002") : url?.replace("10073", "10059")}${typedResponse.data.linkProfile}`;
+          const newImage = `${newImageBase}?timestamp=${Date.now()}`;
+          await handleUpdateImage(newImage);
+          setUser((prev) => (prev ? { ...prev, imageUrl: newImage } : null));
           return typedResponse.message;
         } else {
           throw new Error(typedResponse.message);
@@ -93,45 +81,55 @@ const ProfilePage: React.FC = () => {
       return;
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/change-data`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: user.email,
-        password: btoa(password),
-        newEmail: email,
-        firstName: firstName,
-        lastName: lastName,
-      }),
-    });
+    try {
+      toast.promise(
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/change-data`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+            password: btoa(password),
+            newEmail: email,
+            firstName: firstName,
+            lastName: lastName,
+          }),
+        })
+        .then(async (response) => {
+          if (!response.ok) {
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message || "Unknown error occurred");
+          }
 
-    toast.promise(response.json(), {
-      loading: "Memperbarui informasi Anda...",
-      success: async (response) => {
-        const typedResponse = response as IResponseChangeData;
-        if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
+          const typedResponse = (await response.json()) as IResponseChangeData;
           if (typedResponse.success && typedResponse.code === 200) {
             await handleUpdateSession(typedResponse.data.firstName, typedResponse.data.lastName, typedResponse.data.email);
             return typedResponse.message;
           }
-        }
-        throw new Error(typedResponse.message);
-      },
-      error: (err) => {
-        if(err instanceof Error) {
-          if(err.message.toLowerCase() === "password not set") {
-            return "password belum diatur, silahkan untuk reset password terlebih dahulu";
-          } else if(err.message.toLowerCase() === "invalid password") {
-            return "password salah, silahkan coba lagi";
-          }
-        }
-      },
-      finally: () => {
-        setLoadingChange(false);
-      },
-    });
+
+          throw new Error(typedResponse.message);
+        }),
+        {
+          loading: "Memperbarui Profile Anda...",
+          success: "Profile berhasil diperbarui!",
+          error: (err) => {
+            if (err instanceof Error) {
+              if (err.message.toLowerCase() === "password not set") {
+                return "password belum diatur, silahkan untuk reset password terlebih dahulu";
+              } else if (err.message.toLowerCase() === "invalid password") {
+                return "password salah, silahkan coba lagi";
+              }
+            }
+            return "Terjadi kesalahan, coba lagi nanti.";
+          },
+        },
+      );
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoadingChange(false);
+    }
   };
 
   return (

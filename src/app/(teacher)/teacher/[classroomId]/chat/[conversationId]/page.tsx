@@ -35,8 +35,7 @@ const ConversationBox = () => {
   useEffect(() => {
     const fetchData = async () => {
       const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
-      const dataFetch = await fetch(
-        `${wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3002") : wsUrl?.replace("10073", "10059")}/websocket/chat/admin/history-chat/${conversationId}`,
+      const dataFetch = await fetch(`${wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3002") : wsUrl?.replace("10073", "10059")}/websocket/chat/admin/history-chat/${conversationId}`,
         {
           method: "GET",
         },
@@ -45,7 +44,7 @@ const ConversationBox = () => {
       setDataReciver({
         name: `${dataJson.data.historyData[0].userB.firstName}${dataJson.data.historyData[0].userB.lastName ? ` ${dataJson.data.historyData[0].userB.firstName}` : ""}`,
         email: dataJson.data.historyData[0].userB.email,
-        imageUrl: dataJson.data.historyData[0].userB.imageUrl,
+        imageUrl: `${wsUrl?.includes("localhost") ? wsUrl.replace("3001", "3002") : wsUrl?.replace("10073", "10059")}${dataJson.data.historyData[0].userB.imageUrl}`, 
       });
       setMessages(dataJson.data.historyData[0].messages);
     };
@@ -67,7 +66,7 @@ const ConversationBox = () => {
     <>
       {/* MOBILE VIEW */}
       <div className="relative md:hidden">
-        <MobileChatRoom>
+        <MobileChatRoom email={dataReciver?.email} username={dataReciver?.name} image={dataReciver?.imageUrl}>
           {messages.map((message, index) => {
             return (
               <div key={index}>

@@ -11,9 +11,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
-//IMPORT ACTION
-import { handleResetPassword } from "@/app/actions/auth-actions";
-
 //IMPORT SHADCN COMPONENTS
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -32,11 +29,12 @@ const ResetPassword = () => {
   const togglePassword = () => setShowPassword((prev: boolean) => !prev);
   const query = useSearchParams();
   const router = useRouter();
+  const emailUser = query.get("userId");
 
   const resetPasswordForm = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
-      email: "",
+      email: emailUser ? emailUser : "",
       password: "",
       confirmPassword: "",
     },
@@ -46,20 +44,27 @@ const ResetPassword = () => {
     setLoading(true);
     signUpFormSchema.parse(values);
     const tokenResetPassword = query.get("profile");
-    toast.promise(handleResetPassword(values.email, values.confirmPassword, tokenResetPassword), {
+
+    toast.promise(fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/reset-password`, {
+      method: "POST",
+      body: JSON.stringify({
+        email: values.email,
+        password: btoa(values.confirmPassword),
+        token: tokenResetPassword,
+      }),
+    }), {
       loading: "Proccessing change password...",
-      success: (response) => {
-        const typedResponse = response as IResetPassword;
-        if (typeof response === "object" && response !== null && "success" in response && "message" in response) {
+      success: async (response) => {
+        const typedResponse = (await response.json()) as IResetPassword;
+        if (typedResponse.success && typedResponse.code === 200) {
           router.push("/");
           return typedResponse.message;
         }
         throw new Error(typedResponse.message);
       },
       error: (err) => {
-        if (err.message === "Token not found or expired") {
-          return "Link sudah kadaluarsa";
-        }
+        console.log(err)
+        return err.message;
       },
       finally: () => {
         setLoading(false);
@@ -107,7 +112,7 @@ const ResetPassword = () => {
                         <FormLabel htmlFor="password">Kata Sandi</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Input id="password" type={showPassword ? "text" : "password"} {...field} />
+                            <Input id="password" placeholder="Masukan Kata Sandi Baru" type={showPassword ? "text" : "password"} {...field} />
                             <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                               <button type="button" onClick={togglePassword} className="p-1">
                                 {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
@@ -127,7 +132,7 @@ const ResetPassword = () => {
                       <FormItem>
                         <FormLabel htmlFor="confirmPassword">Konfirmasi Kata Sandi</FormLabel>
                         <FormControl>
-                          <Input id="confirmPassword" type="password" {...field} />
+                          <Input placeholder="Konfirmasi Kata Sandi Baru" id="confirmPassword" type="password" {...field} />
                         </FormControl>
                         <FormMessage className="text-xs" />
                       </FormItem>

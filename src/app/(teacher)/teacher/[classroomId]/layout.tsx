@@ -1,16 +1,18 @@
-import { getClassByUidClassUser } from "@/app/actions/api-actions";
+import { getClassByUidClassUser, getEventByUidClassUser } from "@/app/actions/api-actions";
 import DeleteClassButton from "@/components/button/delete-class-button";
 import EditClassButton from "@/components/button/edit-class-button";
 import { OpenTeacherChatButton } from "@/components/button/open-chat-button";
 import OpenClassUsersButton from "@/components/button/open-class-users-button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { cookies } from "next/headers";
-const ClassroomLayout = async ({ params, children }: { params: { classroomId: string }; children: React.ReactNode }) => {
+
+const ClassroomLayout = async ({ params, children }: { params: Promise<{ classroomId: string }>; children: React.ReactNode }) => {
   const getUidCookie = (await cookies()).get("uidClassUser");
   const getUserEmailCookie = (await cookies()).get("userId");
   const { classroomId } = await params;
   const getClassData = getUidCookie ? await getClassByUidClassUser(getUidCookie.value) : null;
-  const filteredClassData = getClassData?.find((data) => data.uid == classroomId);
+  const filteredClassData = getClassData?.find((data: { uid: string }) => data.uid == classroomId);
+  const getEventData = await getEventByUidClassUser(getUidCookie?.value!, filteredClassData?.uid!);
 
   return (
     <>

@@ -9,6 +9,7 @@ import { IGroupClass } from "@/lib/types/Types";
 import SubjectCard from "@/components/subject/subject-card";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/context/AuthProvider";
+import { setLocalStorage } from "@/hooks/use-get-localstorage";
 
 const StudentClassroom = () => {
   const { user } = useAuth();
@@ -36,6 +37,10 @@ const StudentClassroom = () => {
         <Loader2 width={50} height={50} className="animate-spin" />;
       </div>
     );
+  }
+
+  if (subjectData) {
+    setLocalStorage("class", subjectData)
   }
 
   return (

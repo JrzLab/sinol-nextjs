@@ -82,7 +82,7 @@ const CreateClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => vo
             const typedResponse = response as IClassResponse;
             if (typeof response === "object" && response !== null && "success" in response && "code" in response && "message" in response) {
               if (typedResponse?.code === 200 && typedResponse.success) {
-                window.location.href = `/classroom`;
+                window.location.href = `/classroom/${typedResponse.data.uid}`;
                 return typedResponse.message;
               }
             }

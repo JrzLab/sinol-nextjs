@@ -2,7 +2,7 @@
 
 import { signIn } from "@/app/auth";
 import { AuthError } from "next-auth";
-import { IRequestResetPass, IResetPassword, IResponseChangeProfile } from "@/lib/types/Types";
+import { IRequestResetPass, IResponseChangeProfile } from "@/lib/types/Types";
 
 export const signInWithGoogle = async () => {
   await signIn("google", { redirect: true, redirectTo: "/" });
@@ -71,31 +71,6 @@ export async function handleRequestResetPassword(formData: FormData) {
     }
 
     return data as IRequestResetPass;
-  } catch (error) {
-    return error;
-  }
-}
-
-export async function handleResetPassword(email: string, password: string, token: string | null) {
-  try {
-    const response = await fetch(`${process.env.BACKEND_URL}/auth/reset-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        token,
-      }),
-    });
-    const data: IResetPassword = await response.json();
-
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Reset password failed");
-    }
-
-    return data as IResetPassword;
   } catch (error) {
     return error;
   }

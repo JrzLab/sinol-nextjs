@@ -27,6 +27,7 @@ const motivasi = [
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
+  const [motivation] = useState(motivasi[Math.floor(Math.random() * motivasi.length)]);
   const [subjectData, setSubjectData] = useState<IGroupClass[] | undefined>(undefined);
   const [eventData, setEventData] = useState<IEvent[] | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
@@ -89,7 +90,7 @@ const DashboardPage: React.FC = () => {
       <Card className="flex w-full flex-col rounded-xl text-foreground">
         <CardHeader>
           <h1 className="text-xl font-bold">{`Halo ${user?.firstName} ${user?.lastName}`}</h1>
-          <p className="-mt-1">{motivasi[Math.floor(Math.random() * motivasi.length)]}</p>
+          <p className="-mt-1">{motivation}</p>
         </CardHeader>
         <CardFooter>
           <Button className="hover:bg-secondary" variant={"default"}>
