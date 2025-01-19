@@ -3,6 +3,7 @@
 import { Icon } from "@iconify/react";
 import { useParams } from "next/navigation";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getEventByUidClassUser, getClassByUidClassUser, getTaskUserByUidAndEmail } from "@/app/actions/api-actions";
 import { notFound } from "next/navigation";
 import { IGroupClass, IResponseTaskUpload, IEvent, ITaskResponse, IFileTask } from "@/lib/types/Types";
@@ -47,7 +48,7 @@ const Event = () => {
           };
 
       const filteredEvent = eventData?.find((data) => data.id === parseInt(event));
-      const filteredData = classData?.find((data) => data.uid === slug);
+      const filteredData = classData?.find((data: IGroupClass) => data.uid === slug);
 
       if (!filteredData) {
         notFound();
@@ -60,30 +61,31 @@ const Event = () => {
     fetchData();
   }, [slug, event, user?.email, user?.uidClassUser]);
 
-  const handleFileUpload = async (file: File) => {
+  const handleFileUpload = async (files: File[]) => {
     setLoading(true);
     if (!user?.email) {
       toast.error("User email is not available");
+      setLoading(false);
       return;
     }
-    toast.promise(uploadAssignment(user.email, event, file), {
-      loading: "Uploading assignment...",
-      success: async (response) => {
-        const typedResponse = response as IResponseTaskUpload;
-        if (typedResponse.success && typedResponse.code === 200) {
-          return typedResponse.message;
-        } else {
-          throw new Error(typedResponse.message);
-        }
-      },
-      error: (error) => {
-        console.error("Error uploading assignment:", error);
-        return error;
-      },
-      finally() {
-        setLoading(false);
-      },
-    });
+    for (const file of files) {
+      toast.promise(uploadAssignment(user.email, event, file), {
+        loading: "Uploading assignment...",
+        success: async (response) => {
+          const typedResponse = response as IResponseTaskUpload;
+          if (typedResponse.success && typedResponse.code === 201) {
+            return typedResponse.message;
+          } else {
+            throw new Error(typedResponse.message);
+          }
+        },
+        error: (error) => {
+          console.error("Error uploading assignment:", error);
+          return error;
+        },
+      });
+    }
+    setLoading(false);
     setDialogOpen(false);
   };
 
@@ -96,7 +98,7 @@ const Event = () => {
   }
 
   return (
-    <div className="mx-auto w-full p-4">
+    <div className="mx-auto w-full space-y-4 p-4">
       <Card>
         <CardHeader>
           <div className="flex items-start justify-between">
@@ -121,31 +123,38 @@ const Event = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           <p className="text-sm text-muted-foreground">{dataEvent.description}</p>
-          <div>
-            {userData?.ownerData.email !== user?.email && (
-              <ul className="space-y-2">
-                <h3 className="text-lg font-medium">Your Submitted Files</h3>
-                {taskData?.length ? (
-                  taskData.map((task) => (
-                    <li key={task.id} className="flex items-center space-x-2">
-                      <Icon icon="heroicons-outline:document-text" className="h-5 w-5" />
-                      <a
-                        href={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${task.url}`}
-                        className="text-blue-600 underline hover:text-blue-800"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {task.fileName.toLowerCase()}
-                      </a>
-                    </li>
-                  ))
-                ) : (
-                  <p className="text-sm text-muted-foreground">No files submitted yet.</p>
-                )}
-              </ul>
-            )}
-          </div>
-          <Separator className="my-4" />
+          {userData?.ownerData.email !== user?.email && taskData && taskData.length > 0 && (
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>No</TableHead>
+                    <TableHead>File Name</TableHead>
+                    <TableHead>Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {taskData.map((task, index) => (
+                    <TableRow key={task.id}>
+                      <TableCell className="font-medium">{index + 1}</TableCell>
+                      <TableCell>{task.fileName.toLowerCase()}</TableCell>
+                      <TableCell>
+                        <a
+                          href={`${process.env.NEXT_PUBLIC_WS_URL?.replace("10073", "10059")}${task.url}`}
+                          className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-800"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Icon icon="heroicons:document-arrow-down" className="h-4 w-4" />
+                          <span>Download</span>
+                        </a>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          )}
           <div className="flex items-center space-x-4">
             <Avatar>
               <AvatarImage
@@ -174,24 +183,28 @@ const Event = () => {
                 Buka Halaman Pengajar
               </Link>
             ) : (
-              <Button
-                className="w-full hover:bg-accent"
-                disabled={loading || (taskData !== null && taskData.length > 0)}
-                variant={"default"}
-                onClick={() => setDialogOpen(true)}
-              >
+              <Button className="w-full hover:bg-accent" disabled={loading} variant={"default"} onClick={() => setDialogOpen(true)}>
                 <Icon icon="heroicons:cloud-arrow-up-20-solid" className="mr-2 h-4 w-4" />
                 {taskData && taskData.length > 0 ? "Assignment Submitted" : "Submit Assignment"}
               </Button>
             )
           ) : (
-            <Button className="w-full" disabled>
-              <Icon icon="heroicons:cloud-arrow-up-20-solid" className="mr-2 h-4 w-4" />
-              Submit Assignment
-            </Button>
+            <>
+              {user?.email === userData?.ownerData.email ? (
+                <Link href={`/teacher`} className="w-full rounded-md bg-secondary px-4 py-2 text-center text-white">
+                  Buka Halaman Pengajar
+                </Link>
+              ) : (
+                <Button className="w-full hover:bg-accent" disabled={loading} variant={"default"} onClick={() => setDialogOpen(true)}>
+                  <Icon icon="heroicons:cloud-arrow-up-20-solid" className="mr-2 h-4 w-4" />
+                  {taskData && taskData.length > 0 ? "Assignment Submitted" : "Submit Assignment"}
+                </Button>
+              )}
+            </>
           )}
         </CardFooter>
       </Card>
+
       <FileUploadDialog isOpen={isDialogOpen} onClose={() => setDialogOpen(false)} onUpload={handleFileUpload} />
     </div>
   );

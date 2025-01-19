@@ -18,9 +18,11 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { joinClassByUidClassUser } from "@/app/actions/api-actions";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/context/AuthProvider";
 
 const JoinClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void }) => {
-  const uidUser = Cookies.get("uidClassUser");
+  const { user } = useAuth()
+  const uidUser = user?.uidClassUser;
   const [loading, setLoading] = React.useState(false);
 
   const joinClassroomForm = useForm<z.infer<typeof joinClassroomFormSchema>>({
@@ -40,13 +42,10 @@ const JoinClassroom = ({ isOpen, status }: { isOpen: boolean; status: () => void
       }), {
         loading: "Joining class...",
         success: (response) => {
-          console.log(response);
           if(response.code === 200 && response.success) {
-            window.location.href = `/classroom/${values.classroomCode}`;
+            window.location.href = `/classroom/${response.data.uid}`;
             return response.message
-          } if(response.code === 409 && !response.success) {
-            throw new Error(response.message)
-          }
+          } 
           throw new Error(response.message)
         },
         error(data) {

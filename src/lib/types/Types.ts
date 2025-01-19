@@ -112,6 +112,7 @@ export interface IAuthContextProps {
   isUnauthenticated: boolean;
   isEventRecorded: boolean;
   user: IUserData | null;
+  setUser: React.Dispatch<React.SetStateAction<IUserData | null>>;
   status: "authenticated" | "loading" | "unauthenticated";
   loading: boolean;
 }

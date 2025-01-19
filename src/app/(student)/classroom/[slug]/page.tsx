@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import EventCard from "@/components/subject/event-card";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,7 @@ import { AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dial
 import { toast } from "sonner";
 import { getDayByNumber } from "@/lib/functions";
 import { useRouter } from "next/navigation";
+import { setLocalStorage } from "@/hooks/use-get-localstorage";
 
 const ClassroomPage = () => {
   const router = useRouter();
@@ -49,7 +50,7 @@ const ClassroomPage = () => {
     const fetchData = async () => {
       if (user?.uidClassUser) {
         const data = await getClassByUidClassUser(user.uidClassUser);
-        const dataClas = data!.find((data) => data.uid == slug);
+        const dataClas = data!.find((data: IGroupClass) => data.uid == slug);
         setDataClass(dataClas);
         return dataClas;
       }
@@ -58,7 +59,7 @@ const ClassroomPage = () => {
       if (user?.uidClassUser && data?.uid) {
         const getEventData = await getEventByUidClassUser(user.uidClassUser, data.uid);
         if (getEventData !== null) {
-          setDataEvent(getEventData);
+          setDataEvent(Array.isArray(getEventData) ? getEventData : []);
         } else {
           setDataEvent([]);
         }
@@ -96,7 +97,7 @@ const ClassroomPage = () => {
       }
       toast.promise(leaveClassByUidClassUser(dataClass.uid, user.uidClassUser), {
         loading: "Keluar Kelas...",
-        success: async (response) => {
+        success: (response) => {
           if (response?.code === 200 && response?.success) {
             return response.message;
           }
@@ -168,6 +169,14 @@ const ClassroomPage = () => {
     );
   }
 
+  if (!dataClass || !dataEvent) {
+    notFound();
+  }
+
+  if(dataEvent) {
+    setLocalStorage<IEvent>("event", dataEvent);
+  }
+
   return (
     <>
       {dataClass && dataClass?.ownerData.email !== user?.email ? (
@@ -235,7 +244,7 @@ const ClassroomPage = () => {
           </div>
           <div className="w-full pt-6">
             <h1 className="font-bold">Kode Kelas</h1>
-            <p>{dataClass.uid}</p>
+            <p>{dataClass.uid.toUpperCase()}</p>
           </div>
           {!!dataClass?.day && (
             <div className="w-full pt-6">

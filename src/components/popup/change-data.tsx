@@ -112,7 +112,7 @@ const AccountInfoDialog: React.FC<IAccountInfoDialogProps> = ({
                   </FormItem>
                 )}
               />
-              <FormDescription className="text-xs">
+              <FormDescription className="text-xs mt-2">
                 <Link href="/auth/forgot-password" className="hover:text-black hover:underline">
                   Lupa kata sandi?
                 </Link>

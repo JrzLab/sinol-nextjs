@@ -53,9 +53,9 @@ const CreateEventPopUp = ({ status, classUid }: { status: () => void; classUid: 
         uid: classUid,
       };
       toast.promise(createEventByUidClassUser(classUid, reqBody.title, reqBody.description, reqBody.dueDate, reqBody.maxScore), {
-        loading: "Creating Event...",
+        loading: "Membuat tugas baru...",
         success: async (response) => {
-          if (response?.code === 200 && response.success) {
+          if (response?.code === 201 && response.success) {
             return response?.message;
           }
           throw new Error(response?.message);

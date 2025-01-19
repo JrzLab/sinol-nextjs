@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IUserData, IAuthContextProps } from "@/lib/types/Types";
 import { UseWebSocket } from "@/hooks/websocket/use-websocket";
@@ -26,8 +26,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [session]);
 
   useEffect(() => {
-    const publicRoutes = ["/auth/sign-in", "/auth/sign-up"];
+    const publicRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password"];
+
     const currentPath = window.location.pathname;
+
     if (status === "authenticated" && session?.user) {
       setUser({
         uidClassUser: session.user.uidClassUser!,
@@ -39,16 +41,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         loginAt: session.user.loginAt!,
         expiresAt: session.expires!,
       });
+
       Cookies.set("uidClassUser", session.user.uidClassUser!);
       Cookies.set("userId", session.user.email!);
-      if (publicRoutes.includes(currentPath)) {
+
+      if (publicRoutes.includes(currentPath) && currentPath !== "/auth/forgot-password") {
         router.push("/");
       }
+
     } else if (status === "unauthenticated" && !publicRoutes.includes(currentPath)) {
       disconnectSocket();
-      signOut({ redirectTo: "/auth/sign-in" });
+
       Cookies.remove("userId");
       Cookies.remove("uidClassUser");
+
       router.push("/auth/sign-in");
     }
   }, [session, loading, status, router]);
@@ -56,7 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isEventRecorded = useRecordEvents(isAuthenticated);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isUnauthenticated, isEventRecorded, user, status, loading }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ isAuthenticated, setUser, isUnauthenticated, isEventRecorded, user, status, loading }}>{children}</AuthContext.Provider>
   );
 };
 
