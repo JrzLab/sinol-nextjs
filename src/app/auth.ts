@@ -148,8 +148,6 @@ export const { handlers, signIn, auth } = NextAuth({
           const expiresDate = new Date(token.expires);
           if (expiresDate < new Date()) {
             session.expires = new Date(0);
-          } else {
-            session.expires = new Date(token.expires);
           }
         }
       }

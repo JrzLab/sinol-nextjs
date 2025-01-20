@@ -194,7 +194,7 @@ const Event = () => {
                   Buka Halaman Pengajar
                 </Link>
               ) : (
-                <Button className="w-full hover:bg-accent" disabled={loading} variant={"default"} onClick={() => setDialogOpen(true)}>
+                <Button className="w-full hover:bg-accent" disabled variant={"default"} onClick={() => setDialogOpen(true)}>
                   <Icon icon="heroicons:cloud-arrow-up-20-solid" className="mr-2 h-4 w-4" />
                   {taskData && taskData.length > 0 ? "Assignment Submitted" : "Submit Assignment"}
                 </Button>
